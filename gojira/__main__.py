@@ -1,8 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2022-2023 Hitalo M. <https://github.com/HitaloM>
+# Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
-import logging
 
 from tortoise.connection import connections
 
@@ -11,8 +10,6 @@ from gojira.database.base import connect_database
 from gojira.handlers import pm_menu, users
 from gojira.middlewares.acl import ACLMiddleware
 from gojira.middlewares.i18n import MyI18nMiddleware
-
-logging.basicConfig(level=logging.INFO)
 
 
 async def main():

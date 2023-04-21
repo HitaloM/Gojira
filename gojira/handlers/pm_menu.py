@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2022-2023 Hitalo M. <https://github.com/HitaloM>
+# Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
 from aiogram import Router
 from aiogram.filters import Command
@@ -12,3 +12,9 @@ router = Router(name="pm menu")
 @router.message(Command("start"))
 async def start_command(message: Message):
     await message.reply(_("Hello, world!"))
+
+
+@router.message(Command("error"))
+async def crash(message: Message):
+    test = 2 / 0
+    print(test)
