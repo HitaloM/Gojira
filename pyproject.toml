@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gojira"
+version = "0.1.0"
+description = "A Telegram bot that retrieves data from the Anilist API, specifically for manga and anime content."
+readme = "README.rst"
+license = { file="LICENSE" }
+requires-python = ">=3.10"
+
+authors = [
+    { name = "Hitalo M." },
+]
+
+dependencies = [
+    "aiogram[fast, i18n] >= 3.0.0b7",
+    "aiohttp[speeups] >= 3.8.4",
+    "aiosqlite >= 0.19.0",
+    "pydantic[dotenv]",
+]
