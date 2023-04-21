@@ -4,12 +4,10 @@ build-backend = "hatchling.build"
 
 [project]
 name = "gojira"
-version = "0.1.0"
 description = "A Telegram bot that retrieves data from the Anilist API, specifically for manga and anime content."
 readme = "README.rst"
 license = { file="LICENSE" }
 requires-python = ">=3.10"
-
 authors = [
     { name = "Hitalo M." },
 ]
@@ -21,3 +19,25 @@ dependencies = [
     "loguru >= 0.7.0",
     "pydantic[dotenv] >= 1.10.7",
 ]
+dynamic = ["version"]
+
+[tool.hatch.version]
+path = "gojira/__init__.py"
+
+[project.urls]
+Repository = "https://github.com/HitaloM/Gojira/"
+
+[tool.ruff]
+line-length = 99
+
+[tool.black]
+line-length = 99
+exclude = '''
+(
+    \.git
+  | venv
+)
+'''
+
+[tool.isort]
+profile = "black"
