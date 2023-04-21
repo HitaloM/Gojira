@@ -17,6 +17,6 @@ authors = [
 dependencies = [
     "aiogram[fast, i18n] >= 3.0.0b7",
     "aiohttp[speeups] >= 3.8.4",
-    "aiosqlite >= 0.19.0",
+    "tortoise-orm[accel] >= 0.19.0",
     "pydantic[dotenv]",
 ]

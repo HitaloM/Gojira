@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: BSD-3-Clause
+# Copyright (c) 2022-2023 Hitalo M. <https://github.com/HitaloM>
+
 from aiogram import Router
 from aiogram.filters import Command
 from aiogram.types import Message

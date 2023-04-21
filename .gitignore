@@ -1,2 +1,4 @@
 .env
 __pycache__
+.vscode
+gojira/database/db.sqlite3*
