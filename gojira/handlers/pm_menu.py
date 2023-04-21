@@ -6,7 +6,7 @@ from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram.utils.i18n import gettext as _
 
-router = Router()
+router = Router(name="pm menu")
 
 
 @router.message(Command("start"))
