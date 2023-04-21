@@ -7,14 +7,22 @@ from aiogram.types import TelegramObject, User
 from aiogram.utils.i18n import I18nMiddleware
 from babel import Locale, UnknownLocaleError
 
+from gojira.database.models import Users
+
 
 class MyI18nMiddleware(I18nMiddleware):
     async def get_locale(self, event: TelegramObject, data: Dict[str, Any]) -> str:
-        event_from_user: Optional[User] = data.get("event_from_user", None)
-        if event_from_user is None or event_from_user.language_code is None:
+        user: Optional[User] | Optional[Users] = data.get("event_from_user", None)
+
+        if user is None or user.language_code is None:
             return self.i18n.default_locale
+
+        user = await Users.get_or_none(id=user.id)
+        if user is None:
+            return self.i18n.default_locale
+
         try:
-            locale = Locale.parse(event_from_user.language_code, sep="-")
+            locale = Locale.parse(user.language_code, sep="-")
         except UnknownLocaleError:
             return self.i18n.default_locale
 
