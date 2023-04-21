@@ -2,14 +2,14 @@
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
 from aiogram import Router
-from aiogram.filters import Command
+from aiogram.filters import Command, CommandStart
 from aiogram.types import Message
 from aiogram.utils.i18n import gettext as _
 
 router = Router(name="pm menu")
 
 
-@router.message(Command("start"))
+@router.message(CommandStart())
 async def start_command(message: Message):
     await message.reply(_("Hello, world!"))
 
