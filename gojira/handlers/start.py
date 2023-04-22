@@ -12,9 +12,3 @@ router = Router(name="pm menu")
 @router.message(CommandStart())
 async def start_command(message: Message):
     await message.reply(_("Hello, world!"))
-
-
-@router.message(Command("error"))
-async def crash(message: Message):
-    test = 2 / 0
-    print(test)
