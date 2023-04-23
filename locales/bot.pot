@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-23 13:34-0300\n"
+"POT-Creation-Date: 2023-04-23 13:39-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,7 +25,11 @@ msgstr ""
 msgid "Chat language: {lang}"
 msgstr ""
 
-#: gojira/handlers/language.py:74
+#: gojira/handlers/language.py:57 gojira/handlers/pm_menu.py:67
+msgid "Back"
+msgstr ""
+
+#: gojira/handlers/language.py:77
 msgid "Changed language to {lang}"
 msgstr ""
 
@@ -60,9 +64,5 @@ msgstr ""
 
 #: gojira/handlers/pm_menu.py:63
 msgid "Channel"
-msgstr ""
-
-#: gojira/handlers/pm_menu.py:67
-msgid "Back"
 msgstr ""
 

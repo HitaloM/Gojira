@@ -6,7 +6,7 @@ from typing import Union
 from aiogram import F, Router
 from aiogram.enums import ChatType
 from aiogram.filters import Command
-from aiogram.types import CallbackQuery, Message
+from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from babel import Locale
@@ -53,6 +53,9 @@ async def select_language(union: Union[Message, CallbackQuery]):
     )
 
     keyboard.adjust(4)
+    keyboard.row(
+        InlineKeyboardButton(text=_("Back"), callback_data=StartCallback(menu="start").pack())
+    )
     if is_callback:
         await message.edit_text(text, reply_markup=keyboard.as_markup())
     else:
