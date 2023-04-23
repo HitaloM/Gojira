@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-20 15:20-0300\n"
+"POT-Creation-Date: 2023-04-22 23:47-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,8 +17,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
-#: gojira/handlers/pm_menu.py:11
-#: vev/lib/python3.10/site-packages/gojira/handlers/pm_menu.py:15
-msgid "Hello, world!"
+#: gojira/handlers/language.py:39
+msgid "Your language: {lang}"
+msgstr ""
+
+#: gojira/handlers/language.py:41
+msgid "Chat language: {lang}"
+msgstr ""
+
+#: gojira/handlers/language.py:71
+msgid "Changed language to {lang}"
+msgstr ""
+
+#: gojira/handlers/start.py:19
+msgid "Language"
+msgstr ""
+
+#: gojira/handlers/start.py:22
+msgid ""
+"Hello, I'm Gojira! I can provide you with useful information about anime "
+"and manga titles"
+msgstr ""
+
+#: gojira/handlers/start.py:30
+msgid "Hello, I'm Gojira!"
 msgstr ""
 

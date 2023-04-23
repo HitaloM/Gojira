@@ -17,6 +17,7 @@ async def main():
 
     dp.message.middleware(ACLMiddleware())
     dp.message.middleware(MyI18nMiddleware(i18n=i18n))
+    dp.callback_query.middleware(MyI18nMiddleware(i18n=i18n))
 
     dp.include_routers(start.router)
     dp.include_router(language.router)

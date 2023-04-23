@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-20 15:20-0300\n"
-"PO-Revision-Date: 2023-04-20 15:20-0300\n"
+"POT-Creation-Date: 2023-04-22 23:47-0300\n"
+"PO-Revision-Date: 2023-04-22 18:53-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
 "Language-Team: pt <LL@li.org>\n"
@@ -18,8 +18,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
-#: gojira/handlers/pm_menu.py:11
-#: vev/lib/python3.10/site-packages/gojira/handlers/pm_menu.py:15
-msgid "Hello, world!"
-msgstr "Olá, mundo!"
+#: gojira/handlers/language.py:39
+msgid "Your language: {lang}"
+msgstr "Seu idioma: {lang}"
+
+#: gojira/handlers/language.py:41
+msgid "Chat language: {lang}"
+msgstr "Idioma do chat: {lang}"
+
+#: gojira/handlers/language.py:71
+msgid "Changed language to {lang}"
+msgstr "Idioma alterado para {lang}"
+
+#: gojira/handlers/start.py:19
+msgid "Language"
+msgstr "Idioma"
+
+#: gojira/handlers/start.py:22
+msgid ""
+"Hello, I'm Gojira! I can provide you with useful information about anime "
+"and manga titles"
+msgstr ""
+"Olá, eu sou o Gojira! Eu posso te fornecer informações úteis sobre animes"
+" e mangás"
+
+#: gojira/handlers/start.py:30
+msgid "Hello, I'm Gojira!"
+msgstr "Olá, eu sou o Gojira!"
 
