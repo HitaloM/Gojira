@@ -2,3 +2,4 @@ __pycache__
 .vscode
 data/config.env
 gojira/database/db.sqlite3*
+locales/*/*/*.mo
