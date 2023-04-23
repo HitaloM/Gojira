@@ -13,12 +13,13 @@ from babel import Locale
 
 from gojira import i18n
 from gojira.database.models import Chats, Users
+from gojira.filters.user_status import IsAdmin
 from gojira.utils.callback_data import LanguageCallback, StartCallback
 
 router = Router(name="language")
 
 
-@router.message(Command("language"))
+@router.message(Command("language"), IsAdmin())
 @router.callback_query(StartCallback.filter(F.menu == "language"))
 async def select_language(union: Union[Message, CallbackQuery]):
     keyboard = InlineKeyboardBuilder()
@@ -34,15 +35,17 @@ async def select_language(union: Union[Message, CallbackQuery]):
         lang = await Chats.get(id=message.chat.id)
         chat_type = "group"
 
-    lang = str(Locale.parse(lang.language_code).display_name).capitalize()
+    lang_display_name = str(Locale.parse(lang.language_code).display_name).capitalize()
     if message.chat.type == ChatType.PRIVATE:
-        text = _("Your language: {lang}").format(lang=lang)
+        text = _("Your language: {lang}").format(lang=lang_display_name)
     else:
-        text = _("Chat language: {lang}").format(lang=lang)
+        text = _("Chat language: {lang}").format(lang=lang_display_name)
 
     for lang in i18n.available_locales:
-        lang = str(Locale.parse(lang).display_name).capitalize()
-        keyboard.button(text=lang, callback_data=LanguageCallback(lang=lang, chat=chat_type))
+        lang_display_name = str(Locale.parse(lang).display_name).capitalize()
+        keyboard.button(
+            text=lang_display_name, callback_data=LanguageCallback(lang=lang, chat=chat_type)
+        )
 
     keyboard.button(
         text=str(Locale.parse("en").display_name).capitalize(),
@@ -56,7 +59,7 @@ async def select_language(union: Union[Message, CallbackQuery]):
         await message.reply(text, reply_markup=keyboard.as_markup())
 
 
-@router.callback_query(LanguageCallback.filter())
+@router.callback_query(LanguageCallback.filter(), IsAdmin())
 async def language_callback(callback: CallbackQuery, callback_data: LanguageCallback):
     if callback.message is None or callback.from_user is None:
         return None
