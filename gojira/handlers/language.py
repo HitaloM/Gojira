@@ -22,7 +22,6 @@ router = Router(name="language")
 @router.message(Command("language"), IsAdmin())
 @router.callback_query(StartCallback.filter(F.menu == "language"))
 async def select_language(union: Union[Message, CallbackQuery]):
-    keyboard = InlineKeyboardBuilder()
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     if message is None or union.from_user is None:
@@ -41,6 +40,7 @@ async def select_language(union: Union[Message, CallbackQuery]):
     else:
         text = _("Chat language: {lang}").format(lang=lang_display_name)
 
+    keyboard = InlineKeyboardBuilder()
     for lang in i18n.available_locales:
         lang_display_name = str(Locale.parse(lang).display_name).capitalize()
         keyboard.button(
