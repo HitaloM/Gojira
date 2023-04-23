@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-23 13:39-0300\n"
+"POT-Creation-Date: 2023-04-23 19:58-0300\n"
 "PO-Revision-Date: 2023-04-22 18:53-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
@@ -72,4 +72,13 @@ msgstr "GitHub"
 #: gojira/handlers/pm_menu.py:63
 msgid "Channel"
 msgstr "Canal"
+
+#: gojira/utils/command_list.py:22
+msgid "Start the bot."
+msgstr ""
+
+#: gojira/utils/command_list.py:26
+#, fuzzy
+msgid "Change bot language."
+msgstr "Idioma alterado para {lang}"
 

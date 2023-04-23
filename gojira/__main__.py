@@ -10,6 +10,7 @@ from gojira.database.base import connect_database
 from gojira.handlers import language, pm_menu, users
 from gojira.middlewares.acl import ACLMiddleware
 from gojira.middlewares.i18n import MyI18nMiddleware
+from gojira.utils.command_list import set_ui_commands
 
 
 async def main():
@@ -22,6 +23,8 @@ async def main():
     dp.include_routers(pm_menu.router)
     dp.include_router(language.router)
     dp.include_router(users.router)
+
+    await set_ui_commands(bot)
 
     useful_updates = dp.resolve_used_update_types()
 
