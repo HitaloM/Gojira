@@ -8,6 +8,7 @@ from aiogram.enums import ChatType
 from aiogram.types import Chat, TelegramObject, User
 from babel import Locale, UnknownLocaleError
 
+from gojira import i18n
 from gojira.database.models import Chats, Users
 
 
@@ -25,15 +26,15 @@ class ACLMiddleware(BaseMiddleware):
             if (userdb := await Users.get_or_none(id=user.id)) is None:
                 try:
                     locale = Locale.parse(user.language_code, sep="-")
-                    if locale.language not in ("en", "pt"):
-                        locale = "en"
+                    if locale.language not in i18n.available_locales:
+                        locale = i18n.default_locale
                 except UnknownLocaleError:
-                    locale = "en"
+                    locale = i18n.default_locale
 
                 if chat and chat.type == ChatType.PRIVATE:
                     userdb = await Users.create(
                         id=user.id,
-                        language_code=(locale if locale == "en" else locale.language),
+                        language_code=(locale),
                     )
 
             data["user"] = userdb
@@ -41,7 +42,7 @@ class ACLMiddleware(BaseMiddleware):
         if chat:
             if (chatdb := await Chats.get_or_none(id=chat.id)) is None:
                 if chat and chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
-                    chatdb = await Chats.create(id=chat.id, language_code="en")
+                    chatdb = await Chats.create(id=chat.id, language_code=i18n.default_locale)
 
             data["chat"] = chatdb
 
