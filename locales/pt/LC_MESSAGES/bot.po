@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-23 19:58-0300\n"
+"POT-Creation-Date: 2023-04-23 21:36-0300\n"
 "PO-Revision-Date: 2023-04-22 18:53-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
@@ -18,19 +18,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
-#: gojira/handlers/language.py:39
+#: gojira/handlers/language.py:35
 msgid "Your language: {lang}"
 msgstr "Seu idioma: {lang}"
 
-#: gojira/handlers/language.py:41
+#: gojira/handlers/language.py:37
 msgid "Chat language: {lang}"
 msgstr "Idioma do chat: {lang}"
 
-#: gojira/handlers/language.py:57 gojira/handlers/pm_menu.py:67
+#: gojira/handlers/language.py:53 gojira/handlers/pm_menu.py:67
 msgid "Back"
 msgstr "Voltar"
 
-#: gojira/handlers/language.py:77
+#: gojira/handlers/language.py:73
 msgid "Changed language to {lang}"
 msgstr "Idioma alterado para {lang}"
 
@@ -40,7 +40,7 @@ msgstr "Idioma"
 
 #: gojira/handlers/pm_menu.py:28
 msgid "About"
-msgstr ""
+msgstr "Sobre"
 
 #: gojira/handlers/pm_menu.py:31
 #, fuzzy
@@ -75,10 +75,10 @@ msgstr "Canal"
 
 #: gojira/utils/command_list.py:22
 msgid "Start the bot."
-msgstr ""
+msgstr "Inicia o bot."
 
 #: gojira/utils/command_list.py:26
 #, fuzzy
 msgid "Change bot language."
-msgstr "Idioma alterado para {lang}"
+msgstr "Alterar idioma do bot"
 

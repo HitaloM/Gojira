@@ -15,6 +15,7 @@ from gojira import i18n
 from gojira.database.models import Chats, Users
 from gojira.filters.user_status import IsAdmin
 from gojira.utils.callback_data import LanguageCallback, StartCallback
+from gojira.utils.language import get_chat_language
 
 router = Router(name="language")
 
@@ -27,14 +28,9 @@ async def select_language(union: Union[Message, CallbackQuery]):
     if message is None or union.from_user is None:
         return None
 
-    if message.chat.type == ChatType.PRIVATE:
-        lang = await Users.get(id=union.from_user.id)
-        chat_type = "private"
-    else:
-        lang = await Chats.get(id=message.chat.id)
-        chat_type = "group"
+    chat_type, lang_code = await get_chat_language(message.chat)
 
-    lang_display_name = str(Locale.parse(lang.language_code).display_name).capitalize()
+    lang_display_name = str(Locale.parse(lang_code).display_name).capitalize()
     if message.chat.type == ChatType.PRIVATE:
         text = _("Your language: {lang}").format(lang=lang_display_name)
     else:
@@ -48,8 +44,8 @@ async def select_language(union: Union[Message, CallbackQuery]):
         )
 
     keyboard.button(
-        text=str(Locale.parse("en").display_name).capitalize(),
-        callback_data=LanguageCallback(lang="en", chat=chat_type),
+        text=str(Locale.parse(i18n.default_locale).display_name).capitalize(),
+        callback_data=LanguageCallback(lang=i18n.default_locale, chat=chat_type),
     )
 
     keyboard.adjust(4)
@@ -67,9 +63,9 @@ async def language_callback(callback: CallbackQuery, callback_data: LanguageCall
     if callback.message is None or callback.from_user is None:
         return None
 
-    if callback_data.chat == "private":
+    if callback_data.chat == ChatType.PRIVATE:
         await Users.filter(id=callback.from_user.id).update(language_code=callback_data.lang)
-    if callback_data.chat == "group":
+    if callback_data.chat in (ChatType.GROUP, ChatType.SUPERGROUP):
         await Chats.filter(id=callback.message.chat.id).update(language_code=callback_data.lang)
 
     lang = Locale.parse(callback_data.lang)

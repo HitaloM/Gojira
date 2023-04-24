@@ -11,7 +11,6 @@ requires-python = ">=3.10"
 authors = [
     { name = "Hitalo M." },
 ]
-
 dependencies = [
     "aiogram[fast, i18n] >= 3.0.0b7",
     "aiohttp[speeups] >= 3.8.4",
@@ -33,7 +32,7 @@ line-length = 99
 [tool.black]
 line-length = 99
 exclude = '''
-(
+\(
     \.git
   | venv
 )
