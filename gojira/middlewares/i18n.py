@@ -30,12 +30,7 @@ class MyI18nMiddleware(I18nMiddleware):
         if obj is None:
             return self.i18n.default_locale
 
-        try:
-            locale = Locale.parse(obj.language_code, sep="-")
-        except UnknownLocaleError:
+        if obj.language_code not in self.i18n.available_locales:
             return self.i18n.default_locale
 
-        if locale.language not in self.i18n.available_locales:
-            return self.i18n.default_locale
-
-        return cast(str, locale.language)
+        return cast(str, obj.language_code)
