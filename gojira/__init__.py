@@ -4,6 +4,8 @@
 from pathlib import Path
 
 from aiogram import Bot, Dispatcher
+from aiogram.client.session.aiohttp import AiohttpSession
+from aiogram.client.telegram import TelegramAPIServer
 from aiogram.enums import ParseMode
 from aiogram.utils.i18n import I18n
 
@@ -12,11 +14,20 @@ from gojira.utils.logging import log
 
 __version__ = "1.0.0"
 
-log.info(f"Starting Gojira... | Version: {__version__}")
+log.info("Starting Gojira... | Version: %s", __version__)
 
 app_dir: Path = Path(__file__).parent.parent
-locales_dir = app_dir / "locales"
+locales_dir: Path = app_dir / "locales"
 
-bot = Bot(token=config.bot_token.get_secret_value(), parse_mode=ParseMode.HTML)
+if config.api_url:
+    session = AiohttpSession(api=TelegramAPIServer.from_base(config.api_url))
+else:
+    session = None
+
+bot = Bot(
+    token=config.bot_token.get_secret_value(),
+    session=session,
+    parse_mode=ParseMode.HTML,
+)
 dp = Dispatcher()
 i18n = I18n(path=locales_dir, default_locale="en", domain="bot")
