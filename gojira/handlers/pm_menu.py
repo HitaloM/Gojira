@@ -20,7 +20,7 @@ router = Router(name="pm_menu")
 async def start_command(union: Union[Message, CallbackQuery]):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
-    if message is None:
+    if message is None or message.from_user is None:
         return None
 
     keyboard = InlineKeyboardBuilder()
@@ -64,7 +64,9 @@ API to provide fast, stable and comprehensive information about animes and manga
     )
     if is_callback:
         keyboard.row(
-            InlineKeyboardButton(text=_("Back"), callback_data=StartCallback(menu="start").pack())
+            InlineKeyboardButton(
+                text=_("Back"), callback_data=StartCallback(menu="start").pack()
+            )
         )
 
     if is_callback:
