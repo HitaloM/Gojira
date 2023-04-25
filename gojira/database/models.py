@@ -7,9 +7,9 @@ from tortoise.models import Model
 
 class Users(Model):
     id = fields.BigIntField(pk=True)
-    language_code = fields.CharField(max_length=255, default="en")
+    language_code = fields.CharField(max_length=255)
 
 
 class Chats(Model):
     id = fields.BigIntField(pk=True)
-    language_code = fields.CharField(max_length=255, default="en")
+    language_code = fields.CharField(max_length=255)

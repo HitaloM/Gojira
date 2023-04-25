@@ -1,5 +1,19 @@
+# cache
 __pycache__
+
+# ide
 .vscode
+
+# venv
+.venv/
+venv/
+
+# gojira
 data/config.env
 gojira/database/db.sqlite3*
 locales/*/*/*.mo
+
+# rye
+requirements.lock
+requirements-dev.lock
+.python-version

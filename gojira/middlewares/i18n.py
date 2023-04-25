@@ -6,7 +6,6 @@ from typing import Any, Dict, Optional, cast
 from aiogram.enums import ChatType
 from aiogram.types import Chat, TelegramObject, User
 from aiogram.utils.i18n import I18nMiddleware
-from babel import Locale, UnknownLocaleError
 
 from gojira.database.models import Chats, Users
 

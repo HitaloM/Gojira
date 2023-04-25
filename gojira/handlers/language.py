@@ -40,7 +40,8 @@ async def select_language(union: Union[Message, CallbackQuery]):
     for lang in i18n.available_locales:
         lang_display_name = str(Locale.parse(lang).display_name).capitalize()
         keyboard.button(
-            text=lang_display_name, callback_data=LanguageCallback(lang=lang, chat=chat_type)
+            text=lang_display_name,
+            callback_data=LanguageCallback(lang=lang, chat=chat_type),
         )
 
     keyboard.button(
@@ -50,7 +51,9 @@ async def select_language(union: Union[Message, CallbackQuery]):
 
     keyboard.adjust(4)
     keyboard.row(
-        InlineKeyboardButton(text=_("Back"), callback_data=StartCallback(menu="start").pack())
+        InlineKeyboardButton(
+            text=_("Back"), callback_data=StartCallback(menu="start").pack()
+        )
     )
     if is_callback:
         await message.edit_text(text, reply_markup=keyboard.as_markup())
@@ -64,9 +67,13 @@ async def language_callback(callback: CallbackQuery, callback_data: LanguageCall
         return None
 
     if callback_data.chat == ChatType.PRIVATE:
-        await Users.filter(id=callback.from_user.id).update(language_code=callback_data.lang)
+        await Users.filter(id=callback.from_user.id).update(
+            language_code=callback_data.lang
+        )
     if callback_data.chat in (ChatType.GROUP, ChatType.SUPERGROUP):
-        await Chats.filter(id=callback.message.chat.id).update(language_code=callback_data.lang)
+        await Chats.filter(id=callback.message.chat.id).update(
+            language_code=callback_data.lang
+        )
 
     lang = Locale.parse(callback_data.lang)
     await callback.message.edit_text(

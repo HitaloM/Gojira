@@ -13,6 +13,9 @@ async def set_ui_commands(bot: Bot):
     commands: List = []
 
     for lang in i18n.available_locales:
+        if "_" in lang:
+            lang = lang.split("_")[1].lower()
+
         commands.extend(
             [
                 (
@@ -23,7 +26,9 @@ async def set_ui_commands(bot: Bot):
                         ),
                         BotCommand(
                             command="language",
-                            description=i18n.gettext("Change bot language.", locale=lang),
+                            description=i18n.gettext(
+                                "Change bot language.", locale=lang
+                            ),
                         ),
                     ],
                     BotCommandScopeAllPrivateChats(type="all_private_chats"),

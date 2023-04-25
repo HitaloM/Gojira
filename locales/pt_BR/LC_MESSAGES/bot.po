@@ -1,4 +1,4 @@
-# Portuguese translations for PROJECT.
+# Portuguese (Brazil) translations for PROJECT.
 # Copyright (C) 2023 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
@@ -7,12 +7,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-23 21:36-0300\n"
-"PO-Revision-Date: 2023-04-22 18:53-0300\n"
+"POT-Creation-Date: 2023-04-25 17:03-0300\n"
+"PO-Revision-Date: 2023-04-25 17:03-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: pt\n"
-"Language-Team: pt <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: pt_BR\n"
+"Language-Team: pt_BR <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,11 +26,11 @@ msgstr "Seu idioma: {lang}"
 msgid "Chat language: {lang}"
 msgstr "Idioma do chat: {lang}"
 
-#: gojira/handlers/language.py:53 gojira/handlers/pm_menu.py:67
+#: gojira/handlers/language.py:55 gojira/handlers/pm_menu.py:68
 msgid "Back"
 msgstr "Voltar"
 
-#: gojira/handlers/language.py:73
+#: gojira/handlers/language.py:80
 msgid "Changed language to {lang}"
 msgstr "Idioma alterado para {lang}"
 
@@ -43,13 +43,10 @@ msgid "About"
 msgstr "Sobre"
 
 #: gojira/handlers/pm_menu.py:31
-#, fuzzy
 msgid ""
 "Hello <b>{user_name}</b>, I'm Gojira! I can provide you withuseful "
 "information about anime and manga titles"
-msgstr ""
-"Olá, eu sou o Gojira! Eu posso te fornecer informações úteis sobre animes"
-" e mangás"
+msgstr "Olá <b>{user_name}</b>, eu sou o Gojira! Eu posso te fornecer informações úteis sobre animes e mangás"
 
 #: gojira/handlers/pm_menu.py:44
 msgid "Hello, I'm Gojira!"
@@ -60,10 +57,7 @@ msgid ""
 "Gojira is a bot developed using Python that utilizes AIOGram and AniList "
 "GraphQLAPI to provide fast, stable and comprehensive information about "
 "animes and mangas."
-msgstr ""
-"Gojira é um bot desenvolvido usando Python que utiliza AIOGram e a "
-"AniList GraphQL API para fornecer informações rápidas, estáveis e "
-"abrangentes sobre animes e mangás."
+msgstr "Gojira é um bot desenvolvido usando Python que utiliza AIOGram e a API GraphQL do AniList para fornecer informações rápidas, estáveis e abrangentes sobre animes e mangás."
 
 #: gojira/handlers/pm_menu.py:62
 msgid "GitHub"
@@ -75,10 +69,9 @@ msgstr "Canal"
 
 #: gojira/utils/command_list.py:22
 msgid "Start the bot."
-msgstr "Inicia o bot."
+msgstr "Inicializa o bot."
 
 #: gojira/utils/command_list.py:26
-#, fuzzy
 msgid "Change bot language."
-msgstr "Alterar idioma do bot"
+msgstr "Muda o idioma do bot."
 

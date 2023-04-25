@@ -26,7 +26,7 @@ class ACLMiddleware(BaseMiddleware):
             if (userdb := await Users.get_or_none(id=user.id)) is None:
                 try:
                     locale = Locale.parse(user.language_code, sep="-")
-                    if locale.language not in i18n.available_locales:
+                    if str(locale) not in i18n.available_locales:
                         locale = i18n.default_locale
                 except UnknownLocaleError:
                     locale = i18n.default_locale
@@ -34,7 +34,7 @@ class ACLMiddleware(BaseMiddleware):
                 if chat and chat.type == ChatType.PRIVATE:
                     userdb = await Users.create(
                         id=user.id,
-                        language_code=(locale),
+                        language_code=str(locale),
                     )
 
             data["user"] = userdb
