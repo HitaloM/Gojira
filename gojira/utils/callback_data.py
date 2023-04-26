@@ -11,3 +11,9 @@ class LanguageCallback(CallbackData, prefix="setlang"):
 
 class StartCallback(CallbackData, prefix="start"):
     menu: str
+
+
+class GetAnimeCallback(CallbackData, prefix="get-anime"):
+    query: int | str
+    user_id: int
+    is_search: bool = False
