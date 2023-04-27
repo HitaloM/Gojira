@@ -2,28 +2,40 @@
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
+import math
 from typing import Optional, Union
 
 import aiohttp
-from aiogram import F, Router
+from aiogram import Router
 from aiogram.enums import ChatType
 from aiogram.filters import Command, CommandObject
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InputMediaPhoto, Message
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from bs4 import BeautifulSoup
 
-from gojira.utils.anime import ANILIST_API, ANILIST_SEARCH, ANIME_GET, TRAILER_QUERY
-from gojira.utils.callback_data import GetAnimeCallback
+from gojira.utils.anime import (
+    ANILIST_API,
+    ANILIST_SEARCH,
+    ANIME_GET,
+    DESCRIPTION_QUERY,
+    TRAILER_QUERY,
+)
+from gojira.utils.callback_data import (
+    AnimeCallback,
+    AnimeDescCallback,
+    AnimeMoreCallback,
+)
 
 router = Router(name="anime")
 
 
 @router.message(Command("anime"))
-@router.callback_query(GetAnimeCallback.filter(F.method == "get"))
+@router.callback_query(AnimeCallback.filter())
 async def anime(
     union: Union[Message, CallbackQuery],
     command: Optional[CommandObject] = None,
-    callback_data: Optional[GetAnimeCallback] = None,
+    callback_data: Optional[AnimeCallback] = None,
 ):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
@@ -113,11 +125,10 @@ async def anime(
                     keyboard.row(
                         InlineKeyboardButton(
                             text=result["title"]["romaji"],
-                            callback_data=GetAnimeCallback(
+                            callback_data=AnimeCallback(
                                 query=result["id"],
                                 user_id=user.id,
                                 is_search=True,
-                                method="get",
                             ).pack(),
                         )
                     )
@@ -218,9 +229,8 @@ async def anime(
     keyboard.row(
         InlineKeyboardButton(
             text=_("More Info"),
-            callback_data=GetAnimeCallback(
-                method="more",
-                query=anime_id,
+            callback_data=AnimeMoreCallback(
+                anime_id=anime_id,
                 user_id=user.id,
             ).pack(),
         )
@@ -238,10 +248,9 @@ async def anime(
                 relations_buttons.append(
                     InlineKeyboardButton(
                         text=button_text,
-                        callback_data=GetAnimeCallback(
+                        callback_data=AnimeCallback(
                             query=relation["node"]["id"],
                             user_id=user.id,
-                            method="get",
                         ).pack(),
                     )
                 )
@@ -268,14 +277,14 @@ async def anime(
         )
 
 
-@router.callback_query(GetAnimeCallback.filter(F.method == "more"))
-async def anime_more(callback: CallbackQuery, callback_data: GetAnimeCallback):
+@router.callback_query(AnimeMoreCallback.filter())
+async def anime_more(callback: CallbackQuery, callback_data: AnimeMoreCallback):
     message = callback.message
     user = callback.from_user
     if message is None:
         return None
 
-    anime_id = callback_data.query
+    anime_id = callback_data.anime_id
     user_id = callback_data.user_id
 
     if user_id != user.id:
@@ -307,7 +316,12 @@ async def anime_more(callback: CallbackQuery, callback_data: GetAnimeCallback):
         keyboard = InlineKeyboardBuilder()
 
         keyboard.add(
-            InlineKeyboardButton(text=_("Description"), callback_data="*"),
+            InlineKeyboardButton(
+                text=_("Description"),
+                callback_data=AnimeDescCallback(
+                    anime_id=anime_id, user_id=user_id
+                ).pack(),
+            ),
             InlineKeyboardButton(text=_("Characters"), callback_data="*"),
             InlineKeyboardButton(text=_("Staff"), callback_data="*"),
             InlineKeyboardButton(text=_("Studios"), callback_data="*"),
@@ -336,10 +350,9 @@ async def anime_more(callback: CallbackQuery, callback_data: GetAnimeCallback):
         keyboard.row(
             InlineKeyboardButton(
                 text=_("Back"),
-                callback_data=GetAnimeCallback(
+                callback_data=AnimeCallback(
                     query=anime_id,
                     user_id=user.id,
-                    method="get",
                 ).pack(),
             )
         )
@@ -351,5 +364,100 @@ some other things, make good use of it. 🙃"
 
         await message.edit_caption(
             caption=text,
+            reply_markup=keyboard.as_markup(),
+        )
+
+
+@router.callback_query(AnimeDescCallback.filter())
+async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCallback):
+    message = callback.message
+    user = callback.from_user
+    if message is None:
+        return None
+
+    anime_id = callback_data.anime_id
+    user_id = callback_data.user_id
+    page = callback_data.page
+
+    if user_id != user.id:
+        await callback.answer(
+            _("This anime was not searched by you."),
+            show_alert=True,
+            cache_time=60,
+        )
+        return
+
+    async with aiohttp.ClientSession() as client:
+        response = await client.post(
+            "https://graphql.anilist.co",
+            json=dict(
+                query=DESCRIPTION_QUERY,
+                variables=dict(
+                    id=(anime_id),
+                    media="ANIME",
+                ),
+            ),
+            headers={
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+        )
+        data = await response.json()
+        anime = data["data"]["Page"]["media"][0]
+
+        if not anime["description"]:
+            await callback.answer(
+                _("This anime does not have a description."),
+                show_alert=True,
+                cache_time=60,
+            )
+            return
+
+        description = anime["description"]
+        amount = 1024
+        page = 1 if page <= 0 else page
+        offset = (page - 1) * amount
+        stop = offset + amount
+        pages = math.ceil(len(description) / amount)
+        description = description[offset - (3 if page > 1 else 0) : stop]
+
+        page_buttons = []
+        if page > 1:
+            page_buttons.append(
+                InlineKeyboardButton(
+                    text="⬅️",
+                    callback_data=AnimeDescCallback(
+                        anime_id=anime_id, user_id=user_id, page=page - 1
+                    ).pack(),
+                )
+            )
+        if not page == pages:
+            description = description[: len(description) - 3] + "..."
+            page_buttons.append(
+                InlineKeyboardButton(
+                    text="➡️",
+                    callback_data=AnimeDescCallback(
+                        anime_id=anime_id, user_id=user_id, page=page + 1
+                    ).pack(),
+                )
+            )
+
+        keyboard = InlineKeyboardBuilder()
+        if len(page_buttons) > 0:
+            keyboard.row(*page_buttons)
+
+        keyboard.row(
+            InlineKeyboardButton(
+                text=_("Back"),
+                callback_data=AnimeMoreCallback(
+                    anime_id=anime_id,
+                    user_id=user_id,
+                ).pack(),
+            )
+        )
+
+        soup = BeautifulSoup(description.replace("<br>", ""))
+        await message.edit_caption(
+            caption=soup.prettify(),
             reply_markup=keyboard.as_markup(),
         )

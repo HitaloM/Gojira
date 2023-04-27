@@ -179,3 +179,13 @@ The query returns the following fields:
 
 Note: This query is designed for use with a GraphQL API.
 """
+
+DESCRIPTION_QUERY: str = """
+query($id: Int, $media: MediaType) {
+    Page(page: 1, perPage: 1) {
+        media(id: $id, type: $media) {
+            description
+        }
+    }
+}
+"""
