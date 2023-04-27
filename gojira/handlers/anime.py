@@ -196,39 +196,55 @@ async def anime(
     text = f"<b>{anime['title']['romaji']}</b>"
     if anime["title"]["native"]:
         text += f" (<code>{anime['title']['native']}</code>)"
-    text += f"\n\n<b>ID</b>: <code>{anime['id']}</code>"
+    text += _("\n\n<b>ID</b>: <code>{id}</code>").format(id=anime_id)
     if anime["format"]:
-        text += f"\n<b>Format</b>: <code>{anime['format']}</code>"
+        text += _("\n<b>Format</b>: <code>{format}</code>").format(
+            format=anime["format"]
+        )
     if not anime["format"] == "MOVIE" and anime["episodes"]:
-        text += f"\n<b>Episodes</b>: <code>{anime['episodes']}</code>"
+        text += _("\n<b>Episodes</b>: <code>{episodes}</code>").format(
+            episodes=anime["episodes"]
+        )
     if anime["duration"]:
-        text += f"\n<b>Episode Duration</b>: <code>{anime['duration']} mins</code>"
-    text += f"\n<b>Status</b>: <code>{anime['status'].capitalize()}</code>"
+        text += _("\n<b>Episode Duration</b>: <code>{duration} mins</code>").format(
+            duration=anime["duration"]
+        )
+    text += _("\n<b>Status</b>: <code>{status}</code>").format(
+        status=anime["status"].capitalize()
+    )
     if not anime["status"] == "NOT_YET_RELEASED":
-        text += f"\n<b>Start Date</b>: <code>{start_date}</code>"
+        text += _("\n<b>Start Date</b>: <code>{date}</code>").format(date=start_date)
     if anime["status"] not in ["NOT_YET_RELEASED", "RELEASING"]:
-        text += f"\n<b>End Date</b>: <code>{end_date}</code>"
+        text += _("\n<b>End Date</b>: <code>{date}</code>").format(date=end_date)
     if anime["season"]:
         season = f"{anime['season'].capitalize()} {anime['seasonYear']}"
-        text += f"\n<b>Season</b>: <code>{season}</code>"
+        text += _("\n<b>Season</b>: <code>{season}</code>").format(season=season)
     if anime["averageScore"]:
-        text += f"\n<b>Average Score</b>: <code>{anime['averageScore']}</code>"
-    if anime["meanScore"]:
-        text += f"\n<b>Mean Score</b>: <code>{anime['meanScore']}</code>"
+        text += _("\n<b>Average Score</b>: <code>{score}</code>").format(
+            score=anime["averageScore"]
+        )
     if anime["studios"] and len(anime["studios"]["nodes"]) > 0:
-        text += f"\n<b>Studios</b>: <code>{', '.join(studios)}</code>"
+        text += _("\n<b>Studios</b>: <code>{studios}</code>").format(
+            studios=", ".join(studios)
+        )
     if len(producers) > 0:
-        text += f"\n<b>Producers</b>: <code>{', '.join(producers)}</code>"
+        text += _("\n<b>Producers</b>: <code>{producers}</code>").format(
+            producers=", ".join(producers)
+        )
     if anime["source"]:
-        text += f"\n<b>Source</b>: <code>{anime['source'].capitalize()}</code>"
+        text += _("\n<b>Source</b>: <code>{source}</code>").format(
+            source=anime["source"].capitalize()
+        )
     if anime["genres"]:
-        text += f"\n<b>Genres</b>: <code>{', '.join(anime['genres'])}</code>"
+        text += _("\n<b>Genres</b>: <code>{genres}</code>").format(
+            genres=", ".join(anime["genres"])
+        )
 
     keyboard = InlineKeyboardBuilder()
 
     keyboard.row(
         InlineKeyboardButton(
-            text=_("More Info"),
+            text=_("👓 View More"),
             callback_data=AnimeMoreCallback(
                 anime_id=anime_id,
                 user_id=user.id,
@@ -241,9 +257,9 @@ async def anime(
         for relation in anime["relations"]["edges"]:
             if relation["relationType"] in ["PREQUEL", "SEQUEL"]:
                 button_text = (
-                    _("Sequel")
+                    _("➡️ Sequel")
                     if relation["relationType"] == "SEQUEL"
-                    else _("Prequel")
+                    else _("⬅️ Prequel")
                 )
                 relations_buttons.append(
                     InlineKeyboardButton(
@@ -255,7 +271,7 @@ async def anime(
                     )
                 )
         if len(relations_buttons) > 0:
-            if not relations_buttons[0].text == "Prequel":
+            if not relations_buttons[0].text == "⬅️ Prequel":
                 relations_buttons.reverse()
             keyboard.row(*relations_buttons)
 
@@ -317,15 +333,15 @@ async def anime_more(callback: CallbackQuery, callback_data: AnimeMoreCallback):
 
         keyboard.add(
             InlineKeyboardButton(
-                text=_("Description"),
+                text=_("📜 Description"),
                 callback_data=AnimeDescCallback(
                     anime_id=anime_id, user_id=user_id
                 ).pack(),
             ),
-            InlineKeyboardButton(text=_("Characters"), callback_data="*"),
-            InlineKeyboardButton(text=_("Staff"), callback_data="*"),
-            InlineKeyboardButton(text=_("Studios"), callback_data="*"),
-            InlineKeyboardButton(text=_("Airing"), callback_data="*"),
+            InlineKeyboardButton(text=_("🧑‍🤝‍🧑 Characters"), callback_data="*"),
+            InlineKeyboardButton(text=_("👨‍💻 Staff"), callback_data="*"),
+            InlineKeyboardButton(text=_("🌆 Studios"), callback_data="*"),
+            InlineKeyboardButton(text=_("📺 Airing"), callback_data="*"),
         )
 
         if anime["trailer"]:
@@ -338,18 +354,18 @@ async def anime_more(callback: CallbackQuery, callback_data: AnimeMoreCallback):
             )
             keyboard.add(
                 InlineKeyboardButton(
-                    text=_("Trailer"),
+                    text=_("🎦 Trailer"),
                     url=trailer_url,
                 )
             )
 
-        keyboard.add(InlineKeyboardButton(text=_("AniList"), url=anime["siteUrl"]))
+        keyboard.add(InlineKeyboardButton(text=_("🐢 AniList"), url=anime["siteUrl"]))
 
         keyboard.adjust(2)
 
         keyboard.row(
             InlineKeyboardButton(
-                text=_("Back"),
+                text=_("🔙 Back"),
                 callback_data=AnimeCallback(
                     query=anime_id,
                     user_id=user.id,
@@ -448,7 +464,7 @@ async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCal
 
         keyboard.row(
             InlineKeyboardButton(
-                text=_("Back"),
+                text=_("🔙 Back"),
                 callback_data=AnimeMoreCallback(
                     anime_id=anime_id,
                     user_id=user_id,
@@ -456,7 +472,7 @@ async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCal
             )
         )
 
-        soup = BeautifulSoup(description.replace("<br>", ""))
+        soup = BeautifulSoup(description.replace("<br>", ""), "html.parser")
         await message.edit_caption(
             caption=soup.prettify(),
             reply_markup=keyboard.as_markup(),

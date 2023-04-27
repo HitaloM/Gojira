@@ -24,8 +24,8 @@ async def start_command(union: Union[Message, CallbackQuery]):
         return None
 
     keyboard = InlineKeyboardBuilder()
-    keyboard.button(text=_("Language"), callback_data=StartCallback(menu="language"))
-    keyboard.button(text=_("About"), callback_data=StartCallback(menu="about"))
+    keyboard.button(text=_("🌐 Language"), callback_data=StartCallback(menu="language"))
+    keyboard.button(text=_("ℹ️ About"), callback_data=StartCallback(menu="about"))
     keyboard.adjust(2)
 
     text = _(
@@ -60,13 +60,15 @@ mangas."
 
     keyboard = InlineKeyboardBuilder()
     keyboard.row(
-        InlineKeyboardButton(text=_("GitHub"), url="https://github.com/HitaloM/Gojira"),
-        InlineKeyboardButton(text=_("Channel"), url="https://t.me/HitaloProjects"),
+        InlineKeyboardButton(
+            text=_("📦 GitHub"), url="https://github.com/HitaloM/Gojira"
+        ),
+        InlineKeyboardButton(text=_("📚 Channel"), url="https://t.me/HitaloProjects"),
     )
     if is_callback:
         keyboard.row(
             InlineKeyboardButton(
-                text=_("Back"), callback_data=StartCallback(menu="start").pack()
+                text=_("🔙 Back"), callback_data=StartCallback(menu="start").pack()
             )
         )
 

@@ -52,7 +52,7 @@ async def select_language(union: Union[Message, CallbackQuery]):
     keyboard.adjust(4)
     keyboard.row(
         InlineKeyboardButton(
-            text=_("Back"), callback_data=StartCallback(menu="start").pack()
+            text=_("🔙 Back"), callback_data=StartCallback(menu="start").pack()
         )
     )
     if is_callback:

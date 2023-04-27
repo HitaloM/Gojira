@@ -88,7 +88,6 @@ query($id: Int) {
             season
             seasonYear
             source
-            meanScore
             averageScore
             relations {
                 edges {

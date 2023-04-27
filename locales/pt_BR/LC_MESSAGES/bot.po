@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-25 17:03-0300\n"
+"POT-Creation-Date: 2023-04-27 17:19-0300\n"
 "PO-Revision-Date: 2023-04-25 17:03-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt_BR\n"
@@ -18,6 +18,189 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
+#: gojira/handlers/anime.py:47
+msgid "You need to specify an Anime."
+msgstr "Você precisa especificar um Anime."
+
+#: gojira/handlers/anime.py:67
+msgid "This button is not for you."
+msgstr "Este botão não é para você."
+
+#: gojira/handlers/anime.py:117 gojira/handlers/anime.py:157
+msgid "No results found."
+msgstr "Nenhum resultado encontrado."
+
+#: gojira/handlers/anime.py:136
+msgid "Search Results For: <b>{anime}</b>"
+msgstr "Resultados da Pesquisa Para: <b>{anime}</b>"
+
+#: gojira/handlers/anime.py:199
+msgid ""
+"\n"
+"\n"
+"<b>ID</b>: <code>{id}</code>"
+msgstr ""
+"\n"
+"\n"
+"<b>ID</b>: <code>{id}</code>"
+
+#: gojira/handlers/anime.py:201
+msgid ""
+"\n"
+"<b>Format</b>: <code>{format}</code>"
+msgstr ""
+"\n"
+"<b>Formato</b>: <code>{format}</code>"
+
+#: gojira/handlers/anime.py:205
+msgid ""
+"\n"
+"<b>Episodes</b>: <code>{episodes}</code>"
+msgstr ""
+"\n"
+"<b>Episódios</b>: <code>{episodes}</code>"
+
+#: gojira/handlers/anime.py:209
+msgid ""
+"\n"
+"<b>Episode Duration</b>: <code>{duration} mins</code>"
+msgstr ""
+"\n"
+"<b>Duração do Episódio</b>: <code>{duration} mins</code>"
+
+#: gojira/handlers/anime.py:212
+msgid ""
+"\n"
+"<b>Status</b>: <code>{status}</code>"
+msgstr ""
+"\n"
+"<b>Status</b>: <code>{status}</code>"
+
+#: gojira/handlers/anime.py:216
+msgid ""
+"\n"
+"<b>Start Date</b>: <code>{date}</code>"
+msgstr ""
+"\n"
+"<b>Data de Início</b>: <code>{date}</code>"
+
+#: gojira/handlers/anime.py:218
+msgid ""
+"\n"
+"<b>End Date</b>: <code>{date}</code>"
+msgstr ""
+"\n"
+"<b>Data de Término</b>: <code>{date}</code>"
+
+#: gojira/handlers/anime.py:221
+msgid ""
+"\n"
+"<b>Season</b>: <code>{season}</code>"
+msgstr ""
+"\n"
+"<b>Temporada</b>: <code>{season}</code>"
+
+#: gojira/handlers/anime.py:223
+msgid ""
+"\n"
+"<b>Average Score</b>: <code>{score}</code>"
+msgstr ""
+"\n"
+"<b>Média de Pontuação</b>: <code>{score}</code>"
+
+#: gojira/handlers/anime.py:227
+msgid ""
+"\n"
+"<b>Studios</b>: <code>{studios}</code>"
+msgstr ""
+"\n"
+"<b>Estúdios</b>: <code>{studios}</code>"
+
+#: gojira/handlers/anime.py:231
+msgid ""
+"\n"
+"<b>Producers</b>: <code>{producers}</code>"
+msgstr ""
+"\n"
+"<b>Produtores</b>: <code>{producers}</code>"
+
+#: gojira/handlers/anime.py:235
+msgid ""
+"\n"
+"<b>Source</b>: <code>{source}</code>"
+msgstr ""
+"\n"
+"<b>Fonte</b>: <code>{source}</code>"
+
+#: gojira/handlers/anime.py:239
+msgid ""
+"\n"
+"<b>Genres</b>: <code>{genres}</code>"
+msgstr ""
+"\n"
+"<b>Gêneros</b>: <code>{genres}</code>"
+
+#: gojira/handlers/anime.py:247
+msgid "👓 View More"
+msgstr "👓 Ver Mais"
+
+#: gojira/handlers/anime.py:260
+msgid "➡️ Sequel"
+msgstr "➡️ Sequência"
+
+#: gojira/handlers/anime.py:262
+msgid "⬅️ Prequel"
+msgstr "⬅️ Prólogo"
+
+#: gojira/handlers/anime.py:308 gojira/handlers/anime.py:400
+msgid "This anime was not searched by you."
+msgstr "Este anime não foi pesquisado por você."
+
+#: gojira/handlers/anime.py:336
+msgid "📜 Description"
+msgstr "📜 Descrição"
+
+#: gojira/handlers/anime.py:341
+msgid "🧑‍🤝‍🧑 Characters"
+msgstr "🧑‍🤝‍🧑 Personagens"
+
+#: gojira/handlers/anime.py:342
+msgid "👨‍💻 Staff"
+msgstr "👨‍💻 Equipe"
+
+#: gojira/handlers/anime.py:343
+msgid "🌆 Studios"
+msgstr "🌆 Estúdios"
+
+#: gojira/handlers/anime.py:344
+msgid "📺 Airing"
+msgstr "📺 Exibição"
+
+#: gojira/handlers/anime.py:357
+msgid "🎦 Trailer"
+msgstr "🎦 Trailer"
+
+#: gojira/handlers/anime.py:362
+msgid "🐢 AniList"
+msgstr "🐢 AniList"
+
+#: gojira/handlers/anime.py:368 gojira/handlers/anime.py:467
+#: gojira/handlers/language.py:55 gojira/handlers/pm_menu.py:71
+msgid "🔙 Back"
+msgstr "🔙 Voltar"
+
+#: gojira/handlers/anime.py:376
+msgid ""
+"Here you will be able to see the description, characters, staff andsome "
+"other things, make good use of it. 🙃"
+msgstr ""
+"Aqui você poderá ver a descrição, personagens, staff e outras coisas, "
+"faça bom uso. 🙃"
+
+#: gojira/handlers/anime.py:426
+msgid "This anime does not have a description."
+msgstr "Este anime não possui uma descrição."
+
 #: gojira/handlers/language.py:35
 msgid "Your language: {lang}"
 msgstr "Seu idioma: {lang}"
@@ -26,27 +209,25 @@ msgstr "Seu idioma: {lang}"
 msgid "Chat language: {lang}"
 msgstr "Idioma do chat: {lang}"
 
-#: gojira/handlers/language.py:55 gojira/handlers/pm_menu.py:68
-msgid "Back"
-msgstr "Voltar"
-
 #: gojira/handlers/language.py:80
 msgid "Changed language to {lang}"
 msgstr "Idioma alterado para {lang}"
 
 #: gojira/handlers/pm_menu.py:27
-msgid "Language"
-msgstr "Idioma"
+msgid "🌐 Language"
+msgstr "🌐 Idioma"
 
 #: gojira/handlers/pm_menu.py:28
-msgid "About"
-msgstr "Sobre"
+msgid "ℹ️ About"
+msgstr "ℹ️ Sobre"
 
 #: gojira/handlers/pm_menu.py:31
 msgid ""
 "Hello <b>{user_name}</b>, I'm Gojira! I can provide you withuseful "
 "information about anime and manga titles"
-msgstr "Olá <b>{user_name}</b>, eu sou o Gojira! Eu posso te fornecer informações úteis sobre animes e mangás"
+msgstr ""
+"Olá <b>{user_name}</b>, eu sou o Gojira! Eu posso te fornecer informações"
+" úteis sobre animes e mangás"
 
 #: gojira/handlers/pm_menu.py:44
 msgid "Hello, I'm Gojira!"
@@ -54,24 +235,43 @@ msgstr "Olá, eu sou o Gojira!"
 
 #: gojira/handlers/pm_menu.py:55
 msgid ""
-"Gojira is a bot developed using Python that utilizes AIOGram and AniList "
-"GraphQLAPI to provide fast, stable and comprehensive information about "
-"animes and mangas."
-msgstr "Gojira é um bot desenvolvido usando Python que utiliza AIOGram e a API GraphQL do AniList para fornecer informações rápidas, estáveis e abrangentes sobre animes e mangás."
+"Gojira is a bot developed using Python that utilizes AIOGram and "
+"AniListGraphQL API to provide fast, stable and comprehensive information "
+"about animes andmangas."
+msgstr ""
+"Gojira é um bot desenvolvido usando Python que utiliza AIOGram e a API "
+"GraphQL do AniList para fornecer informações rápidas, estáveis e "
+"abrangentes sobre animes e mangás."
 
-#: gojira/handlers/pm_menu.py:62
-msgid "GitHub"
-msgstr "GitHub"
+#: gojira/handlers/pm_menu.py:64
+msgid "📦 GitHub"
+msgstr "📦 GitHub"
 
-#: gojira/handlers/pm_menu.py:63
-msgid "Channel"
-msgstr "Canal"
+#: gojira/handlers/pm_menu.py:66
+msgid "📚 Channel"
+msgstr "📚 Canal"
 
-#: gojira/utils/command_list.py:22
+#: gojira/utils/command_list.py:25
 msgid "Start the bot."
 msgstr "Inicializa o bot."
 
-#: gojira/utils/command_list.py:26
+#: gojira/utils/command_list.py:29
 msgid "Change bot language."
 msgstr "Muda o idioma do bot."
+
+#~ msgid ""
+#~ "\n"
+#~ "<b>Mean Score</b>: <code>{score}</code>"
+#~ msgstr ""
+#~ "\n"
+#~ "<b>Média de Pontuação</b>: <code>{score}</code>"
+
+#~ msgid "More Info"
+#~ msgstr "Mais Informações"
+
+#~ msgid "Staff"
+#~ msgstr "Staff"
+
+#~ msgid "GitHub"
+#~ msgstr "GitHub"
 
