@@ -30,3 +30,9 @@ class AnimeDescCallback(CallbackData, prefix="anime_description"):
 class AnimeMoreCallback(CallbackData, prefix="anime_more"):
     anime_id: int
     user_id: int
+
+
+class AnimeCharCallback(CallbackData, prefix="anime_character"):
+    anime_id: int
+    user_id: int
+    page: int = 0

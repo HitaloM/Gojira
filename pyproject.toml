@@ -12,6 +12,7 @@ dependencies = [
     "tortoise-orm[accel] >= 0.19.0",
     "aiohttp[speedups] >= 3.8.4",
     "bs4 >= 0.0.1",
+    "numpy >= 1.24.3",
     "loguru >= 0.7.0",
     "pydantic[dotenv] >= 1.10.7",
 ]

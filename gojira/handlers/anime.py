@@ -6,6 +6,7 @@ import math
 from typing import Optional, Union
 
 import aiohttp
+import numpy as np
 from aiogram import Router
 from aiogram.enums import ChatType
 from aiogram.filters import Command, CommandObject
@@ -14,15 +15,18 @@ from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from bs4 import BeautifulSoup
 
+from gojira import bot
 from gojira.utils.anime import (
     ANILIST_API,
     ANILIST_SEARCH,
     ANIME_GET,
+    CHARACTER_QUERY,
     DESCRIPTION_QUERY,
     TRAILER_QUERY,
 )
 from gojira.utils.callback_data import (
     AnimeCallback,
+    AnimeCharCallback,
     AnimeDescCallback,
     AnimeMoreCallback,
 )
@@ -338,7 +342,12 @@ async def anime_more(callback: CallbackQuery, callback_data: AnimeMoreCallback):
                     anime_id=anime_id, user_id=user_id
                 ).pack(),
             ),
-            InlineKeyboardButton(text=_("🧑‍🤝‍🧑 Characters"), callback_data="*"),
+            InlineKeyboardButton(
+                text=_("🧑‍🤝‍🧑 Characters"),
+                callback_data=AnimeCharCallback(
+                    anime_id=anime_id, user_id=user_id
+                ).pack(),
+            ),
             InlineKeyboardButton(text=_("👨‍💻 Staff"), callback_data="*"),
             InlineKeyboardButton(text=_("🌆 Studios"), callback_data="*"),
             InlineKeyboardButton(text=_("📺 Airing"), callback_data="*"),
@@ -475,5 +484,123 @@ async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCal
         soup = BeautifulSoup(description.replace("<br>", ""), "html.parser")
         await message.edit_caption(
             caption=soup.prettify(),
+            reply_markup=keyboard.as_markup(),
+        )
+
+
+@router.callback_query(AnimeCharCallback.filter())
+async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCallback):
+    message = callback.message
+    user = callback.from_user
+    if message is None:
+        return None
+
+    anime_id = callback_data.anime_id
+    user_id = callback_data.user_id
+    page = callback_data.page
+
+    if user_id != user.id:
+        await callback.answer(
+            _("This anime was not searched by you."),
+            show_alert=True,
+            cache_time=60,
+        )
+        return
+
+    async with aiohttp.ClientSession() as client:
+        response = await client.post(
+            "https://graphql.anilist.co",
+            json=dict(
+                query=CHARACTER_QUERY,
+                variables=dict(
+                    id=(anime_id),
+                    media="ANIME",
+                ),
+            ),
+            headers={
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+        )
+        data = await response.json()
+        anime = data["data"]["Page"]["media"][0]
+
+        if not anime["characters"]:
+            await callback.answer(
+                _("This anime does not have characters."),
+                show_alert=True,
+                cache_time=60,
+            )
+            return
+
+        characters_text = ""
+        characters = sorted(
+            [
+                {
+                    "id": character["node"]["id"],
+                    "name": character["node"]["name"],
+                    "role": character["role"],
+                }
+                for character in anime["characters"]["edges"]
+            ],
+            key=lambda x: x["id"],
+        )
+
+        # me = await bot.get_me()
+        # bot_username = me.username
+        for character in characters:
+            characters_text += f"\n• <code>{character['id']}</code> - \
+{character['name']['full']} (<i>{character['role']}</i>)"
+
+        # Separate staff_text into pages of 8 items
+        characters_text = np.array(characters_text.split("\n"))
+        characters_text = np.delete(characters_text, np.argwhere(characters_text == ""))
+        characters_text = np.split(
+            characters_text, np.arange(8, len(characters_text), 8)
+        )
+
+        pages = len(characters_text)
+
+        page_buttons = []
+        if page > 0:
+            page_buttons.append(
+                InlineKeyboardButton(
+                    text="⬅️",
+                    callback_data=AnimeCharCallback(
+                        anime_id=anime_id, user_id=user_id, page=page - 1
+                    ).pack(),
+                )
+            )
+        if not page + 1 == pages:
+            page_buttons.append(
+                InlineKeyboardButton(
+                    text="➡️",
+                    callback_data=AnimeCharCallback(
+                        anime_id=anime_id, user_id=user_id, page=page + 1
+                    ).pack(),
+                )
+            )
+
+        characters_text = characters_text[page].tolist()
+        characters_text = "\n".join(characters_text)
+
+        keyboard = InlineKeyboardBuilder()
+        if len(page_buttons) > 0:
+            keyboard.add(*page_buttons)
+
+        keyboard.row(
+            InlineKeyboardButton(
+                text=_("🔙 Back"),
+                callback_data=AnimeMoreCallback(
+                    anime_id=anime_id,
+                    user_id=user_id,
+                ).pack(),
+            )
+        )
+
+        text = _("Below are some characters from the item in question.")
+        text = f"{text}\n{characters_text}"
+        await message.edit_caption(
+            caption=text,
             reply_markup=keyboard.as_markup(),
         )
