@@ -5,21 +5,21 @@ import asyncio
 from typing import Optional, Union
 
 import aiohttp
-from aiogram import Router
+from aiogram import F, Router
 from aiogram.enums import ChatType
 from aiogram.filters import Command, CommandObject
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InputMediaPhoto, Message
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from gojira.utils.anime import ANILIST_API, ANILIST_SEARCH, ANIME_GET
+from gojira.utils.anime import ANILIST_API, ANILIST_SEARCH, ANIME_GET, TRAILER_QUERY
 from gojira.utils.callback_data import GetAnimeCallback
 
 router = Router(name="anime")
 
 
 @router.message(Command("anime"))
-@router.callback_query(GetAnimeCallback.filter())
+@router.callback_query(GetAnimeCallback.filter(F.method == "get"))
 async def anime(
     union: Union[Message, CallbackQuery],
     command: Optional[CommandObject] = None,
@@ -40,7 +40,7 @@ async def anime(
     query = str(
         callback_data.query
         if is_callback and callback_data is not None
-        else command.args.split(" ")[0]
+        else command.args
         if command and command.args
         else None
     )
@@ -117,11 +117,12 @@ async def anime(
                                 query=result["id"],
                                 user_id=user.id,
                                 is_search=True,
+                                method="get",
                             ).pack(),
                         )
                     )
                 await message.reply(
-                    _("Search results for: {anime}").format(anime=query),
+                    _("Search Results For: <b>{anime}</b>").format(anime=query),
                     reply_markup=keyboard.as_markup(),
                 )
                 return
@@ -158,37 +159,72 @@ async def anime(
         else:
             producers.append(studio["name"])
 
+    end_date_components = [
+        component
+        for component in (
+            anime["endDate"].get("day"),
+            anime["endDate"].get("month"),
+            anime["endDate"].get("year"),
+        )
+        if component is not None
+    ]
+
+    start_date_components = [
+        component
+        for component in (
+            anime["startDate"].get("day"),
+            anime["startDate"].get("month"),
+            anime["startDate"].get("year"),
+        )
+        if component is not None
+    ]
+
+    end_date = "/".join(str(component) for component in end_date_components)
+    start_date = "/".join(str(component) for component in start_date_components)
+
     text = f"<b>{anime['title']['romaji']}</b>"
     if anime["title"]["native"]:
         text += f" (<code>{anime['title']['native']}</code>)"
     text += f"\n\n<b>ID</b>: <code>{anime['id']}</code>"
-    if "format" in anime:
+    if anime["format"]:
         text += f"\n<b>Format</b>: <code>{anime['format']}</code>"
-    if not anime["format"] == "MOVIE" and "episodes" in anime:
+    if not anime["format"] == "MOVIE" and anime["episodes"]:
         text += f"\n<b>Episodes</b>: <code>{anime['episodes']}</code>"
-    if "duration" in anime:
+    if anime["duration"]:
         text += f"\n<b>Episode Duration</b>: <code>{anime['duration']} mins</code>"
     text += f"\n<b>Status</b>: <code>{anime['status'].capitalize()}</code>"
     if not anime["status"] == "NOT_YET_RELEASED":
-        text += f"\n<b>Start Date</b>: <code>{anime['startDate']['day'] if anime['startDate']['day'] else 0}/{anime['startDate']['month'] if anime['startDate']['month'] else 0}/{anime['startDate']['year'] if anime['startDate']['year'] else 0}</code>"
+        text += f"\n<b>Start Date</b>: <code>{start_date}</code>"
     if anime["status"] not in ["NOT_YET_RELEASED", "RELEASING"]:
-        text += f"\n<b>End Date</b>: <code>{anime['endDate']['day'] if anime['endDate']['day'] else 0}/{anime['endDate']['month'] if anime['endDate']['month'] else 0}/{anime['endDate']['year'] if anime['endDate']['year'] else 0}</code>"
-    if "season" in anime:
-        text += f"\n<b>Season</b>: <code>{anime['season'].capitalize()} {anime['seasonYear']}</code>"
-    if "averageScore" in anime:
+        text += f"\n<b>End Date</b>: <code>{end_date}</code>"
+    if anime["season"]:
+        season = f"{anime['season'].capitalize()} {anime['seasonYear']}"
+        text += f"\n<b>Season</b>: <code>{season}</code>"
+    if anime["averageScore"]:
         text += f"\n<b>Average Score</b>: <code>{anime['averageScore']}</code>"
-    if "meanScore" in anime:
+    if anime["meanScore"]:
         text += f"\n<b>Mean Score</b>: <code>{anime['meanScore']}</code>"
-    if "studios" in anime and len(anime["studios"]["nodes"]) > 0:
+    if anime["studios"] and len(anime["studios"]["nodes"]) > 0:
         text += f"\n<b>Studios</b>: <code>{', '.join(studios)}</code>"
     if len(producers) > 0:
         text += f"\n<b>Producers</b>: <code>{', '.join(producers)}</code>"
-    if "source" in anime:
+    if anime["source"]:
         text += f"\n<b>Source</b>: <code>{anime['source'].capitalize()}</code>"
-    if "genres" in anime:
+    if anime["genres"]:
         text += f"\n<b>Genres</b>: <code>{', '.join(anime['genres'])}</code>"
 
     keyboard = InlineKeyboardBuilder()
+
+    keyboard.row(
+        InlineKeyboardButton(
+            text=_("More Info"),
+            callback_data=GetAnimeCallback(
+                method="more",
+                query=anime_id,
+                user_id=user.id,
+            ).pack(),
+        )
+    )
 
     if "relations" in anime and len(anime["relations"]["edges"]) > 0:
         relations_buttons = []
@@ -205,14 +241,14 @@ async def anime(
                         callback_data=GetAnimeCallback(
                             query=relation["node"]["id"],
                             user_id=user.id,
-                            is_search=False,
+                            method="get",
                         ).pack(),
                     )
                 )
         if len(relations_buttons) > 0:
             if not relations_buttons[0].text == "Prequel":
                 relations_buttons.reverse()
-            keyboard.add(*relations_buttons)
+            keyboard.row(*relations_buttons)
 
     if bool(message.photo) and is_callback:
         await message.edit_media(
@@ -227,6 +263,93 @@ async def anime(
     else:
         await message.answer_photo(
             photo,
+            caption=text,
+            reply_markup=keyboard.as_markup(),
+        )
+
+
+@router.callback_query(GetAnimeCallback.filter(F.method == "more"))
+async def anime_more(callback: CallbackQuery, callback_data: GetAnimeCallback):
+    message = callback.message
+    user = callback.from_user
+    if message is None:
+        return None
+
+    anime_id = callback_data.query
+    user_id = callback_data.user_id
+
+    if user_id != user.id:
+        await callback.answer(
+            _("This anime was not searched by you."),
+            show_alert=True,
+            cache_time=60,
+        )
+        return
+
+    async with aiohttp.ClientSession() as client:
+        response = await client.post(
+            "https://graphql.anilist.co",
+            json=dict(
+                query=TRAILER_QUERY,
+                variables=dict(
+                    id=(anime_id),
+                    media="ANIME",
+                ),
+            ),
+            headers={
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+        )
+        data = await response.json()
+        anime = data["data"]["Page"]["media"][0]
+
+        keyboard = InlineKeyboardBuilder()
+
+        keyboard.add(
+            InlineKeyboardButton(text=_("Description"), callback_data="*"),
+            InlineKeyboardButton(text=_("Characters"), callback_data="*"),
+            InlineKeyboardButton(text=_("Staff"), callback_data="*"),
+            InlineKeyboardButton(text=_("Studios"), callback_data="*"),
+            InlineKeyboardButton(text=_("Airing"), callback_data="*"),
+        )
+
+        if anime["trailer"]:
+            trailer_site = anime["trailer"]["site"]
+            trailer_id = anime["trailer"]["id"]
+            trailer_url = (
+                f"https://www.dailymotion.com/video/{trailer_id}"
+                if trailer_site != "youtube"
+                else f"https://youtu.be/{trailer_id}"
+            )
+            keyboard.add(
+                InlineKeyboardButton(
+                    text=_("Trailer"),
+                    url=trailer_url,
+                )
+            )
+
+        keyboard.add(InlineKeyboardButton(text=_("AniList"), url=anime["siteUrl"]))
+
+        keyboard.adjust(2)
+
+        keyboard.row(
+            InlineKeyboardButton(
+                text=_("Back"),
+                callback_data=GetAnimeCallback(
+                    query=anime_id,
+                    user_id=user.id,
+                    method="get",
+                ).pack(),
+            )
+        )
+
+        text = _(
+            "Here you will be able to see the description, characters, staff and\
+some other things, make good use of it. 🙃"
+        )
+
+        await message.edit_caption(
             caption=text,
             reply_markup=keyboard.as_markup(),
         )

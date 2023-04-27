@@ -53,8 +53,9 @@ async def about(union: Union[Message, CallbackQuery]):
         return None
 
     text = _(
-        "Gojira is a bot developed using Python that utilizes AIOGram and AniList GraphQL\
-API to provide fast, stable and comprehensive information about animes and mangas."
+        "Gojira is a bot developed using Python that utilizes AIOGram and AniList\
+GraphQL API to provide fast, stable and comprehensive information about animes and\
+mangas."
     )
 
     keyboard = InlineKeyboardBuilder()

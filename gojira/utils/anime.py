@@ -136,7 +136,7 @@ The query returns the following information:
         - day: The day the anime finished airing.
     - season: The season (e.g., winter, spring, summer, or fall) the anime aired.
     - seasonYear: The year of the season the anime aired.
-    - source: The original source material of the anime (e.g., manga, light novel, etc.).
+    - source: The original source material of the anime (e.g., manga, light novel, etc.)
     - meanScore: The mean score of the anime.
     - averageScore: The average score of the anime.
     - relations:
@@ -145,6 +145,37 @@ The query returns the following information:
                 - id: The unique ID of the related anime.
             - relationType(version: 2): The type of relation between the anime titles
                 (e.g., sequel, prequel, etc.).
+
+Note: This query is designed for use with a GraphQL API.
+"""
+
+TRAILER_QUERY: str = """
+query($id: Int, $media: MediaType) {
+    Page(page: 1, perPage: 1) {
+        media(id: $id, type: $media) {
+            trailer {
+                id
+                site
+                thumbnail
+            }
+            siteUrl
+        }
+    }
+}
+"""
+"""
+A GraphQL query string to fetch the trailer information for a given media item.
+
+This query takes two variables as input:
+    - $id: Int - The unique identifier of the media item.
+    - $media: MediaType - The type of media (e.g., ANIME, MANGA).
+
+The query returns the following fields:
+    - trailer:
+        - id: The unique identifier of the trailer.
+        - site: The website hosting the trailer.
+        - thumbnail: The URL of the trailer thumbnail image.
+    - siteUrl: The URL of the media item's page on the AniList website.
 
 Note: This query is designed for use with a GraphQL API.
 """
