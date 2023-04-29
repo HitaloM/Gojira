@@ -6,6 +6,7 @@ import math
 from typing import Optional, Union
 
 import aiohttp
+import humanize
 import numpy as np
 from aiogram import Router
 from aiogram.enums import ChatType
@@ -16,6 +17,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from bs4 import BeautifulSoup
 
 from gojira.utils.anime import (
+    AIRING_QUERY,
     ANILIST_API,
     ANILIST_SEARCH,
     ANIME_GET,
@@ -25,6 +27,7 @@ from gojira.utils.anime import (
     TRAILER_QUERY,
 )
 from gojira.utils.callback_data import (
+    AnimeAiringCallback,
     AnimeCallback,
     AnimeCharCallback,
     AnimeDescCallback,
@@ -356,7 +359,12 @@ async def anime_more(callback: CallbackQuery, callback_data: AnimeMoreCallback):
                 ).pack(),
             ),
             InlineKeyboardButton(text=_("🌆 Studios"), callback_data="*"),
-            InlineKeyboardButton(text=_("📺 Airing"), callback_data="*"),
+            InlineKeyboardButton(
+                text=_("📺 Airing"),
+                callback_data=AnimeAiringCallback(
+                    anime_id=anime_id, user_id=user_id
+                ).pack(),
+            ),
         )
 
         if anime["trailer"]:
@@ -719,6 +727,91 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
 
         text = _("Below are some persons from the item in question.")
         text = f"{text}\n\n{staff_text}"
+        await message.edit_caption(
+            caption=text,
+            reply_markup=keyboard.as_markup(),
+        )
+
+
+@router.callback_query(AnimeAiringCallback.filter())
+async def anime_airing(callback: CallbackQuery, callback_data: AnimeAiringCallback):
+    message = callback.message
+    user = callback.from_user
+    if message is None:
+        return None
+
+    anime_id = callback_data.anime_id
+    user_id = callback_data.user_id
+
+    if user_id != user.id:
+        await callback.answer(
+            _("This anime was not searched by you."),
+            show_alert=True,
+            cache_time=60,
+        )
+        return
+
+    async with aiohttp.ClientSession() as client:
+        response = await client.post(
+            url=ANILIST_API,
+            json=dict(
+                query=AIRING_QUERY,
+                variables=dict(
+                    id=anime_id,
+                    media="ANIME",
+                ),
+            ),
+            headers={
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+        )
+        data = await response.json()
+        anime = data["data"]["Page"]["media"][0]
+
+        text = _(
+            "See below when the next episode of the anime in question will air.\n\n"
+        )
+        if anime["nextAiringEpisode"]:
+            text += _("<b>Episode:</b> <code>{episode}</code>\n").format(
+                episode=anime["nextAiringEpisode"]["episode"]
+            )
+            text += _("<b>Airing:</b> <code>{airing_time}</code>").format(
+                airing_time=humanize.precisedelta(
+                    anime["nextAiringEpisode"]["timeUntilAiring"]
+                )
+            )
+        else:
+            episodes = anime["episodes"] if anime["episodes"] else "N/A"
+            text += _("<b>Episode:</b> <code>{episode}</code>\n").format(
+                episode=episodes
+            )
+            text += _("<b>Airing:</b> <code>N/A</code>")
+
+        buttons = []
+        externalLinks = anime["externalLinks"]
+        if externalLinks:
+            for link in externalLinks:
+                if link["type"] == "STREAMING":
+                    buttons.append(
+                        InlineKeyboardButton(text=link["site"], url=link["url"])
+                    )
+
+        keyboard = InlineKeyboardBuilder()
+        if len(buttons) > 0:
+            keyboard.row(*buttons)
+            keyboard.adjust(3)
+
+        keyboard.row(
+            InlineKeyboardButton(
+                text=_("🔙 Back"),
+                callback_data=AnimeMoreCallback(
+                    anime_id=anime_id,
+                    user_id=user_id,
+                ).pack(),
+            )
+        )
+
         await message.edit_caption(
             caption=text,
             reply_markup=keyboard.as_markup(),

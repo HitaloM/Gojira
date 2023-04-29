@@ -141,3 +141,23 @@ query($id: Int, $media: MediaType) {
     }
 }
 """
+
+AIRING_QUERY: str = """
+query($id: Int, $media: MediaType) {
+    Page(page: 1, perPage: 1) {
+        media(id: $id, type: $media) {
+            nextAiringEpisode {
+                timeUntilAiring
+                episode
+            }
+            externalLinks {
+                id
+                url
+                site
+                type
+            }
+            episodes
+        }
+    }
+}
+"""
