@@ -36,3 +36,9 @@ class AnimeCharCallback(CallbackData, prefix="anime_character"):
     anime_id: int
     user_id: int
     page: int = 0
+
+
+class AnimeStaffCallback(CallbackData, prefix="anime_staff"):
+    anime_id: int
+    user_id: int
+    page: int = 0

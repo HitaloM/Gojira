@@ -15,13 +15,13 @@ from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from bs4 import BeautifulSoup
 
-from gojira import bot
 from gojira.utils.anime import (
     ANILIST_API,
     ANILIST_SEARCH,
     ANIME_GET,
     CHARACTER_QUERY,
     DESCRIPTION_QUERY,
+    STAFF_QUERY,
     TRAILER_QUERY,
 )
 from gojira.utils.callback_data import (
@@ -29,6 +29,7 @@ from gojira.utils.callback_data import (
     AnimeCharCallback,
     AnimeDescCallback,
     AnimeMoreCallback,
+    AnimeStaffCallback,
 )
 
 router = Router(name="anime")
@@ -145,7 +146,7 @@ async def anime(
             anime_id = int(query)
 
         response = await client.post(
-            "https://graphql.anilist.co",
+            url=ANILIST_API,
             json=dict(
                 query=ANIME_GET,
                 variables=dict(
@@ -317,7 +318,7 @@ async def anime_more(callback: CallbackQuery, callback_data: AnimeMoreCallback):
 
     async with aiohttp.ClientSession() as client:
         response = await client.post(
-            "https://graphql.anilist.co",
+            url=ANILIST_API,
             json=dict(
                 query=TRAILER_QUERY,
                 variables=dict(
@@ -348,7 +349,12 @@ async def anime_more(callback: CallbackQuery, callback_data: AnimeMoreCallback):
                     anime_id=anime_id, user_id=user_id
                 ).pack(),
             ),
-            InlineKeyboardButton(text=_("👨‍💻 Staff"), callback_data="*"),
+            InlineKeyboardButton(
+                text=_("👨‍💻 Staff"),
+                callback_data=AnimeStaffCallback(
+                    anime_id=anime_id, user_id=user_id
+                ).pack(),
+            ),
             InlineKeyboardButton(text=_("🌆 Studios"), callback_data="*"),
             InlineKeyboardButton(text=_("📺 Airing"), callback_data="*"),
         )
@@ -414,7 +420,7 @@ async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCal
 
     async with aiohttp.ClientSession() as client:
         response = await client.post(
-            "https://graphql.anilist.co",
+            url=ANILIST_API,
             json=dict(
                 query=DESCRIPTION_QUERY,
                 variables=dict(
@@ -509,11 +515,11 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
 
     async with aiohttp.ClientSession() as client:
         response = await client.post(
-            "https://graphql.anilist.co",
+            url=ANILIST_API,
             json=dict(
                 query=CHARACTER_QUERY,
                 variables=dict(
-                    id=(anime_id),
+                    id=anime_id,
                     media="ANIME",
                 ),
             ),
@@ -599,7 +605,120 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
         )
 
         text = _("Below are some characters from the item in question.")
-        text = f"{text}\n{characters_text}"
+        text = f"{text}\n\n{characters_text}"
+        await message.edit_caption(
+            caption=text,
+            reply_markup=keyboard.as_markup(),
+        )
+
+
+@router.callback_query(AnimeStaffCallback.filter())
+async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback):
+    message = callback.message
+    user = callback.from_user
+    if message is None:
+        return None
+
+    anime_id = callback_data.anime_id
+    user_id = callback_data.user_id
+    page = callback_data.page
+
+    if user_id != user.id:
+        await callback.answer(
+            _("This anime was not searched by you."),
+            show_alert=True,
+            cache_time=60,
+        )
+        return
+
+    async with aiohttp.ClientSession() as client:
+        response = await client.post(
+            url=ANILIST_API,
+            json=dict(
+                query=STAFF_QUERY,
+                variables=dict(
+                    id=anime_id,
+                    media="ANIME",
+                ),
+            ),
+            headers={
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+        )
+        data = await response.json()
+        anime = data["data"]["Page"]["media"][0]
+
+        if not anime["staff"]:
+            await callback.answer(
+                _("This anime does not have staff."),
+                show_alert=True,
+                cache_time=60,
+            )
+            return
+
+        staff_text = ""
+        staffs = sorted(
+            [
+                {
+                    "id": staff["node"]["id"],
+                    "name": staff["node"]["name"],
+                    "role": staff["role"],
+                }
+                for staff in anime["staff"]["edges"]
+            ],
+            key=lambda x: x["id"],
+        )
+        for person in staffs:
+            staff_text += f"\n• <code>{person['id']}</code> - {person['name']['full']} \
+(<i>{person['role']}</i>)"
+
+        # Separate staff_text into pages of 8 items
+        staff_text = np.array(staff_text.split("\n"))
+        staff_text = np.delete(staff_text, np.argwhere(staff_text == ""))
+        staff_text = np.split(staff_text, np.arange(8, len(staff_text), 8))
+
+        pages = len(staff_text)
+
+        page_buttons = []
+        if page > 0:
+            page_buttons.append(
+                InlineKeyboardButton(
+                    text="⬅️",
+                    callback_data=AnimeStaffCallback(
+                        anime_id=anime_id, user_id=user_id, page=page - 1
+                    ).pack(),
+                )
+            )
+        if not page + 1 == pages:
+            page_buttons.append(
+                InlineKeyboardButton(
+                    text="➡️",
+                    callback_data=AnimeStaffCallback(
+                        anime_id=anime_id, user_id=user_id, page=page + 1
+                    ).pack(),
+                )
+            )
+
+        staff_text = staff_text[page].tolist()
+        staff_text = "\n".join(staff_text)
+
+        keyboard = InlineKeyboardBuilder()
+        if len(page_buttons) > 0:
+            keyboard.add(*page_buttons)
+
+        keyboard.row(
+            InlineKeyboardButton(
+                text=_("🔙 Back"),
+                callback_data=AnimeMoreCallback(
+                    anime_id=anime_id,
+                    user_id=user_id,
+                ).pack(),
+            )
+        )
+
+        text = _("Below are some persons from the item in question.")
+        text = f"{text}\n\n{staff_text}"
         await message.edit_caption(
             caption=text,
             reply_markup=keyboard.as_markup(),

@@ -121,3 +121,23 @@ query($id: Int, $media: MediaType) {
     }
 }
 """
+
+STAFF_QUERY: str = """
+query($id: Int, $media: MediaType) {
+    Page(page: 1, perPage: 1) {
+        media(id: $id, type: $media) {
+            staff(sort: FAVOURITES_DESC) {
+                edges {
+                    node {
+                        name {
+                            full
+                        }
+                        id
+                    }
+                    role
+                }
+            }
+        }
+    }
+}
+"""
