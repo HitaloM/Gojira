@@ -161,3 +161,19 @@ query($id: Int, $media: MediaType) {
     }
 }
 """
+
+STUDIOS_QUERY: str = """
+query($id: Int, $media: MediaType) {
+    Page(page: 1, perPage: 1) {
+        media(id: $id, type: $media) {
+            studios {
+                nodes {
+                    id
+                    name
+                    isAnimationStudio
+                }
+            }
+        }
+    }
+}
+"""

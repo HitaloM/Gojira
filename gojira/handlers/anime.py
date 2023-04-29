@@ -24,6 +24,7 @@ from gojira.utils.anime import (
     CHARACTER_QUERY,
     DESCRIPTION_QUERY,
     STAFF_QUERY,
+    STUDIOS_QUERY,
     TRAILER_QUERY,
 )
 from gojira.utils.callback_data import (
@@ -33,6 +34,7 @@ from gojira.utils.callback_data import (
     AnimeDescCallback,
     AnimeMoreCallback,
     AnimeStaffCallback,
+    AnimeStudioCallback,
 )
 
 router = Router(name="anime")
@@ -358,7 +360,12 @@ async def anime_more(callback: CallbackQuery, callback_data: AnimeMoreCallback):
                     anime_id=anime_id, user_id=user_id
                 ).pack(),
             ),
-            InlineKeyboardButton(text=_("🌆 Studios"), callback_data="*"),
+            InlineKeyboardButton(
+                text=_("🌆 Studios"),
+                callback_data=AnimeStudioCallback(
+                    anime_id=anime_id, user_id=user_id
+                ).pack(),
+            ),
             InlineKeyboardButton(
                 text=_("📺 Airing"),
                 callback_data=AnimeAiringCallback(
@@ -816,3 +823,99 @@ async def anime_airing(callback: CallbackQuery, callback_data: AnimeAiringCallba
             caption=text,
             reply_markup=keyboard.as_markup(),
         )
+
+
+@router.callback_query(AnimeStudioCallback.filter())
+async def anime_studio(callback: CallbackQuery, callback_data: AnimeStudioCallback):
+    message = callback.message
+    user = callback.from_user
+    if message is None:
+        return None
+
+    anime_id = callback_data.anime_id
+    user_id = callback_data.user_id
+    page = callback_data.page
+
+    if user_id != user.id:
+        await callback.answer(
+            _("This anime was not searched by you."),
+            show_alert=True,
+            cache_time=60,
+        )
+        return
+
+    async with aiohttp.ClientSession() as client:
+        response = await client.post(
+            url=ANILIST_API,
+            json=dict(
+                query=STUDIOS_QUERY,
+                variables=dict(
+                    id=anime_id,
+                    media="ANIME",
+                ),
+            ),
+            headers={
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+        )
+        data = await response.json()
+        studio = data["data"]["Page"]["media"][0]["studios"]["nodes"]
+
+        studio_text = ""
+        studios = sorted(studio, key=lambda x: x["name"])
+        for studio in studios:
+            studio_text += f"\n• <code>{studio['id']}</code> - {studio['name']} \
+{'(producer)' if not studio['isAnimationStudio'] else ''}"
+
+        # Separate staff_text into pages of 8 items if more than 8 items
+        studio_text = np.array(studio_text.split("\n"))
+        studio_text = np.delete(studio_text, np.argwhere(studio_text == ""))
+        studio_text = np.split(studio_text, np.arange(8, len(studio_text), 8))
+
+        pages = len(studio_text)
+
+        page_buttons = []
+        if page > 0:
+            page_buttons.append(
+                InlineKeyboardButton(
+                    text="⬅️",
+                    callback_data=AnimeStudioCallback(
+                        anime_id=anime_id, user_id=user_id, page=page - 1
+                    ).pack(),
+                )
+            )
+        if not page + 1 == pages:
+            page_buttons.append(
+                InlineKeyboardButton(
+                    text="➡️",
+                    callback_data=AnimeStudioCallback(
+                        anime_id=anime_id, user_id=user_id, page=page + 1
+                    ).pack(),
+                )
+            )
+
+        studio_text = studio_text[page].tolist()
+        studio_text = "\n".join(studio_text)
+
+        keyboard = InlineKeyboardBuilder()
+        if len(page_buttons) > 0:
+            keyboard.row(*page_buttons)
+            keyboard.adjust(3)
+
+        keyboard.row(
+            InlineKeyboardButton(
+                text=_("🔙 Back"),
+                callback_data=AnimeMoreCallback(
+                    anime_id=anime_id,
+                    user_id=user_id,
+                ).pack(),
+            )
+        )
+
+    text = _("Below are some studios from the item in question.")
+    text = f"{text}\n\n{studio_text}"
+    await message.edit_caption(
+        caption=text,
+        reply_markup=keyboard.as_markup(),
+    )
