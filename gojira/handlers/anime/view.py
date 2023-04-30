@@ -16,6 +16,7 @@ from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from bs4 import BeautifulSoup
 
+from gojira.handlers.anime.start import anime_start
 from gojira.utils.anime import (
     AIRING_QUERY,
     ANILIST_API,
@@ -37,7 +38,7 @@ from gojira.utils.callback_data import (
     AnimeStudioCallback,
 )
 
-router = Router(name="anime")
+router = Router(name="anime_view")
 
 
 @router.message(Command("anime"))
@@ -50,12 +51,11 @@ async def anime(
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     user = union.from_user
-    if message is None or user is None:
+    if not message or not user:
         return None
 
     if command and not command.args:
-        await message.reply(_("You need to specify an Anime."))
-        return
+        return await anime_start(message)
 
     is_private: bool = message.chat.type == ChatType.PRIVATE
 
@@ -101,7 +101,7 @@ async def anime(
                     ),
                 ),
             )
-            if response is None:
+            if not response:
                 await asyncio.sleep(0.5)
                 response = await client.post(
                     url=ANILIST_API,
@@ -123,7 +123,7 @@ async def anime(
             data = await response.json()
             results = data["data"]["Page"]["media"]
 
-            if results is None or len(results) == 0:
+            if not results or len(results) == 0:
                 await message.reply(_("No results found."))
                 return
 
@@ -162,7 +162,7 @@ async def anime(
         data = await response.json()
         anime = data["data"]["Page"]["media"][0]
 
-        if anime is None:
+        if not anime:
             await union.answer(
                 _("No results found."),
                 show_alert=True,
@@ -307,7 +307,7 @@ async def anime(
 async def anime_more(callback: CallbackQuery, callback_data: AnimeMoreCallback):
     message = callback.message
     user = callback.from_user
-    if message is None:
+    if not message:
         return None
 
     anime_id = callback_data.anime_id
@@ -418,7 +418,7 @@ some other things, make good use of it. 🙃"
 async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCallback):
     message = callback.message
     user = callback.from_user
-    if message is None:
+    if not message:
         return None
 
     anime_id = callback_data.anime_id
@@ -513,7 +513,7 @@ async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCal
 async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCallback):
     message = callback.message
     user = callback.from_user
-    if message is None:
+    if not message:
         return None
 
     anime_id = callback_data.anime_id
@@ -567,6 +567,7 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
             key=lambda x: x["id"],
         )
 
+        # add hyperlink to character name to retrieve more info
         # me = await bot.get_me()
         # bot_username = me.username
         for character in characters:
@@ -631,7 +632,7 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
 async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback):
     message = callback.message
     user = callback.from_user
-    if message is None:
+    if not message:
         return None
 
     anime_id = callback_data.anime_id
@@ -684,6 +685,9 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
             ],
             key=lambda x: x["id"],
         )
+        # TODO: add hyperlink to staff name to retrieve more info
+        # me = await bot.get_me()
+        # bot_username = me.username
         for person in staffs:
             staff_text += f"\n• <code>{person['id']}</code> - {person['name']['full']} \
 (<i>{person['role']}</i>)"
@@ -744,7 +748,7 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
 async def anime_airing(callback: CallbackQuery, callback_data: AnimeAiringCallback):
     message = callback.message
     user = callback.from_user
-    if message is None:
+    if not message:
         return None
 
     anime_id = callback_data.anime_id
@@ -829,7 +833,7 @@ async def anime_airing(callback: CallbackQuery, callback_data: AnimeAiringCallba
 async def anime_studio(callback: CallbackQuery, callback_data: AnimeStudioCallback):
     message = callback.message
     user = callback.from_user
-    if message is None:
+    if not message:
         return None
 
     anime_id = callback_data.anime_id
@@ -863,6 +867,9 @@ async def anime_studio(callback: CallbackQuery, callback_data: AnimeStudioCallba
         studio = data["data"]["Page"]["media"][0]["studios"]["nodes"]
 
         studio_text = ""
+        # TODO: add hyperlink to studio name to retrieve more info
+        # me = await bot.get_me()
+        # bot_username = me.username
         studios = sorted(studio, key=lambda x: x["name"])
         for studio in studios:
             studio_text += f"\n• <code>{studio['id']}</code> - {studio['name']} \
@@ -913,9 +920,9 @@ async def anime_studio(callback: CallbackQuery, callback_data: AnimeStudioCallba
             )
         )
 
-    text = _("Below are some studios from the item in question.")
-    text = f"{text}\n\n{studio_text}"
-    await message.edit_caption(
-        caption=text,
-        reply_markup=keyboard.as_markup(),
-    )
+        text = _("Below are some studios from the item in question.")
+        text = f"{text}\n\n{studio_text}"
+        await message.edit_caption(
+            caption=text,
+            reply_markup=keyboard.as_markup(),
+        )

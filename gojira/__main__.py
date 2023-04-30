@@ -22,7 +22,9 @@ async def main():
     dp.callback_query.middleware(MyI18nMiddleware(i18n=i18n))
 
     dp.include_routers(pm_menu.router)
-    dp.include_router(anime.router)
+    dp.include_router(anime.start.router)
+    dp.include_router(anime.view.router)
+    dp.include_router(anime.upcoming.router)
     dp.include_router(language.router)
     dp.include_router(users.router)
 

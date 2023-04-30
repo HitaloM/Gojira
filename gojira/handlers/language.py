@@ -25,7 +25,7 @@ router = Router(name="language")
 async def select_language(union: Union[Message, CallbackQuery]):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
-    if message is None or union.from_user is None:
+    if not message or not union.from_user:
         return None
 
     chat_type, lang_code = await get_chat_language(message.chat)
@@ -63,7 +63,7 @@ async def select_language(union: Union[Message, CallbackQuery]):
 
 @router.callback_query(LanguageCallback.filter(), IsAdmin())
 async def language_callback(callback: CallbackQuery, callback_data: LanguageCallback):
-    if callback.message is None or callback.from_user is None:
+    if not callback.message or not callback.from_user:
         return None
 
     if callback_data.chat == ChatType.PRIVATE:

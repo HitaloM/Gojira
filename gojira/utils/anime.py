@@ -177,3 +177,19 @@ query($id: Int, $media: MediaType) {
     }
 }
 """
+
+UPCOMING_QUERY: str = """
+query($per_page: Int $media: MediaType) {
+    Page(page: 1, perPage: $per_page) {
+        media(type: $media, sort: POPULARITY_DESC, status: NOT_YET_RELEASED) {
+            id
+            title {
+                romaji
+                english
+                native
+            }
+            siteUrl
+        }
+    }
+}
+"""

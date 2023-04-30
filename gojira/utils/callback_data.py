@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
-from typing import Union
+from typing import Optional, Union
 
 from aiogram.filters.callback_data import CallbackData
 
@@ -17,7 +17,7 @@ class StartCallback(CallbackData, prefix="start"):
 
 class AnimeCallback(CallbackData, prefix="anime"):
     query: Union[int, str]
-    user_id: int
+    user_id: Optional[int] = None
     is_search: bool = False
 
 
@@ -53,3 +53,7 @@ class AnimeStudioCallback(CallbackData, prefix="anime_studio"):
     anime_id: int
     user_id: int
     page: int = 0
+
+
+class AnimeUpcomingCallback(CallbackData, prefix="anime_upcoming"):
+    page: int

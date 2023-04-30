@@ -20,10 +20,11 @@ router = Router(name="pm_menu")
 async def start_command(union: Union[Message, CallbackQuery]):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
-    if message is None or message.from_user is None:
+    if not message or not message.from_user:
         return None
 
     keyboard = InlineKeyboardBuilder()
+    keyboard.button(text=_("👸 Anime"), callback_data=StartCallback(menu="anime"))
     keyboard.button(text=_("🌐 Language"), callback_data=StartCallback(menu="language"))
     keyboard.button(text=_("ℹ️ About"), callback_data=StartCallback(menu="about"))
     keyboard.adjust(2)
@@ -49,7 +50,7 @@ async def group_start(message: Message):
 async def about(union: Union[Message, CallbackQuery]):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
-    if message is None:
+    if not message:
         return None
 
     text = _(
