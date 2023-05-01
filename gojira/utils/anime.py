@@ -193,3 +193,19 @@ query($per_page: Int $media: MediaType) {
     }
 }
 """
+
+SUGGESTIONS_QUERY: str = """
+query($media: MediaType) {
+    Page(page: 1, perPage: 50) {
+        media(type: $media, sort: POPULARITY_DESC) {
+            id
+            title {
+                romaji
+                english
+                native
+            }
+            siteUrl
+        }
+    }
+}
+"""

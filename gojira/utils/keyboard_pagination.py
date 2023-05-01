@@ -5,7 +5,7 @@ import math
 from dataclasses import dataclass
 from typing import Any, Callable, List
 
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 
@@ -30,7 +30,7 @@ class Pagination:
 
     def create(
         self, page: int, lines: int = 5, columns: int = 1
-    ) -> InlineKeyboardMarkup:
+    ) -> InlineKeyboardBuilder:
         quant_per_page = lines * columns
         page = max(1, page)
         offset = (page - 1) * quant_per_page
@@ -79,4 +79,4 @@ class Pagination:
                 )
             )
 
-        return keyboard_markup.as_markup()
+        return keyboard_markup

@@ -57,3 +57,7 @@ class AnimeStudioCallback(CallbackData, prefix="anime_studio"):
 
 class AnimeUpcomingCallback(CallbackData, prefix="anime_upcoming"):
     page: int
+
+
+class AnimeSuggCallback(CallbackData, prefix="anime_suggestions"):
+    page: int
