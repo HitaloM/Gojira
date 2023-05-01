@@ -14,7 +14,7 @@ from aiogram.filters import Command, CommandObject
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InputMediaPhoto, Message
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from bs4 import BeautifulSoup
+from lxml import html
 
 from gojira.handlers.anime.start import anime_start
 from gojira.utils.anime import (
@@ -477,6 +477,7 @@ async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCal
                     ).pack(),
                 )
             )
+
         if not page == pages:
             description = description[: len(description) - 3] + "..."
             page_buttons.append(
@@ -502,9 +503,15 @@ async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCal
             )
         )
 
-        soup = BeautifulSoup(description.replace("<br>", ""), "html.parser")
+        parsed_html = html.fromstring(description.replace("<br>", ""))
+        description = (
+            str(html.tostring(parsed_html, encoding="unicode"))
+            .replace("<p>", "")
+            .replace("</p>", "")
+        )
+
         await message.edit_caption(
-            caption=soup.prettify(),
+            caption=description,
             reply_markup=keyboard.as_markup(),
         )
 
