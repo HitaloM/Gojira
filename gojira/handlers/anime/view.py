@@ -341,37 +341,25 @@ async def anime_more(callback: CallbackQuery, callback_data: AnimeMoreCallback):
 
         keyboard = InlineKeyboardBuilder()
 
-        keyboard.add(
-            InlineKeyboardButton(
-                text=_("📜 Description"),
-                callback_data=AnimeDescCallback(
-                    anime_id=anime_id, user_id=user_id
-                ).pack(),
-            ),
-            InlineKeyboardButton(
-                text=_("🧑‍🤝‍🧑 Characters"),
-                callback_data=AnimeCharCallback(
-                    anime_id=anime_id, user_id=user_id
-                ).pack(),
-            ),
-            InlineKeyboardButton(
-                text=_("👨‍💻 Staff"),
-                callback_data=AnimeStaffCallback(
-                    anime_id=anime_id, user_id=user_id
-                ).pack(),
-            ),
-            InlineKeyboardButton(
-                text=_("🌆 Studios"),
-                callback_data=AnimeStudioCallback(
-                    anime_id=anime_id, user_id=user_id
-                ).pack(),
-            ),
-            InlineKeyboardButton(
-                text=_("📺 Airing"),
-                callback_data=AnimeAiringCallback(
-                    anime_id=anime_id, user_id=user_id
-                ).pack(),
-            ),
+        keyboard.button(
+            text=_("📜 Description"),
+            callback_data=AnimeDescCallback(anime_id=anime_id, user_id=user_id),
+        )
+        keyboard.button(
+            text=_("🧑‍🤝‍🧑 Characters"),
+            callback_data=AnimeCharCallback(anime_id=anime_id, user_id=user_id),
+        )
+        keyboard.button(
+            text=_("👨‍💻 Staff"),
+            callback_data=AnimeStaffCallback(anime_id=anime_id, user_id=user_id),
+        )
+        keyboard.button(
+            text=_("🌆 Studios"),
+            callback_data=AnimeStudioCallback(anime_id=anime_id, user_id=user_id),
+        )
+        keyboard.button(
+            text=_("📺 Airing"),
+            callback_data=AnimeAiringCallback(anime_id=anime_id, user_id=user_id),
         )
 
         if anime["trailer"]:
@@ -382,15 +370,9 @@ async def anime_more(callback: CallbackQuery, callback_data: AnimeMoreCallback):
                 if trailer_site != "youtube"
                 else f"https://youtu.be/{trailer_id}"
             )
-            keyboard.add(
-                InlineKeyboardButton(
-                    text=_("🎦 Trailer"),
-                    url=trailer_url,
-                )
-            )
+            keyboard.button(text=_("🎦 Trailer"), url=trailer_url)
 
-        keyboard.add(InlineKeyboardButton(text=_("🐢 AniList"), url=anime["siteUrl"]))
-
+        keyboard.button(text=_("🐢 AniList"), url=anime["siteUrl"])
         keyboard.adjust(2)
 
         keyboard.row(

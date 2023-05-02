@@ -60,12 +60,10 @@ mangas."
     )
 
     keyboard = InlineKeyboardBuilder()
-    keyboard.row(
-        InlineKeyboardButton(
-            text=_("📦 GitHub"), url="https://github.com/HitaloM/Gojira"
-        ),
-        InlineKeyboardButton(text=_("📚 Channel"), url="https://t.me/HitaloProjects"),
-    )
+    keyboard.button(text=_("📦 GitHub"), url="https://github.com/HitaloM/Gojira")
+    keyboard.button(text=_("📚 Channel"), url="https://t.me/HitaloProjects")
+    keyboard.adjust(2)
+
     if is_callback:
         keyboard.row(
             InlineKeyboardButton(
