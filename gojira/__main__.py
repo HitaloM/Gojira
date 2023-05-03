@@ -25,7 +25,7 @@ async def main():
     dp.include_router(anime.start.router)
     dp.include_router(anime.view.router)
     dp.include_router(anime.upcoming.router)
-    dp.include_router(anime.suggestions.router)
+    dp.include_router(anime.popular.router)
     dp.include_router(anime.categories.router)
     dp.include_router(language.router)
     dp.include_router(users.router)

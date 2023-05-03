@@ -59,7 +59,7 @@ class AnimeUpcomingCallback(CallbackData, prefix="anime_upcoming"):
     page: int
 
 
-class AnimeSuggCallback(CallbackData, prefix="anime_suggestions"):
+class AnimePopuCallback(CallbackData, prefix="anime_suggestions"):
     page: int
 
 

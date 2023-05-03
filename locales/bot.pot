@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-03 00:32-0300\n"
+"POT-Creation-Date: 2023-05-03 14:03-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,9 +25,9 @@ msgstr ""
 msgid "Chat language: {lang}"
 msgstr ""
 
-#: gojira/handlers/anime/categories.py:58
-#: gojira/handlers/anime/categories.py:92 gojira/handlers/anime/start.py:36
-#: gojira/handlers/anime/suggestions.py:60 gojira/handlers/anime/upcoming.py:65
+#: gojira/handlers/anime/categories.py:66
+#: gojira/handlers/anime/categories.py:124 gojira/handlers/anime/popular.py:60
+#: gojira/handlers/anime/start.py:36 gojira/handlers/anime/upcoming.py:65
 #: gojira/handlers/anime/view.py:385 gojira/handlers/anime/view.py:485
 #: gojira/handlers/anime/view.py:609 gojira/handlers/anime/view.py:725
 #: gojira/handlers/anime/view.py:812 gojira/handlers/anime/view.py:909
@@ -76,16 +76,94 @@ msgstr ""
 msgid "📚 Channel"
 msgstr ""
 
-#: gojira/handlers/anime/categories.py:65
+#: gojira/handlers/anime/categories.py:34
+msgid "Action"
+msgstr ""
+
+#: gojira/handlers/anime/categories.py:35
+msgid "Adventure"
+msgstr ""
+
+#: gojira/handlers/anime/categories.py:36
+msgid "Comedy"
+msgstr ""
+
+#: gojira/handlers/anime/categories.py:37
+msgid "Drama"
+msgstr ""
+
+#: gojira/handlers/anime/categories.py:38
+msgid "Ecchi"
+msgstr ""
+
+#: gojira/handlers/anime/categories.py:39
+msgid "Fantasy"
+msgstr ""
+
+#: gojira/handlers/anime/categories.py:40
+msgid "Horror"
+msgstr ""
+
+#: gojira/handlers/anime/categories.py:41
+msgid "Mahou Shoujo"
+msgstr ""
+
+#: gojira/handlers/anime/categories.py:42
+msgid "Mecha"
+msgstr ""
+
+#: gojira/handlers/anime/categories.py:43
+msgid "Music"
+msgstr ""
+
+#: gojira/handlers/anime/categories.py:44
+msgid "Mystery"
+msgstr ""
+
+#: gojira/handlers/anime/categories.py:45
+msgid "Psychological"
+msgstr ""
+
+#: gojira/handlers/anime/categories.py:46
+msgid "Romance"
+msgstr ""
+
+#: gojira/handlers/anime/categories.py:47
+msgid "Sci-Fi"
+msgstr ""
+
+#: gojira/handlers/anime/categories.py:48
+msgid "Slice of Life"
+msgstr ""
+
+#: gojira/handlers/anime/categories.py:49
+msgid "Sports"
+msgstr ""
+
+#: gojira/handlers/anime/categories.py:50
+msgid "Supernatural"
+msgstr ""
+
+#: gojira/handlers/anime/categories.py:51
+msgid "Thriller"
+msgstr ""
+
+#: gojira/handlers/anime/categories.py:73
 msgid "Below are some categories, choose one and find something you like. 😆"
 msgstr ""
 
-#: gojira/handlers/anime/categories.py:98
+#: gojira/handlers/anime/categories.py:129
 msgid "Below are up to <b>50</b> results from the <b>{genre}</b> category."
 msgstr ""
 
+#: gojira/handlers/anime/popular.py:65
+msgid ""
+"Below are <b>50</b> popular in descending order, I hope you will likesome"
+" of them. 😅"
+msgstr ""
+
 #: gojira/handlers/anime/start.py:29
-msgid "🍬 Suggestions"
+msgid "🔝 Popular"
 msgstr ""
 
 #: gojira/handlers/anime/start.py:30
@@ -100,10 +178,6 @@ msgstr ""
 msgid ""
 "You are in the <b>anime</b> section, use the buttons below to do what you"
 " want, see some suggestions, see your favorite anime, search, etc..."
-msgstr ""
-
-#: gojira/handlers/anime/suggestions.py:67
-msgid "Below are <b>50</b> suggestions, I hope you like some. 😅"
 msgstr ""
 
 #: gojira/handlers/anime/upcoming.py:72

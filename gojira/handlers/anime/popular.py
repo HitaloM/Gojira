@@ -9,15 +9,15 @@ from aiogram.exceptions import TelegramAPIError
 from aiogram.types import CallbackQuery, InlineKeyboardButton
 from aiogram.utils.i18n import gettext as _
 
-from gojira.utils.anime import ANILIST_API, SUGGESTIONS_QUERY
-from gojira.utils.callback_data import AnimeCallback, AnimeSuggCallback, StartCallback
+from gojira.utils.anime import ANILIST_API, POPULAR_QUERY
+from gojira.utils.callback_data import AnimeCallback, AnimePopuCallback, StartCallback
 from gojira.utils.keyboard_pagination import Pagination
 
-router = Router(name="anime_suggestions")
+router = Router(name="anime_popular")
 
 
-@router.callback_query(AnimeSuggCallback.filter())
-async def anime_suggestions(callback: CallbackQuery, callback_data: AnimeSuggCallback):
+@router.callback_query(AnimePopuCallback.filter())
+async def anime_popular(callback: CallbackQuery, callback_data: AnimePopuCallback):
     message = callback.message
     if not message:
         return None
@@ -28,7 +28,7 @@ async def anime_suggestions(callback: CallbackQuery, callback_data: AnimeSuggCal
         response = await client.post(
             ANILIST_API,
             json=dict(
-                query=SUGGESTIONS_QUERY,
+                query=POPULAR_QUERY,
                 variables=dict(
                     media="ANIME",
                 ),
@@ -42,15 +42,15 @@ async def anime_suggestions(callback: CallbackQuery, callback_data: AnimeSuggCal
 
         if data["data"]:
             items = data["data"]["Page"]["media"]
-            suggestions = []
+            results = []
             for item in items:
-                suggestions.append(item)
+                results.append(item)
 
             layout = Pagination(
-                suggestions,
+                results,
                 item_data=lambda i, pg: AnimeCallback(query=i["id"]).pack(),
                 item_title=lambda i, pg: i["title"]["romaji"],
-                page_data=lambda pg: AnimeSuggCallback(page=pg).pack(),
+                page_data=lambda pg: AnimePopuCallback(page=pg).pack(),
             )
 
             keyboard = layout.create(page, lines=8)
@@ -62,8 +62,12 @@ async def anime_suggestions(callback: CallbackQuery, callback_data: AnimeSuggCal
                 )
             )
 
+            text = _(
+                "Below are <b>50</b> popular in descending order, I hope you will like\
+some of them. 😅"
+            )
             with suppress(TelegramAPIError):
                 await message.edit_text(
-                    _("Below are <b>50</b> suggestions, I hope you like some. 😅"),
+                    text=text,
                     reply_markup=keyboard.as_markup(),
                 )
