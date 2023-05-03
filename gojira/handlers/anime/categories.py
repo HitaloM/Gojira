@@ -2,6 +2,7 @@
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
 from contextlib import suppress
+from typing import Dict
 
 import aiohttp
 from aiogram import Router
@@ -9,7 +10,7 @@ from aiogram.exceptions import TelegramAPIError
 from aiogram.types import CallbackQuery, InlineKeyboardButton
 from aiogram.utils.i18n import gettext as _
 
-from gojira.utils.anime import ANILIST_API, CATEGORIES_QUERY
+from gojira.utils.anime import ANILIST_API, CATEGORIE_QUERY
 from gojira.utils.callback_data import (
     AnimeCallback,
     AnimeCategCallback,
@@ -29,27 +30,27 @@ async def anime_categories(callback: CallbackQuery, callback_data: AnimeCategCal
 
     page = callback_data.page
 
-    categories = dict(
-        action=_("Action"),
-        adventure=_("Adventure"),
-        comedy=_("Comedy"),
-        drama=_("Drama"),
-        ecchi=_("Ecchi"),
-        fantasy=_("Fantasy"),
-        horror=_("Horror"),
-        mahou_shoujo=_("Mahou Shoujo"),
-        mecha=_("Mecha"),
-        music=_("Music"),
-        mystery=_("Mystery"),
-        psychological=_("Psychological"),
-        romance=_("Romance"),
-        sci_fi=_("Sci-Fi"),
-        slice_of_life=_("Slice of Life"),
-        sports=_("Sports"),
-        supernatural=_("Supernatural"),
-        thriller=_("Thriller"),
-    )
-    categories_list = list(categories.keys())
+    categories: Dict = {
+        "Action": _("Action"),
+        "Adventure": _("Adventure"),
+        "Comedy": _("Comedy"),
+        "Drama": _("Drama"),
+        "Ecchi": _("Ecchi"),
+        "Fantasy": _("Fantasy"),
+        "Horror": _("Horror"),
+        "Mahou Shoujo": _("Mahou Shoujo"),
+        "Mecha": _("Mecha"),
+        "Music": _("Music"),
+        "Mystery": _("Mystery"),
+        "Psychological": _("Psychological"),
+        "Romance": _("Romance"),
+        "Sci-Fi": _("Sci-Fi"),
+        "Slice of Life": _("Slice of Life"),
+        "Sports": _("Sports"),
+        "Supernatural": _("Supernatural"),
+        "Thriller": _("Thriller"),
+    }
+    categories_list = sorted(list(categories.keys()))
 
     layout = Pagination(
         categories_list,
@@ -58,7 +59,7 @@ async def anime_categories(callback: CallbackQuery, callback_data: AnimeCategCal
         page_data=lambda pg: AnimeCategCallback(page=pg).pack(),
     )
 
-    keyboard = layout.create(page, lines=8, columns=2)
+    keyboard = layout.create(page, lines=5, columns=2)
 
     keyboard.row(
         InlineKeyboardButton(
@@ -87,11 +88,10 @@ async def anime_categorie(callback: CallbackQuery, callback_data: AnimeGCategCal
         response = await client.post(
             ANILIST_API,
             json=dict(
-                query=CATEGORIES_QUERY,
-                varianles=dict(
-                    search=categorie,
+                query=CATEGORIE_QUERY,
+                variables=dict(
                     page=page,
-                    per_page=50,
+                    genre=categorie,
                     media="ANIME",
                 ),
             ),
@@ -117,12 +117,12 @@ async def anime_categorie(callback: CallbackQuery, callback_data: AnimeGCategCal
                 ).pack(),
             )
 
-            keyboard = layout.create(page, lines=8)
+            keyboard = layout.create(1, lines=8)
 
             keyboard.row(
                 InlineKeyboardButton(
                     text=_("🔙 Back"),
-                    callback_data=AnimeCategCallback(page=1).pack(),
+                    callback_data=AnimeCategCallback(page=page).pack(),
                 )
             )
 
