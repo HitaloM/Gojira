@@ -55,7 +55,7 @@ async def anime(
         return None
 
     if command and not command.args:
-        if not message.chat.type == ChatType.PRIVATE:
+        if message.chat.type == ChatType.PRIVATE:
             return await anime_start(message)
         else:
             return await message.reply(

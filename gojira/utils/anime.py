@@ -209,3 +209,16 @@ query($media: MediaType) {
     }
 }
 """
+
+CATEGORIES_QUERY: str = """
+query($search: String, $page: Int, $per_page: Int, $media: MediaType) {
+    Page(page: $page, perPage: $per_page) {
+        media(search: $search, type: $media, sort: POPULARITY_DESC) {
+            id
+            title {
+                romaji
+            }
+        }
+    }
+}
+"""

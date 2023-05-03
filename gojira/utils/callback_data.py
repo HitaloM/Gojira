@@ -61,3 +61,12 @@ class AnimeUpcomingCallback(CallbackData, prefix="anime_upcoming"):
 
 class AnimeSuggCallback(CallbackData, prefix="anime_suggestions"):
     page: int
+
+
+class AnimeCategCallback(CallbackData, prefix="anime_categories"):
+    page: int
+
+
+class AnimeGCategCallback(CallbackData, prefix="anime_categorie"):
+    page: int
+    categorie: str

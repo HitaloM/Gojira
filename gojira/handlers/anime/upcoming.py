@@ -34,7 +34,7 @@ async def anime_upcoming(callback: CallbackQuery, callback_data: AnimeUpcomingCa
             json=dict(
                 query=UPCOMING_QUERY,
                 varianles=dict(
-                    page=page,
+                    per_page=50,
                     media="ANIME",
                 ),
             ),
