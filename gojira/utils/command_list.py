@@ -4,39 +4,57 @@
 from typing import List
 
 from aiogram import Bot
-from aiogram.types import BotCommand, BotCommandScopeAllPrivateChats
+from aiogram.types import (
+    BotCommand,
+    BotCommandScopeAllGroupChats,
+    BotCommandScopeAllPrivateChats,
+)
+from aiogram.utils.i18n import I18n
 
-from gojira import i18n
 
-
-async def set_ui_commands(bot: Bot):
-    commands: List = []
-
-    for lang in i18n.available_locales:
-        if "_" in lang:
-            lang = lang.split("_")[1].lower()
-
-        commands.extend(
-            [
-                (
-                    [
-                        BotCommand(
-                            command="start",
-                            description=i18n.gettext("Start the bot.", locale=lang),
-                        ),
-                        BotCommand(
-                            command="language",
-                            description=i18n.gettext(
-                                "Change bot language.", locale=lang
-                            ),
-                        ),
-                    ],
-                    BotCommandScopeAllPrivateChats(type="all_private_chats"),
-                    lang,
-                ),
-            ]
-        )
+async def set_ui_commands(bot: Bot, i18n: I18n):
+    locale_obj = i18n.gettext
 
     await bot.delete_my_commands()
-    for commands_list, scope, lang in commands:
-        await bot.set_my_commands(commands_list, scope=scope, language_code=lang)
+    for lang in i18n.available_locales:
+        user_commands: List[BotCommand] = [
+            BotCommand(
+                command="start",
+                description=locale_obj("Start the bot.", locale=lang),
+            ),
+            BotCommand(
+                command="language",
+                description=locale_obj("Change bot language.", locale=lang),
+            ),
+            BotCommand(
+                command="about",
+                description=locale_obj("About the bot.", locale=lang),
+            ),
+        ]
+
+        group_commands: List[BotCommand] = [
+            BotCommand(
+                command="anime",
+                description=locale_obj("Get anime informations.", locale=lang),
+            ),
+            BotCommand(
+                command="language",
+                description=locale_obj("Change bot language.", locale=lang),
+            ),
+            BotCommand(
+                command="about",
+                description=locale_obj("About the bot.", locale=lang),
+            ),
+        ]
+
+        await bot.set_my_commands(
+            user_commands,
+            BotCommandScopeAllPrivateChats(type="all_private_chats"),
+            language_code=lang.split("_")[0].lower() if "_" in lang else lang,
+        )
+
+        await bot.set_my_commands(
+            group_commands,
+            BotCommandScopeAllGroupChats(type="all_group_chats"),
+            language_code=lang.split("_")[0].lower() if "_" in lang else lang,
+        )

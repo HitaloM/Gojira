@@ -55,7 +55,12 @@ async def anime(
         return None
 
     if command and not command.args:
-        return await anime_start(message)
+        if not message.chat.type == ChatType.PRIVATE:
+            return await anime_start(message)
+        else:
+            return await message.reply(
+                _("You need to specify an anime. Use /anime name or id")
+            )
 
     is_private: bool = message.chat.type == ChatType.PRIVATE
 
