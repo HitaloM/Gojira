@@ -10,7 +10,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from gojira.utils.callback_data import (
     AnimeCategCallback,
-    AnimeSuggCallback,
+    AnimePopuCallback,
     AnimeUpcomingCallback,
     StartCallback,
 )
@@ -26,7 +26,7 @@ async def anime_start(union: Union[Message, CallbackQuery]):
         return None
 
     keyboard = InlineKeyboardBuilder()
-    keyboard.button(text=_("🔝 Popular"), callback_data=AnimeSuggCallback(page=1))
+    keyboard.button(text=_("🔝 Popular"), callback_data=AnimePopuCallback(page=1))
     keyboard.button(text=_("🐛 Categories"), callback_data=AnimeCategCallback(page=1))
     keyboard.button(text=_("🆕 Upcoming"), callback_data=AnimeUpcomingCallback(page=1))
     keyboard.adjust(2)

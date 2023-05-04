@@ -20,7 +20,7 @@ router = Router(name="pm_menu")
 async def start_command(union: Union[Message, CallbackQuery]):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
-    if not message or not message.from_user:
+    if not message or not union.from_user:
         return None
 
     keyboard = InlineKeyboardBuilder()
@@ -32,7 +32,7 @@ async def start_command(union: Union[Message, CallbackQuery]):
     text = _(
         "Hello <b>{user_name}</b>, I'm Gojira! I can provide you with\
 useful information about anime and manga titles"
-    ).format(user_name=message.from_user.full_name)
+    ).format(user_name=union.from_user.full_name)
 
     if is_callback:
         await message.edit_text(text, reply_markup=keyboard.as_markup())
