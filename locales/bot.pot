@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-03 14:03-0300\n"
+"POT-Creation-Date: 2023-05-05 00:35-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,6 +162,64 @@ msgid ""
 " of them. 😅"
 msgstr ""
 
+#: gojira/handlers/anime/scan.py:34
+msgid "No media was found in this message."
+msgstr ""
+
+#: gojira/handlers/anime/scan.py:58
+msgid "File not found."
+msgstr ""
+
+#: gojira/handlers/anime/scan.py:71
+msgid "Something went wrong trying to connect to the API."
+msgstr ""
+
+#: gojira/handlers/anime/scan.py:78
+msgid "Excessive use of the API, please try again later."
+msgstr ""
+
+#: gojira/handlers/anime/scan.py:81
+msgid "The API is unavailable, please try again later."
+msgstr ""
+
+#: gojira/handlers/anime/scan.py:87 gojira/handlers/anime/view.py:132
+#: gojira/handlers/anime/view.py:172
+msgid "No results found."
+msgstr ""
+
+#: gojira/handlers/anime/scan.py:106
+msgid ""
+"\n"
+"\n"
+"<b>ID</b>: <code>{anime_id}</code>"
+msgstr ""
+
+#: gojira/handlers/anime/scan.py:108
+msgid ""
+"\n"
+"<b>Episode</b>: <code>{episode}</code>"
+msgstr ""
+
+#: gojira/handlers/anime/scan.py:112
+msgid ""
+"\n"
+"<b>Adult</b>: <code>Yes</code>"
+msgstr ""
+
+#: gojira/handlers/anime/scan.py:113
+msgid ""
+"\n"
+"<b>Similarity</b>: <code>{similarity}%</code>"
+msgstr ""
+
+#: gojira/handlers/anime/scan.py:119
+msgid "👓 View more"
+msgstr ""
+
+#: gojira/handlers/anime/scan.py:146
+msgid "📹 Preview"
+msgstr ""
+
 #: gojira/handlers/anime/start.py:29
 msgid "🔝 Popular"
 msgstr ""
@@ -190,10 +248,6 @@ msgstr ""
 
 #: gojira/handlers/anime/view.py:82
 msgid "This button is not for you."
-msgstr ""
-
-#: gojira/handlers/anime/view.py:132 gojira/handlers/anime/view.py:172
-msgid "No results found."
 msgstr ""
 
 #: gojira/handlers/anime/view.py:151

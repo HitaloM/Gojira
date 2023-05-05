@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-03 14:03-0300\n"
+"POT-Creation-Date: 2023-05-05 00:35-0300\n"
 "PO-Revision-Date: 2023-04-25 17:03-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt_BR\n"
@@ -172,6 +172,73 @@ msgstr ""
 "Abaixo estão os <b>50</b> populares em ordem decrescente, espero que você"
 " goste de alguns deles. 😅"
 
+#: gojira/handlers/anime/scan.py:34
+msgid "No media was found in this message."
+msgstr "Nenhum media foi encontrada nesta mensagem."
+
+#: gojira/handlers/anime/scan.py:58
+msgid "File not found."
+msgstr "Arquivo não encontrado."
+
+#: gojira/handlers/anime/scan.py:71
+msgid "Something went wrong trying to connect to the API."
+msgstr "Algo deu errado ao tentar se conectar à API."
+
+#: gojira/handlers/anime/scan.py:78
+msgid "Excessive use of the API, please try again later."
+msgstr "Uso excessivo da API, por favor tente novamente mais tarde."
+
+#: gojira/handlers/anime/scan.py:81
+msgid "The API is unavailable, please try again later."
+msgstr "A API está indisponível, por favor tente novamente mais tarde."
+
+#: gojira/handlers/anime/scan.py:87 gojira/handlers/anime/view.py:132
+#: gojira/handlers/anime/view.py:172
+msgid "No results found."
+msgstr "Nenhum resultado encontrado."
+
+#: gojira/handlers/anime/scan.py:106
+msgid ""
+"\n"
+"\n"
+"<b>ID</b>: <code>{anime_id}</code>"
+msgstr ""
+"\n"
+"\n"
+"<b>ID</b>: <code>{anime_id}</code>"
+
+#: gojira/handlers/anime/scan.py:108
+msgid ""
+"\n"
+"<b>Episode</b>: <code>{episode}</code>"
+msgstr ""
+"\n"
+"<b>Episódio</b>: <code>{episode}</code>"
+
+#: gojira/handlers/anime/scan.py:112
+msgid ""
+"\n"
+"<b>Adult</b>: <code>Yes</code>"
+msgstr ""
+"\n"
+"<b>Adulto</b>: <code>Sim</code>"
+
+#: gojira/handlers/anime/scan.py:113
+msgid ""
+"\n"
+"<b>Similarity</b>: <code>{similarity}%</code>"
+msgstr ""
+"\n"
+"<b>Similaridade</b>: <code>{similarity}%</code>"
+
+#: gojira/handlers/anime/scan.py:119
+msgid "👓 View more"
+msgstr "👓 Ver Mais"
+
+#: gojira/handlers/anime/scan.py:146
+msgid "📹 Preview"
+msgstr "📹 Prévia"
+
 #: gojira/handlers/anime/start.py:29
 msgid "🔝 Popular"
 msgstr "🔝 Populares"
@@ -204,10 +271,6 @@ msgstr "Você precisa especificar um anime. Use /anime nome ou id"
 #: gojira/handlers/anime/view.py:82
 msgid "This button is not for you."
 msgstr "Este botão não é para você."
-
-#: gojira/handlers/anime/view.py:132 gojira/handlers/anime/view.py:172
-msgid "No results found."
-msgstr "Nenhum resultado encontrado."
 
 #: gojira/handlers/anime/view.py:151
 msgid "Search Results For: <b>{anime}</b>"
@@ -403,13 +466,13 @@ msgstr "Veja abaixo quando o próximo episódio do anime em questão será exibi
 msgid "<b>Episode:</b> <code>{episode}</code>\n"
 msgstr ""
 "\n"
-"<b>Episódios</b>: <code>{episodes}</code>"
+"<b>Episódio</b>: <code>{episode}</code>"
 
 #: gojira/handlers/anime/view.py:784
 msgid "<b>Airing:</b> <code>{airing_time}</code>"
 msgstr ""
 "\n"
-"<b>Exibição em</b>: <code>{date}</code>"
+"<b>Exibição em</b>: <code>{airing_time}</code>"
 
 #: gojira/handlers/anime/view.py:794
 msgid "<b>Airing:</b> <code>N/A</code>"

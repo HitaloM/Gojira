@@ -15,7 +15,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from gojira import bot
 from gojira.utils.callback_data import AnimeCallback
 
-router = Router(name="anime scan")
+router = Router(name="anime_scan")
 
 
 @router.message(Command("scan"))
@@ -103,12 +103,16 @@ async def anime_scan(message: Message):
         text = f"<b>{title_romaji}</b>"
         if title_native:
             text += f" (<code>{title_native}</code>)"
-        text += f"\n\n<b>ID</b>: <code>{anilist_id}</code>"
+        text += _("\n\n<b>ID</b>: <code>{anime_id}</code>").format(anime_id=anilist_id)
         if episode:
-            text += f"\n<b>Episode</b>: <code>{episode}</code>"
+            text += _("\n<b>Episode</b>: <code>{episode}</code>").format(
+                episode=episode
+            )
         if is_adult:
-            text += "\n<b>Adult</b>: <code>Yes</code>"
-        text += f"\n<b>Similarity</b>: <code>{round(similarity * 100, 2)}%</code>"
+            text += _("\n<b>Adult</b>: <code>Yes</code>")
+        text += _("\n<b>Similarity</b>: <code>{similarity}%</code>").format(
+            similarity=round(similarity * 100, 2)
+        )
 
         keyboard = InlineKeyboardBuilder()
         keyboard.button(
