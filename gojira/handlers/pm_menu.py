@@ -30,7 +30,7 @@ async def start_command(union: Union[Message, CallbackQuery]):
     keyboard.adjust(2)
 
     text = _(
-        "Hello <b>{user_name}</b>, I'm Gojira! I can provide you with\
+        "Hello <b>{user_name}</b>, I'm Gojira! I can provide you with \
 useful information about anime and manga titles"
     ).format(user_name=union.from_user.full_name)
 
@@ -54,8 +54,8 @@ async def about(union: Union[Message, CallbackQuery]):
         return None
 
     text = _(
-        "Gojira is a bot developed using Python that utilizes AIOGram and AniList\
-GraphQL API to provide fast, stable and comprehensive information about animes and\
+        "Gojira is a bot developed using Python that utilizes AIOGram and AniList \
+GraphQL API to provide fast, stable and comprehensive information about animes and \
 mangas."
     )
 
