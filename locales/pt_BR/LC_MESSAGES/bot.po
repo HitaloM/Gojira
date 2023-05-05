@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-05 17:49-0300\n"
+"POT-Creation-Date: 2023-05-05 18:03-0300\n"
 "PO-Revision-Date: 2023-04-25 17:03-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt_BR\n"
@@ -18,13 +18,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
-#: gojira/handlers/language.py:35
-msgid "Your language: {lang}"
-msgstr "Seu idioma: {lang}"
+#: gojira/handlers/language.py:34
+msgid ""
+"You can select your preferred language for the bot in this chat by "
+"clicking on one of the buttons below. These are the languages that the "
+"bot currently supports."
+msgstr ""
+"Você pode selecionar seu idioma preferido para o bot neste chat clicando "
+"em um dos botões abaixo. Estes são os idiomas que o bot suporta "
+"atualmente."
 
-#: gojira/handlers/language.py:37
-msgid "Chat language: {lang}"
-msgstr "Idioma do chat: {lang}"
+#: gojira/handlers/language.py:40
+msgid "Your current language: <i>{lang}</i>"
+msgstr "Seu idioma atual: <i>{lang}</i>"
+
+#: gojira/handlers/language.py:42
+msgid "Group current language: <i>{lang}</i>"
+msgstr "Idioma atual do grupo: <i>{lang}</i>"
 
 #: gojira/handlers/anime/categories.py:66
 #: gojira/handlers/anime/categories.py:124 gojira/handlers/anime/popular.py:60
@@ -32,11 +42,11 @@ msgstr "Idioma do chat: {lang}"
 #: gojira/handlers/anime/view.py:385 gojira/handlers/anime/view.py:485
 #: gojira/handlers/anime/view.py:609 gojira/handlers/anime/view.py:725
 #: gojira/handlers/anime/view.py:812 gojira/handlers/anime/view.py:909
-#: gojira/handlers/language.py:55 gojira/handlers/pm_menu.py:74
+#: gojira/handlers/language.py:59 gojira/handlers/pm_menu.py:74
 msgid "🔙 Back"
 msgstr "🔙 Voltar"
 
-#: gojira/handlers/language.py:80
+#: gojira/handlers/language.py:84
 msgid "Changed language to {lang}"
 msgstr "Idioma alterado para {lang}"
 
@@ -70,7 +80,6 @@ msgid "Hello, I'm Gojira!"
 msgstr "Olá, eu sou o Gojira!"
 
 #: gojira/handlers/pm_menu.py:59
-#, fuzzy
 msgid ""
 "Gojira is a bot developed using Python that utilizes AIOGram and AniList "
 "GraphQL API to provide fast, stable and comprehensive information about "
@@ -565,4 +574,7 @@ msgstr "Abaixo estão alguns estúdios do item em questão."
 #~ "famoso monstro de filmes japoneses que"
 #~ " também apareceu em quadrinhos e "
 #~ "desenhos animados."
+
+#~ msgid "Chat current language: <i>{lang}</i>"
+#~ msgstr "Idioma atual do chat: {lang}"
 

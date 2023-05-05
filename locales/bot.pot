@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-05 17:49-0300\n"
+"POT-Creation-Date: 2023-05-05 18:03-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
-#: gojira/handlers/language.py:35
-msgid "Your language: {lang}"
+#: gojira/handlers/language.py:34
+msgid ""
+"You can select your preferred language for the bot in this chat by "
+"clicking on one of the buttons below. These are the languages that the "
+"bot currently supports."
 msgstr ""
 
-#: gojira/handlers/language.py:37
-msgid "Chat language: {lang}"
+#: gojira/handlers/language.py:40
+msgid "Your current language: <i>{lang}</i>"
+msgstr ""
+
+#: gojira/handlers/language.py:42
+msgid "Group current language: <i>{lang}</i>"
 msgstr ""
 
 #: gojira/handlers/anime/categories.py:66
@@ -31,11 +38,11 @@ msgstr ""
 #: gojira/handlers/anime/view.py:385 gojira/handlers/anime/view.py:485
 #: gojira/handlers/anime/view.py:609 gojira/handlers/anime/view.py:725
 #: gojira/handlers/anime/view.py:812 gojira/handlers/anime/view.py:909
-#: gojira/handlers/language.py:55 gojira/handlers/pm_menu.py:74
+#: gojira/handlers/language.py:59 gojira/handlers/pm_menu.py:74
 msgid "🔙 Back"
 msgstr ""
 
-#: gojira/handlers/language.py:80
+#: gojira/handlers/language.py:84
 msgid "Changed language to {lang}"
 msgstr ""
 

@@ -29,25 +29,33 @@ async def select_language(union: Union[Message, CallbackQuery]):
         return None
 
     chat_type, lang_code = await get_chat_language(message.chat)
-
     lang_display_name = str(Locale.parse(lang_code).display_name).capitalize()
+
+    text = _(
+        "You can select your preferred language for the bot in this chat by clicking \
+on one of the buttons below. These are the languages that the bot currently supports."
+    )
+
     if message.chat.type == ChatType.PRIVATE:
-        text = _("Your language: {lang}").format(lang=lang_display_name)
+        text += _("\nYour current language: <i>{lang}</i>").format(
+            lang=lang_display_name
+        )
     else:
-        text = _("Chat language: {lang}").format(lang=lang_display_name)
+        text += _("\nGroup current language: <i>{lang}</i>").format(
+            lang=lang_display_name
+        )
+
+    available_locales = i18n.available_locales + (i18n.default_locale,)
 
     keyboard = InlineKeyboardBuilder()
-    for lang in i18n.available_locales:
+    for lang in available_locales:
         lang_display_name = str(Locale.parse(lang).display_name).capitalize()
+        if lang == lang_code:
+            lang_display_name = f"✅ {lang_display_name}"
         keyboard.button(
             text=lang_display_name,
             callback_data=LanguageCallback(lang=lang, chat=chat_type),
         )
-
-    keyboard.button(
-        text=str(Locale.parse(i18n.default_locale).display_name).capitalize(),
-        callback_data=LanguageCallback(lang=i18n.default_locale, chat=chat_type),
-    )
 
     keyboard.adjust(4)
     keyboard.row(
