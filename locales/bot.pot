@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-05 17:26-0300\n"
+"POT-Creation-Date: 2023-05-05 17:49-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgstr ""
 #: gojira/handlers/anime/view.py:385 gojira/handlers/anime/view.py:485
 #: gojira/handlers/anime/view.py:609 gojira/handlers/anime/view.py:725
 #: gojira/handlers/anime/view.py:812 gojira/handlers/anime/view.py:909
-#: gojira/handlers/language.py:55 gojira/handlers/pm_menu.py:70
+#: gojira/handlers/language.py:55 gojira/handlers/pm_menu.py:74
 msgid "🔙 Back"
 msgstr ""
 
@@ -39,40 +39,43 @@ msgstr ""
 msgid "Changed language to {lang}"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:27
+#: gojira/handlers/pm_menu.py:28
 msgid "👸 Anime"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:28
+#: gojira/handlers/pm_menu.py:29
 msgid "🌐 Language"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:29
+#: gojira/handlers/pm_menu.py:30
 msgid "ℹ️ About"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:32
+#: gojira/handlers/pm_menu.py:33
 msgid ""
-"Hello <b>{user_name}</b>, I'm Gojira! I can provide you with useful "
-"information about anime and manga titles"
+"Hello, <b>{user_name}</b>. I am <b>Gojira</b>, a Telegram bot that can "
+"help you with informations about anime and manga, such as genres, "
+"characters, studios, staff. My name is inspired by Godzilla, a famous "
+"monster from Japanese movies that also appeared in comics and cartoons."
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:45
+#: gojira/handlers/pm_menu.py:48
 msgid "Hello, I'm Gojira!"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:56
+#: gojira/handlers/pm_menu.py:59
 msgid ""
 "Gojira is a bot developed using Python that utilizes AIOGram and AniList "
 "GraphQL API to provide fast, stable and comprehensive information about "
-"animes and mangas."
+"animes and mangas. The name Gojira (ゴジラ) is a reference to the Japanese "
+"name of the famous monster Godzilla."
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:63
+#: gojira/handlers/pm_menu.py:67
 msgid "📦 GitHub"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:64
+#: gojira/handlers/pm_menu.py:68
 msgid "📚 Channel"
 msgstr ""
 

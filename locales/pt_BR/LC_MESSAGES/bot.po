@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-05 17:26-0300\n"
+"POT-Creation-Date: 2023-05-05 17:49-0300\n"
 "PO-Revision-Date: 2023-04-25 17:03-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt_BR\n"
@@ -32,7 +32,7 @@ msgstr "Idioma do chat: {lang}"
 #: gojira/handlers/anime/view.py:385 gojira/handlers/anime/view.py:485
 #: gojira/handlers/anime/view.py:609 gojira/handlers/anime/view.py:725
 #: gojira/handlers/anime/view.py:812 gojira/handlers/anime/view.py:909
-#: gojira/handlers/language.py:55 gojira/handlers/pm_menu.py:70
+#: gojira/handlers/language.py:55 gojira/handlers/pm_menu.py:74
 msgid "🔙 Back"
 msgstr "🔙 Voltar"
 
@@ -40,45 +40,53 @@ msgstr "🔙 Voltar"
 msgid "Changed language to {lang}"
 msgstr "Idioma alterado para {lang}"
 
-#: gojira/handlers/pm_menu.py:27
+#: gojira/handlers/pm_menu.py:28
 msgid "👸 Anime"
 msgstr "👸 Anime"
 
-#: gojira/handlers/pm_menu.py:28
+#: gojira/handlers/pm_menu.py:29
 msgid "🌐 Language"
 msgstr "🌐 Idioma"
 
-#: gojira/handlers/pm_menu.py:29
+#: gojira/handlers/pm_menu.py:30
 msgid "ℹ️ About"
 msgstr "ℹ️ Sobre"
 
-#: gojira/handlers/pm_menu.py:32
+#: gojira/handlers/pm_menu.py:33
 msgid ""
-"Hello <b>{user_name}</b>, I'm Gojira! I can provide you with useful "
-"information about anime and manga titles"
+"Hello, <b>{user_name}</b>. I am <b>Gojira</b>, a Telegram bot that can "
+"help you with informations about anime and manga, such as genres, "
+"characters, studios, staff. My name is inspired by Godzilla, a famous "
+"monster from Japanese movies that also appeared in comics and cartoons."
 msgstr ""
-"Olá <b>{user_name}</b>, eu sou o Gojira! Eu posso te fornecer informações"
-" úteis sobre animes e mangás"
+"Olá, <b>{user_name}</b>. Eu sou o <b>Gojira</b>, um bot do Telegram que "
+"pode ajudá-lo com informações sobre anime e mangá, como gêneros, "
+"personagens, estúdios, equipe. Meu nome é inspirado em Godzilla, um "
+"famoso monstro de filmes japoneses que também apareceu em quadrinhos e "
+"desenhos animados."
 
-#: gojira/handlers/pm_menu.py:45
+#: gojira/handlers/pm_menu.py:48
 msgid "Hello, I'm Gojira!"
 msgstr "Olá, eu sou o Gojira!"
 
-#: gojira/handlers/pm_menu.py:56
+#: gojira/handlers/pm_menu.py:59
+#, fuzzy
 msgid ""
 "Gojira is a bot developed using Python that utilizes AIOGram and AniList "
 "GraphQL API to provide fast, stable and comprehensive information about "
-"animes and mangas."
+"animes and mangas. The name Gojira (ゴジラ) is a reference to the Japanese "
+"name of the famous monster Godzilla."
 msgstr ""
 "Gojira é um bot desenvolvido usando Python que utiliza AIOGram e a API "
 "GraphQL do AniList para fornecer informações rápidas, estáveis e "
-"abrangentes sobre animes e mangás."
+"abrangentes sobre animes e mangás. O nome Gojira (ゴジラ) é uma referência "
+"ao nome japonês do famoso monstro Godzilla."
 
-#: gojira/handlers/pm_menu.py:63
+#: gojira/handlers/pm_menu.py:67
 msgid "📦 GitHub"
 msgstr "📦 GitHub"
 
-#: gojira/handlers/pm_menu.py:64
+#: gojira/handlers/pm_menu.py:68
 msgid "📚 Channel"
 msgstr "📚 Canal"
 
@@ -498,4 +506,63 @@ msgstr "Abaixo estão alguns estúdios do item em questão."
 
 #~ msgid "Below are <b>50</b> suggestions, I hope you like some. 😅"
 #~ msgstr ""
+
+#~ msgid ""
+#~ "Hello <b>{user_name}</b>, I'm Gojira! I "
+#~ "can provide you with useful information"
+#~ " about anime and manga titles"
+#~ msgstr ""
+#~ "Olá <b>{user_name}</b>, eu sou o Gojira!"
+#~ " Eu posso te fornecer informações "
+#~ "úteis sobre animes e mangás"
+
+#~ msgid ""
+#~ "Hello <b>{user_name}</b>, Hello, I am "
+#~ "Gojira, a Telegram bot that can "
+#~ "provide you with information about anime"
+#~ " and manga. You can ask me "
+#~ "anything related to anime and manga, "
+#~ "such as genres, characters, studios, "
+#~ "staff an I am named after "
+#~ "Godzilla, a famous monster from Japanese"
+#~ " movies that also appeared in comics"
+#~ " and cartoons.d more."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Greetings, {user_name}. I am Gojira, a"
+#~ " Telegram bot that can help you "
+#~ "with anime and manga topics. You "
+#~ "can ask me about genres, characters, "
+#~ "studios, staff, and anything else "
+#~ "related to these forms of Japanese "
+#~ "media. My name is inspired by "
+#~ "Godzilla, a famous monster from Japanese"
+#~ " movies that also appeared in comics"
+#~ " and cartoons."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Hello, <b>{user_name}</b>. I am <b>Gojira</b>,"
+#~ " a Telegram bot that can help "
+#~ "you with anime and manga topics. "
+#~ "You can ask me about genres, "
+#~ "characters, studios, staff, and anything "
+#~ "else related to these forms of "
+#~ "Japanese media. My name is inspired "
+#~ "by Godzilla, a famous monster from "
+#~ "Japanese movies that also appeared in"
+#~ " comics and cartoons."
+#~ msgstr ""
+#~ "Olá, <b>{user_name}</b>. Eu sou o "
+#~ "<b>Gojira</b>, um bot do Telegram que"
+#~ " pode ajudá-lo com tópicos anime e"
+#~ " mangá. Você pode me perguntar sobre"
+#~ " gêneros, personagens, estúdios, equipe e"
+#~ " qualquer outra coisa relacionada a "
+#~ "essas formas de mídia japonesa. Meu "
+#~ "nome é inspirado no Godzilla, um "
+#~ "famoso monstro de filmes japoneses que"
+#~ " também apareceu em quadrinhos e "
+#~ "desenhos animados."
 

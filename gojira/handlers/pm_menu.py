@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
+import html
 from typing import Union
 
 from aiogram import F, Router
@@ -30,9 +31,11 @@ async def start_command(union: Union[Message, CallbackQuery]):
     keyboard.adjust(2)
 
     text = _(
-        "Hello <b>{user_name}</b>, I'm Gojira! I can provide you with \
-useful information about anime and manga titles"
-    ).format(user_name=union.from_user.full_name)
+        "Hello, <b>{user_name}</b>. I am <b>Gojira</b>, a Telegram bot that can help \
+you with informations about anime and manga, such as genres, characters, studios, \
+staff. My name is inspired by Godzilla, a famous monster from Japanese movies that \
+also appeared in comics and cartoons."
+    ).format(user_name=html.escape(union.from_user.full_name))
 
     if is_callback:
         await message.edit_text(text, reply_markup=keyboard.as_markup())
@@ -54,9 +57,10 @@ async def about(union: Union[Message, CallbackQuery]):
         return None
 
     text = _(
-        "Gojira is a bot developed using Python that utilizes AIOGram and AniList \
-GraphQL API to provide fast, stable and comprehensive information about animes and \
-mangas."
+        "Gojira is a bot developed using Python that utilizes AIOGram and \
+AniList GraphQL API to provide fast, stable and comprehensive information about animes \
+and mangas. The name Gojira (ゴジラ) is a reference to the Japanese name of the famous \
+monster Godzilla."
     )
 
     keyboard = InlineKeyboardBuilder()
