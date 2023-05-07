@@ -3,7 +3,7 @@ name = "gojira"
 description = "A Telegram bot that retrieves data from the Anilist API, specifically for manga and anime content."
 readme = "README.rst"
 license = { file="LICENSE" }
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 authors = [
     { name = "Hitalo M." },
 ]
@@ -32,16 +32,17 @@ allow-direct-references = true
 [project.urls]
 Repository = "https://github.com/HitaloM/Gojira/"
 
-[tool.black]
-exclude = '''
-(
-    \.git
-  | venv
-)
-'''
+[tool.ruff]
+line-length = 99
+src = ["gojira"]
+target-version = "py311"
 
-[tool.isort]
-profile = "black"
+[tool.ruff.isort]
+known-first-party = ["gojira"]
+
+[tool.black]
+line-length = 99
+target-version = ["py311"]
 
 [tool.rye]
 managed = true

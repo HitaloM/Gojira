@@ -436,4 +436,3 @@ msgstr ""
 #: gojira/handlers/anime/view.py:917
 msgid "Below are some studios from the item in question."
 msgstr ""
-

@@ -37,13 +37,9 @@ on one of the buttons below. These are the languages that the bot currently supp
     )
 
     if message.chat.type == ChatType.PRIVATE:
-        text += _("\nYour current language: <i>{lang}</i>").format(
-            lang=lang_display_name
-        )
+        text += _("\nYour current language: <i>{lang}</i>").format(lang=lang_display_name)
     else:
-        text += _("\nGroup current language: <i>{lang}</i>").format(
-            lang=lang_display_name
-        )
+        text += _("\nGroup current language: <i>{lang}</i>").format(lang=lang_display_name)
 
     available_locales = i18n.available_locales + (i18n.default_locale,)
 
@@ -59,9 +55,7 @@ on one of the buttons below. These are the languages that the bot currently supp
 
     keyboard.adjust(4)
     keyboard.row(
-        InlineKeyboardButton(
-            text=_("🔙 Back"), callback_data=StartCallback(menu="start").pack()
-        )
+        InlineKeyboardButton(text=_("🔙 Back"), callback_data=StartCallback(menu="start").pack())
     )
     if is_callback:
         await message.edit_text(text, reply_markup=keyboard.as_markup())
@@ -75,13 +69,9 @@ async def language_callback(callback: CallbackQuery, callback_data: LanguageCall
         return None
 
     if callback_data.chat == ChatType.PRIVATE:
-        await Users.filter(id=callback.from_user.id).update(
-            language_code=callback_data.lang
-        )
+        await Users.filter(id=callback.from_user.id).update(language_code=callback_data.lang)
     if callback_data.chat in (ChatType.GROUP, ChatType.SUPERGROUP):
-        await Chats.filter(id=callback.message.chat.id).update(
-            language_code=callback_data.lang
-        )
+        await Chats.filter(id=callback.message.chat.id).update(language_code=callback_data.lang)
 
     lang = Locale.parse(callback_data.lang)
     await callback.message.edit_text(

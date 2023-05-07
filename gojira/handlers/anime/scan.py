@@ -34,13 +34,7 @@ async def anime_scan(message: Message):
         await message.reply(_("No media was found in this message."))
         return
 
-    media = (
-        reply.photo[-1]
-        or reply.sticker
-        or reply.animation
-        or reply.document
-        or reply.video
-    )
+    media = reply.photo[-1] or reply.sticker or reply.animation or reply.document or reply.video
 
     if isinstance(media, (Document, Video)):
         if media.thumb:
@@ -67,9 +61,7 @@ async def anime_scan(message: Message):
                 data=dict(image=file),
             )
         except aiohttp.ClientError:
-            await sent.edit_text(
-                _("Something went wrong trying to connect to the API.")
-            )
+            await sent.edit_text(_("Something went wrong trying to connect to the API."))
             return
 
         if response.status == 200:
@@ -105,9 +97,7 @@ async def anime_scan(message: Message):
             text += f" (<code>{title_native}</code>)"
         text += _("\n\n<b>ID</b>: <code>{anime_id}</code>").format(anime_id=anilist_id)
         if episode:
-            text += _("\n<b>Episode</b>: <code>{episode}</code>").format(
-                episode=episode
-            )
+            text += _("\n<b>Episode</b>: <code>{episode}</code>").format(episode=episode)
         if is_adult:
             text += _("\n<b>Adult</b>: <code>Yes</code>")
         text += _("\n<b>Similarity</b>: <code>{similarity}%</code>").format(
@@ -115,9 +105,7 @@ async def anime_scan(message: Message):
         )
 
         keyboard = InlineKeyboardBuilder()
-        keyboard.button(
-            text=_("👓 View more"), callback_data=AnimeCallback(query=anilist_id)
-        )
+        keyboard.button(text=_("👓 View more"), callback_data=AnimeCallback(query=anilist_id))
         sent = await sent.edit_media(
             InputMediaPhoto(
                 type="photo",
@@ -127,9 +115,7 @@ async def anime_scan(message: Message):
             reply_markup=keyboard.as_markup(),
         )
 
-        from_time = (
-            str(timedelta(seconds=result["from"])).split(".", 1)[0].rjust(8, "0")
-        )
+        from_time = str(timedelta(seconds=result["from"])).split(".", 1)[0].rjust(8, "0")
         to_time = str(timedelta(seconds=result["to"])).split(".", 1)[0].rjust(8, "0")
 
         if video is not None:

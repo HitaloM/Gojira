@@ -58,9 +58,7 @@ async def anime(
         if message.chat.type == ChatType.PRIVATE:
             return await anime_start(message)
         else:
-            return await message.reply(
-                _("You need to specify an anime. Use /anime name or id")
-            )
+            return await message.reply(_("You need to specify an anime. Use /anime name or id"))
 
     is_private: bool = message.chat.type == ChatType.PRIVATE
 
@@ -213,20 +211,14 @@ async def anime(
         text += f" (<code>{anime['title']['native']}</code>)"
     text += _("\n\n<b>ID</b>: <code>{id}</code>").format(id=anime_id)
     if anime["format"]:
-        text += _("\n<b>Format</b>: <code>{format}</code>").format(
-            format=anime["format"]
-        )
+        text += _("\n<b>Format</b>: <code>{format}</code>").format(format=anime["format"])
     if not anime["format"] == "MOVIE" and anime["episodes"]:
-        text += _("\n<b>Episodes</b>: <code>{episodes}</code>").format(
-            episodes=anime["episodes"]
-        )
+        text += _("\n<b>Episodes</b>: <code>{episodes}</code>").format(episodes=anime["episodes"])
     if anime["duration"]:
         text += _("\n<b>Episode Duration</b>: <code>{duration} mins</code>").format(
             duration=anime["duration"]
         )
-    text += _("\n<b>Status</b>: <code>{status}</code>").format(
-        status=anime["status"].capitalize()
-    )
+    text += _("\n<b>Status</b>: <code>{status}</code>").format(status=anime["status"].capitalize())
     if not anime["status"] == "NOT_YET_RELEASED":
         text += _("\n<b>Start Date</b>: <code>{date}</code>").format(date=start_date)
     if anime["status"] not in ["NOT_YET_RELEASED", "RELEASING"]:
@@ -239,9 +231,7 @@ async def anime(
             score=anime["averageScore"]
         )
     if anime["studios"] and len(anime["studios"]["nodes"]) > 0:
-        text += _("\n<b>Studios</b>: <code>{studios}</code>").format(
-            studios=", ".join(studios)
-        )
+        text += _("\n<b>Studios</b>: <code>{studios}</code>").format(studios=", ".join(studios))
     if len(producers) > 0:
         text += _("\n<b>Producers</b>: <code>{producers}</code>").format(
             producers=", ".join(producers)
@@ -272,9 +262,7 @@ async def anime(
         for relation in anime["relations"]["edges"]:
             if relation["relationType"] in ["PREQUEL", "SEQUEL"]:
                 button_text = (
-                    _("➡️ Sequel")
-                    if relation["relationType"] == "SEQUEL"
-                    else _("⬅️ Prequel")
+                    _("➡️ Sequel") if relation["relationType"] == "SEQUEL" else _("⬅️ Prequel")
                 )
                 relations_buttons.append(
                     InlineKeyboardButton(
@@ -571,9 +559,7 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
         # Separate staff_text into pages of 8 items
         characters_text = np.array(characters_text.split("\n"))
         characters_text = np.delete(characters_text, np.argwhere(characters_text == ""))
-        characters_text = np.split(
-            characters_text, np.arange(8, len(characters_text), 8)
-        )
+        characters_text = np.split(characters_text, np.arange(8, len(characters_text), 8))
 
         pages = len(characters_text)
 
@@ -774,23 +760,17 @@ async def anime_airing(callback: CallbackQuery, callback_data: AnimeAiringCallba
         data = await response.json()
         anime = data["data"]["Page"]["media"][0]
 
-        text = _(
-            "See below when the next episode of the anime in question will air.\n\n"
-        )
+        text = _("See below when the next episode of the anime in question will air.\n\n")
         if anime["nextAiringEpisode"]:
             text += _("<b>Episode:</b> <code>{episode}</code>\n").format(
                 episode=anime["nextAiringEpisode"]["episode"]
             )
             text += _("<b>Airing:</b> <code>{airing_time}</code>").format(
-                airing_time=humanize.precisedelta(
-                    anime["nextAiringEpisode"]["timeUntilAiring"]
-                )
+                airing_time=humanize.precisedelta(anime["nextAiringEpisode"]["timeUntilAiring"])
             )
         else:
             episodes = anime["episodes"] if anime["episodes"] else "N/A"
-            text += _("<b>Episode:</b> <code>{episode}</code>\n").format(
-                episode=episodes
-            )
+            text += _("<b>Episode:</b> <code>{episode}</code>\n").format(episode=episodes)
             text += _("<b>Airing:</b> <code>N/A</code>")
 
         buttons = []
@@ -798,9 +778,7 @@ async def anime_airing(callback: CallbackQuery, callback_data: AnimeAiringCallba
         if externalLinks:
             for link in externalLinks:
                 if link["type"] == "STREAMING":
-                    buttons.append(
-                        InlineKeyboardButton(text=link["site"], url=link["url"])
-                    )
+                    buttons.append(InlineKeyboardButton(text=link["site"], url=link["url"]))
 
         keyboard = InlineKeyboardBuilder()
         if len(buttons) > 0:

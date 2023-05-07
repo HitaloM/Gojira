@@ -112,9 +112,7 @@ async def anime_categorie(callback: CallbackQuery, callback_data: AnimeGCategCal
                 results,
                 item_data=lambda i, pg: AnimeCallback(query=i["id"]).pack(),
                 item_title=lambda i, pg: i["title"]["romaji"],
-                page_data=lambda pg: AnimeGCategCallback(
-                    page=pg, categorie=categorie
-                ).pack(),
+                page_data=lambda pg: AnimeGCategCallback(page=pg, categorie=categorie).pack(),
             )
 
             keyboard = layout.create(1, lines=8)
@@ -126,9 +124,9 @@ async def anime_categorie(callback: CallbackQuery, callback_data: AnimeGCategCal
                 )
             )
 
-            text = _(
-                "Below are up to <b>50</b> results from the <b>{genre}</b> category."
-            ).format(genre=categorie)
+            text = _("Below are up to <b>50</b> results from the <b>{genre}</b> category.").format(
+                genre=categorie
+            )
             with suppress(TelegramAPIError):
                 await message.edit_text(
                     text,

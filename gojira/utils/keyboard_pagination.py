@@ -28,9 +28,7 @@ class Pagination:
     item_data: Callable[[Any, int], str] = default_item_callback
     item_title: Callable[[Any, int], str] = default_item_callback
 
-    def create(
-        self, page: int, lines: int = 5, columns: int = 1
-    ) -> InlineKeyboardBuilder:
+    def create(self, page: int, lines: int = 5, columns: int = 1) -> InlineKeyboardBuilder:
         quant_per_page = lines * columns
         page = max(1, page)
         offset = (page - 1) * quant_per_page
@@ -62,9 +60,7 @@ class Pagination:
             or (n in {1, page - 1, page, page + 1, last_page})
         ]
 
-        buttons = [
-            (self.item_title(item, page), self.item_data(item, page)) for item in cutted
-        ]
+        buttons = [(self.item_title(item, page), self.item_data(item, page)) for item in cutted]
         kb_lines = chunk_list(buttons, columns)
 
         if last_page > 1:
@@ -73,10 +69,7 @@ class Pagination:
         keyboard_markup = InlineKeyboardBuilder()
         for line in kb_lines:
             keyboard_markup.row(
-                *(
-                    InlineKeyboardButton(text=button[0], callback_data=button[1])
-                    for button in line
-                )
+                *(InlineKeyboardButton(text=button[0], callback_data=button[1]) for button in line)
             )
 
         return keyboard_markup

@@ -577,4 +577,3 @@ msgstr "Abaixo estão alguns estúdios do item em questão."
 
 #~ msgid "Chat current language: <i>{lang}</i>"
 #~ msgstr "Idioma atual do chat: {lang}"
-

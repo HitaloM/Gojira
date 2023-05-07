@@ -42,9 +42,7 @@ class ACLMiddleware(BaseMiddleware):
         if chat:
             if (chatdb := await Chats.get_or_none(id=chat.id)) is None:
                 if chat and chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
-                    chatdb = await Chats.create(
-                        id=chat.id, language_code=i18n.default_locale
-                    )
+                    chatdb = await Chats.create(id=chat.id, language_code=i18n.default_locale)
 
             data["chat"] = chatdb
 
