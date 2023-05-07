@@ -43,13 +43,13 @@ class Pagination:
         nav = [
             (
                 f"‹ {page-1}"
-                if n == page - 1 and not n == 1
+                if n == page - 1 and n != 1
                 else f"{page+1} ›"
-                if n == page + 1 and not n == page
+                if n == page + 1 and n != page
                 else "« 1"
-                if n == 1 and not n == page
+                if n == 1 and n != page
                 else f"{last_page} »"
-                if n == last_page and not n == page
+                if n == last_page and n != page
                 else f"· {n} ·"
                 if n == page
                 else n,

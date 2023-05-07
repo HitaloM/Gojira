@@ -22,7 +22,7 @@ async def anime_start(union: Message | CallbackQuery):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     if not message:
-        return None
+        return
 
     keyboard = InlineKeyboardBuilder()
     keyboard.button(text=_("🔝 Popular"), callback_data=AnimePopuCallback(page=1))

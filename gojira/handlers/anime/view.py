@@ -51,13 +51,14 @@ async def anime(
     message = union.message if is_callback else union
     user = union.from_user
     if not message or not user:
-        return None
+        return
 
     if command and not command.args:
         if message.chat.type == ChatType.PRIVATE:
-            return await anime_start(message)
-        else:
-            return await message.reply(_("You need to specify an anime. Use /anime name or id"))
+            await anime_start(message)
+            return
+        await message.reply(_("You need to specify an anime. Use /anime name or id"))
+        return
 
     is_private: bool = message.chat.type == ChatType.PRIVATE
 
@@ -93,29 +94,29 @@ async def anime(
         if not query.isdecimal():
             response = await client.post(
                 url=ANILIST_API,
-                json=dict(
-                    query=ANILIST_SEARCH,
-                    variables=dict(
-                        search=query,
-                        page=1,
-                        per_page=10,
-                        MediaType="ANIME",
-                    ),
-                ),
+                json={
+                    "query": ANILIST_SEARCH,
+                    "variables": {
+                        "search": query,
+                        "page": 1,
+                        "per_page": 10,
+                        "MediaType": "ANIME",
+                    },
+                },
             )
             if not response:
                 await asyncio.sleep(0.5)
                 response = await client.post(
                     url=ANILIST_API,
-                    json=dict(
-                        query=ANILIST_SEARCH,
-                        variables=dict(
-                            search=query,
-                            page=1,
-                            per_page=10,
-                            MediaType="ANIME",
-                        ),
-                    ),
+                    json={
+                        "query": ANILIST_SEARCH,
+                        "variables": {
+                            "search": query,
+                            "page": 1,
+                            "per_page": 10,
+                            "MediaType": "ANIME",
+                        },
+                    },
                     headers={
                         "Content-Type": "application/json",
                         "Accept": "application/json",
@@ -154,12 +155,12 @@ async def anime(
 
         response = await client.post(
             url=ANILIST_API,
-            json=dict(
-                query=ANIME_GET,
-                variables=dict(
-                    id=anime_id,
-                ),
-            ),
+            json={
+                "query": ANIME_GET,
+                "variables": {
+                    "id": anime_id,
+                },
+            },
         )
         data = await response.json()
         anime = data["data"]["Page"]["media"][0]
@@ -211,14 +212,14 @@ async def anime(
     text += _("\n\n<b>ID</b>: <code>{id}</code>").format(id=anime_id)
     if anime["format"]:
         text += _("\n<b>Format</b>: <code>{format}</code>").format(format=anime["format"])
-    if not anime["format"] == "MOVIE" and anime["episodes"]:
+    if anime["format"] != "MOVIE" and anime["episodes"]:
         text += _("\n<b>Episodes</b>: <code>{episodes}</code>").format(episodes=anime["episodes"])
     if anime["duration"]:
         text += _("\n<b>Episode Duration</b>: <code>{duration} mins</code>").format(
             duration=anime["duration"]
         )
     text += _("\n<b>Status</b>: <code>{status}</code>").format(status=anime["status"].capitalize())
-    if not anime["status"] == "NOT_YET_RELEASED":
+    if anime["status"] != "NOT_YET_RELEASED":
         text += _("\n<b>Start Date</b>: <code>{date}</code>").format(date=start_date)
     if anime["status"] not in ["NOT_YET_RELEASED", "RELEASING"]:
         text += _("\n<b>End Date</b>: <code>{date}</code>").format(date=end_date)
@@ -273,7 +274,7 @@ async def anime(
                     )
                 )
         if len(relations_buttons) > 0:
-            if not relations_buttons[0].text == "⬅️ Prequel":
+            if relations_buttons[0].text != "⬅️ Prequel":
                 relations_buttons.reverse()
             keyboard.row(*relations_buttons)
 
@@ -282,17 +283,19 @@ async def anime(
             InputMediaPhoto(type="photo", media=photo, caption=text),
             reply_markup=keyboard.as_markup(),
         )
-    elif bool(message.photo) and not bool(message.via_bot):
+        return
+    if bool(message.photo) and not bool(message.via_bot):
         await message.edit_text(
             text,
             reply_markup=keyboard.as_markup(),
         )
-    else:
-        await message.answer_photo(
-            photo,
-            caption=text,
-            reply_markup=keyboard.as_markup(),
-        )
+        return
+
+    await message.answer_photo(
+        photo,
+        caption=text,
+        reply_markup=keyboard.as_markup(),
+    )
 
 
 @router.callback_query(AnimeMoreCallback.filter())
@@ -300,7 +303,7 @@ async def anime_more(callback: CallbackQuery, callback_data: AnimeMoreCallback):
     message = callback.message
     user = callback.from_user
     if not message:
-        return None
+        return
 
     anime_id = callback_data.anime_id
     user_id = callback_data.user_id
@@ -316,13 +319,13 @@ async def anime_more(callback: CallbackQuery, callback_data: AnimeMoreCallback):
     async with aiohttp.ClientSession() as client:
         response = await client.post(
             url=ANILIST_API,
-            json=dict(
-                query=TRAILER_QUERY,
-                variables=dict(
-                    id=(anime_id),
-                    media="ANIME",
-                ),
-            ),
+            json={
+                "query": TRAILER_QUERY,
+                "variables": {
+                    "id": (anime_id),
+                    "media": "ANIME",
+                },
+            },
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
@@ -393,7 +396,7 @@ async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCal
     message = callback.message
     user = callback.from_user
     if not message:
-        return None
+        return
 
     anime_id = callback_data.anime_id
     user_id = callback_data.user_id
@@ -410,13 +413,13 @@ async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCal
     async with aiohttp.ClientSession() as client:
         response = await client.post(
             url=ANILIST_API,
-            json=dict(
-                query=DESCRIPTION_QUERY,
-                variables=dict(
-                    id=(anime_id),
-                    media="ANIME",
-                ),
-            ),
+            json={
+                "query": DESCRIPTION_QUERY,
+                "variables": {
+                    "id": (anime_id),
+                    "media": "ANIME",
+                },
+            },
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
@@ -452,7 +455,7 @@ async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCal
                 )
             )
 
-        if not page == pages:
+        if page != pages:
             description = description[: len(description) - 3] + "..."
             page_buttons.append(
                 InlineKeyboardButton(
@@ -495,7 +498,7 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
     message = callback.message
     user = callback.from_user
     if not message:
-        return None
+        return
 
     anime_id = callback_data.anime_id
     user_id = callback_data.user_id
@@ -512,13 +515,13 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
     async with aiohttp.ClientSession() as client:
         response = await client.post(
             url=ANILIST_API,
-            json=dict(
-                query=CHARACTER_QUERY,
-                variables=dict(
-                    id=anime_id,
-                    media="ANIME",
-                ),
-            ),
+            json={
+                "query": CHARACTER_QUERY,
+                "variables": {
+                    "id": anime_id,
+                    "media": "ANIME",
+                },
+            },
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
@@ -572,7 +575,7 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
                     ).pack(),
                 )
             )
-        if not page + 1 == pages:
+        if page + 1 != pages:
             page_buttons.append(
                 InlineKeyboardButton(
                     text="➡️",
@@ -612,7 +615,7 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
     message = callback.message
     user = callback.from_user
     if not message:
-        return None
+        return
 
     anime_id = callback_data.anime_id
     user_id = callback_data.user_id
@@ -629,13 +632,13 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
     async with aiohttp.ClientSession() as client:
         response = await client.post(
             url=ANILIST_API,
-            json=dict(
-                query=STAFF_QUERY,
-                variables=dict(
-                    id=anime_id,
-                    media="ANIME",
-                ),
-            ),
+            json={
+                "query": STAFF_QUERY,
+                "variables": {
+                    "id": anime_id,
+                    "media": "ANIME",
+                },
+            },
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
@@ -688,7 +691,7 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
                     ).pack(),
                 )
             )
-        if not page + 1 == pages:
+        if page + 1 != pages:
             page_buttons.append(
                 InlineKeyboardButton(
                     text="➡️",
@@ -728,7 +731,7 @@ async def anime_airing(callback: CallbackQuery, callback_data: AnimeAiringCallba
     message = callback.message
     user = callback.from_user
     if not message:
-        return None
+        return
 
     anime_id = callback_data.anime_id
     user_id = callback_data.user_id
@@ -744,13 +747,13 @@ async def anime_airing(callback: CallbackQuery, callback_data: AnimeAiringCallba
     async with aiohttp.ClientSession() as client:
         response = await client.post(
             url=ANILIST_API,
-            json=dict(
-                query=AIRING_QUERY,
-                variables=dict(
-                    id=anime_id,
-                    media="ANIME",
-                ),
-            ),
+            json={
+                "query": AIRING_QUERY,
+                "variables": {
+                    "id": anime_id,
+                    "media": "ANIME",
+                },
+            },
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
@@ -805,7 +808,7 @@ async def anime_studio(callback: CallbackQuery, callback_data: AnimeStudioCallba
     message = callback.message
     user = callback.from_user
     if not message:
-        return None
+        return
 
     anime_id = callback_data.anime_id
     user_id = callback_data.user_id
@@ -822,13 +825,13 @@ async def anime_studio(callback: CallbackQuery, callback_data: AnimeStudioCallba
     async with aiohttp.ClientSession() as client:
         response = await client.post(
             url=ANILIST_API,
-            json=dict(
-                query=STUDIOS_QUERY,
-                variables=dict(
-                    id=anime_id,
-                    media="ANIME",
-                ),
-            ),
+            json={
+                "query": STUDIOS_QUERY,
+                "variables": {
+                    "id": anime_id,
+                    "media": "ANIME",
+                },
+            },
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
@@ -863,7 +866,7 @@ async def anime_studio(callback: CallbackQuery, callback_data: AnimeStudioCallba
                     ).pack(),
                 )
             )
-        if not page + 1 == pages:
+        if page + 1 != pages:
             page_buttons.append(
                 InlineKeyboardButton(
                     text="➡️",

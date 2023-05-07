@@ -25,7 +25,7 @@ router = Router(name="anime_categories")
 async def anime_categories(callback: CallbackQuery, callback_data: AnimeCategCallback):
     message = callback.message
     if not message:
-        return None
+        return
 
     page = callback_data.page
 
@@ -49,7 +49,7 @@ async def anime_categories(callback: CallbackQuery, callback_data: AnimeCategCal
         "Supernatural": _("Supernatural"),
         "Thriller": _("Thriller"),
     }
-    categories_list = sorted(list(categories.keys()))
+    categories_list = sorted(categories.keys())
 
     layout = Pagination(
         categories_list,
@@ -78,7 +78,7 @@ async def anime_categories(callback: CallbackQuery, callback_data: AnimeCategCal
 async def anime_categorie(callback: CallbackQuery, callback_data: AnimeGCategCallback):
     message = callback.message
     if not message:
-        return None
+        return
 
     categorie = callback_data.categorie
     page = callback_data.page
@@ -86,14 +86,14 @@ async def anime_categorie(callback: CallbackQuery, callback_data: AnimeGCategCal
     async with aiohttp.ClientSession() as client:
         response = await client.post(
             ANILIST_API,
-            json=dict(
-                query=CATEGORIE_QUERY,
-                variables=dict(
-                    page=page,
-                    genre=categorie,
-                    media="ANIME",
-                ),
-            ),
+            json={
+                "query": CATEGORIE_QUERY,
+                "variables": {
+                    "page": page,
+                    "genre": categorie,
+                    "media": "ANIME",
+                },
+            },
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",

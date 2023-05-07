@@ -22,7 +22,7 @@ router = Router(name="anime_scan")
 async def anime_scan(message: Message):
     user = message.from_user
     if not message or not user:
-        return None
+        return
 
     reply = message.reply_to_message
 
@@ -40,7 +40,7 @@ async def anime_scan(message: Message):
         if media.thumb:
             media = media.thumb
         else:
-            return None
+            return
 
     sent = await message.reply_photo(
         "https://i.imgur.com/m0N2pFc.jpg", caption="Scanning media..."
@@ -50,7 +50,7 @@ async def anime_scan(message: Message):
     file = await bot.get_file(file_id)
     if not file.file_path:
         await sent.edit_text(_("File not found."))
-        return None
+        return
 
     file = await bot.download_file(file.file_path)
 
@@ -58,7 +58,7 @@ async def anime_scan(message: Message):
         try:
             response = await client.post(
                 "https://api.trace.moe/search?anilistInfo&cutBorders",
-                data=dict(image=file),
+                data={"image": file},
             )
         except aiohttp.ClientError:
             await sent.edit_text(_("Something went wrong trying to connect to the API."))

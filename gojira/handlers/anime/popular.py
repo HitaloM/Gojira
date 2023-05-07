@@ -20,19 +20,19 @@ router = Router(name="anime_popular")
 async def anime_popular(callback: CallbackQuery, callback_data: AnimePopuCallback):
     message = callback.message
     if not message:
-        return None
+        return
 
     page = callback_data.page
 
     async with aiohttp.ClientSession() as client:
         response = await client.post(
             ANILIST_API,
-            json=dict(
-                query=POPULAR_QUERY,
-                variables=dict(
-                    media="ANIME",
-                ),
-            ),
+            json={
+                "query": POPULAR_QUERY,
+                "variables": {
+                    "media": "ANIME",
+                },
+            },
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",

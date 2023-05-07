@@ -21,7 +21,7 @@ async def start_command(union: Message | CallbackQuery):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     if not message or not union.from_user:
-        return None
+        return
 
     keyboard = InlineKeyboardBuilder()
     keyboard.button(text=_("👸 Anime"), callback_data=StartCallback(menu="anime"))
@@ -53,7 +53,7 @@ async def about(union: Message | CallbackQuery):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     if not message:
-        return None
+        return
 
     text = _(
         "Gojira is a bot developed using Python that utilizes AIOGram and \

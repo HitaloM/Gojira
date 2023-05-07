@@ -25,7 +25,7 @@ async def select_language(union: Message | CallbackQuery):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     if not message or not union.from_user:
-        return None
+        return
 
     chat_type, lang_code = await get_chat_language(message.chat)
     lang_display_name = str(Locale.parse(lang_code).display_name).capitalize()
@@ -40,7 +40,7 @@ on one of the buttons below. These are the languages that the bot currently supp
     else:
         text += _("\nGroup current language: <i>{lang}</i>").format(lang=lang_display_name)
 
-    available_locales = i18n.available_locales + (i18n.default_locale,)
+    available_locales = (*i18n.available_locales, i18n.default_locale)
 
     keyboard = InlineKeyboardBuilder()
     for lang in available_locales:
@@ -65,7 +65,7 @@ on one of the buttons below. These are the languages that the bot currently supp
 @router.callback_query(LanguageCallback.filter(), IsAdmin())
 async def language_callback(callback: CallbackQuery, callback_data: LanguageCallback):
     if not callback.message or not callback.from_user:
-        return None
+        return
 
     if callback_data.chat == ChatType.PRIVATE:
         await Users.filter(id=callback.from_user.id).update(language_code=callback_data.lang)
