@@ -21,15 +21,17 @@ async def main():
     dp.callback_query.middleware(ACLMiddleware())
     dp.callback_query.middleware(MyI18nMiddleware(i18n=i18n))
 
-    dp.include_routers(pm_menu.router)
-    dp.include_router(anime.start.router)
-    dp.include_router(anime.view.router)
-    dp.include_router(anime.upcoming.router)
-    dp.include_router(anime.popular.router)
-    dp.include_router(anime.categories.router)
-    dp.include_router(anime.scan.router)
-    dp.include_router(language.router)
-    dp.include_router(users.router)
+    dp.include_routers(
+        pm_menu.router,
+        anime.start.router,
+        anime.view.router,
+        anime.upcoming.router,
+        anime.popular.router,
+        anime.categories.router,
+        anime.scan.router,
+        language.router,
+        users.router,
+    )
 
     await set_ui_commands(bot, i18n)
 
