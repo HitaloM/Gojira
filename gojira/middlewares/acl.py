@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
-from typing import Any, Awaitable, Callable, Dict, Optional
+from collections.abc import Awaitable, Callable
+from typing import Any
 
 from aiogram.dispatcher.middlewares.base import BaseMiddleware
 from aiogram.enums import ChatType
@@ -15,12 +16,12 @@ from gojira.database.models import Chats, Users
 class ACLMiddleware(BaseMiddleware):
     async def __call__(
         self,
-        handler: Callable[[TelegramObject, Dict[str, Any]], Awaitable[Any]],
+        handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
         event: TelegramObject,
-        data: Dict[str, Any],
+        data: dict[str, Any],
     ) -> Any:
-        user: Optional[User] = data.get("event_from_user")
-        chat: Optional[Chat] = data.get("event_chat")
+        user: User | None = data.get("event_from_user")
+        chat: Chat | None = data.get("event_chat")
 
         if user:
             if (userdb := await Users.get_or_none(id=user.id)) is None:

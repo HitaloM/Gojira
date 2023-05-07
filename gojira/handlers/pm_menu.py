@@ -2,7 +2,6 @@
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
 import html
-from typing import Union
 
 from aiogram import F, Router
 from aiogram.filters import Command, CommandStart
@@ -18,7 +17,7 @@ router = Router(name="pm_menu")
 
 @router.message(CommandStart(), ChatIsPrivate())
 @router.callback_query(StartCallback.filter(F.menu == "start"))
-async def start_command(union: Union[Message, CallbackQuery]):
+async def start_command(union: Message | CallbackQuery):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     if not message or not union.from_user:
@@ -50,7 +49,7 @@ async def group_start(message: Message):
 
 @router.message(Command("about"))
 @router.callback_query(StartCallback.filter(F.menu == "about"))
-async def about(union: Union[Message, CallbackQuery]):
+async def about(union: Message | CallbackQuery):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     if not message:

@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
-from typing import Union
 
 from aiogram import F, Router
 from aiogram.enums import ChatType
@@ -22,7 +21,7 @@ router = Router(name="language")
 
 @router.message(Command("language"), IsAdmin())
 @router.callback_query(StartCallback.filter(F.menu == "language"))
-async def select_language(union: Union[Message, CallbackQuery]):
+async def select_language(union: Message | CallbackQuery):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     if not message or not union.from_user:

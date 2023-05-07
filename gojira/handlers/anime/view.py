@@ -3,7 +3,6 @@
 
 import asyncio
 import math
-from typing import Optional, Union
 
 import aiohttp
 import humanize
@@ -44,9 +43,9 @@ router = Router(name="anime_view")
 @router.message(Command("anime"))
 @router.callback_query(AnimeCallback.filter())
 async def anime(
-    union: Union[Message, CallbackQuery],
-    command: Optional[CommandObject] = None,
-    callback_data: Optional[AnimeCallback] = None,
+    union: Message | CallbackQuery,
+    command: CommandObject | None = None,
+    callback_data: AnimeCallback | None = None,
 ):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union

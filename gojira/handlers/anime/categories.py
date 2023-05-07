@@ -2,7 +2,6 @@
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
 from contextlib import suppress
-from typing import Dict
 
 import aiohttp
 from aiogram import Router
@@ -30,7 +29,7 @@ async def anime_categories(callback: CallbackQuery, callback_data: AnimeCategCal
 
     page = callback_data.page
 
-    categories: Dict = {
+    categories: dict = {
         "Action": _("Action"),
         "Adventure": _("Adventure"),
         "Comedy": _("Comedy"),

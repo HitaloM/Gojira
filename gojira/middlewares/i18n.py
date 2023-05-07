@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
-from typing import Any, Dict, Optional, cast
+from typing import Any, cast
 
 from aiogram.enums import ChatType
 from aiogram.types import Chat, TelegramObject, User
@@ -11,9 +11,9 @@ from gojira.database.models import Chats, Users
 
 
 class MyI18nMiddleware(I18nMiddleware):
-    async def get_locale(self, event: TelegramObject, data: Dict[str, Any]) -> str:
-        user: Optional[User] = data.get("event_from_user")
-        chat: Optional[Chat] = data.get("event_chat")
+    async def get_locale(self, event: TelegramObject, data: dict[str, Any]) -> str:
+        user: User | None = data.get("event_from_user")
+        chat: Chat | None = data.get("event_chat")
 
         if chat is not None and chat.type == ChatType.PRIVATE:
             obj = user

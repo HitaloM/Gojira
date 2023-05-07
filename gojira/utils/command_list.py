@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
-from typing import List
 
 from aiogram import Bot
 from aiogram.types import (
@@ -17,7 +16,7 @@ async def set_ui_commands(bot: Bot, i18n: I18n):
 
     await bot.delete_my_commands()
     for lang in i18n.available_locales:
-        user_commands: List[BotCommand] = [
+        user_commands: list[BotCommand] = [
             BotCommand(
                 command="start",
                 description=locale_obj("Start the bot.", locale=lang),
@@ -32,7 +31,7 @@ async def set_ui_commands(bot: Bot, i18n: I18n):
             ),
         ]
 
-        group_commands: List[BotCommand] = [
+        group_commands: list[BotCommand] = [
             BotCommand(
                 command="anime",
                 description=locale_obj("Get anime informations.", locale=lang),

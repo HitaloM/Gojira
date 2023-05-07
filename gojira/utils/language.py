@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
-from typing import Literal, Union
+from typing import Literal
 
 from aiogram.enums import ChatType
 from aiogram.types import Chat, User
@@ -9,9 +9,7 @@ from aiogram.types import Chat, User
 from gojira.database.models import Chats, Users
 
 
-async def get_chat_language(
-    chat: Union[User, Chat]
-) -> tuple[str | Literal[ChatType.PRIVATE], str]:
+async def get_chat_language(chat: User | Chat) -> tuple[str | Literal[ChatType.PRIVATE], str]:
     if isinstance(chat, User) or chat.type == ChatType.PRIVATE:
         lang = await Users.get(id=chat.id)
     else:

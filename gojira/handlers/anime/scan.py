@@ -36,7 +36,7 @@ async def anime_scan(message: Message):
 
     media = reply.photo[-1] or reply.sticker or reply.animation or reply.document or reply.video
 
-    if isinstance(media, (Document, Video)):
+    if isinstance(media, Document | Video):
         if media.thumb:
             media = media.thumb
         else:

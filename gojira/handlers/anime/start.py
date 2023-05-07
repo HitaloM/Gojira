@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
-from typing import Union
 
 from aiogram import F, Router
 from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
@@ -19,7 +18,7 @@ router = Router(name="anime_start")
 
 
 @router.callback_query(StartCallback.filter(F.menu == "anime"))
-async def anime_start(union: Union[Message, CallbackQuery]):
+async def anime_start(union: Message | CallbackQuery):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     if not message:

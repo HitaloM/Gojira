@@ -2,8 +2,9 @@
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
 import math
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any, Callable, List
+from typing import Any
 
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
@@ -17,13 +18,13 @@ def default_item_callback(i: Any, pg: int) -> str:
     return f"[{pg}] {i}"
 
 
-def chunk_list(input: List[Any], size: int) -> List[List[Any]]:
+def chunk_list(input: list[Any], size: int) -> list[list[Any]]:
     return [input[i : i + size] for i in range(0, len(input), size)]
 
 
 @dataclass
 class Pagination:
-    objects: List[Any]
+    objects: list[Any]
     page_data: Callable[[int], str] = default_page_callback
     item_data: Callable[[Any, int], str] = default_item_callback
     item_title: Callable[[Any, int], str] = default_item_callback

@@ -36,6 +36,12 @@ Repository = "https://github.com/HitaloM/Gojira/"
 line-length = 99
 src = ["gojira"]
 target-version = "py311"
+select = [
+  "E",   # pycodestyle
+  "F",   # pyflakes
+  "I",   # isort
+  "UP",  # pyupgrade
+]
 
 [tool.ruff.isort]
 known-first-party = ["gojira"]
