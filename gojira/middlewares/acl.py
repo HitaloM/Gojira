@@ -23,7 +23,7 @@ class ACLMiddleware(BaseMiddleware):
         user: User | None = data.get("event_from_user")
         chat: Chat | None = data.get("event_chat")
 
-        if user:
+        if user and not user.is_bot:
             if (userdb := await Users.get_or_none(id=user.id)) is None:
                 try:
                     locale = Locale.parse(user.language_code, sep="-")
