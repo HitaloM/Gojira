@@ -24,16 +24,15 @@ async def start_command(union: Message | CallbackQuery):
         return
 
     keyboard = InlineKeyboardBuilder()
-    keyboard.button(text=_("👸 Anime"), callback_data=StartCallback(menu="anime"))
-    keyboard.button(text=_("🌐 Language"), callback_data=StartCallback(menu="language"))
     keyboard.button(text=_("ℹ️ About"), callback_data=StartCallback(menu="about"))
+    keyboard.button(text=_("🌐 Language"), callback_data=StartCallback(menu="language"))
+    keyboard.button(text=_("👮‍♂️ Help"), callback_data=StartCallback(menu="help"))
     keyboard.adjust(2)
 
     text = _(
         "Hello, <b>{user_name}</b>. I am <b>Gojira</b>, a Telegram bot that can help \
 you with informations about anime and manga, such as genres, characters, studios, \
-staff. My name is inspired by Godzilla, a famous monster from Japanese movies that \
-also appeared in comics and cartoons."
+staff. And much more!"
     ).format(user_name=html.escape(union.from_user.full_name))
 
     if is_callback:
@@ -42,9 +41,35 @@ also appeared in comics and cartoons."
         await message.reply(text, reply_markup=keyboard.as_markup())
 
 
-@router.message(Command("start"), ~ChatIsPrivate())
-async def group_start(message: Message):
-    await message.reply(_("Hello, I'm Gojira!"))
+@router.message(Command("help"), ChatIsPrivate())
+@router.callback_query(StartCallback.filter(F.menu == "help"))
+async def help(union: Message | CallbackQuery):
+    is_callback = isinstance(union, CallbackQuery)
+    message = union.message if is_callback else union
+    if not message or not union.from_user:
+        return
+
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(text=_("👸 Anime"), callback_data=StartCallback(menu="anime"))
+    keyboard.button(text=_("📖 Manga"), callback_data=StartCallback(menu="manga"))
+    keyboard.adjust(2)
+
+    if is_callback:
+        keyboard.row(
+            InlineKeyboardButton(
+                text=_("🔙 Back"), callback_data=StartCallback(menu="start").pack()
+            )
+        )
+
+    text = _(
+        "This is the menu where all my modules are concentrated, click on one of the buttons \
+below to start exploring all my functions."
+    )
+
+    if is_callback:
+        await message.edit_text(text, reply_markup=keyboard.as_markup())
+    else:
+        await message.reply(text, reply_markup=keyboard.as_markup())
 
 
 @router.message(Command("about"))

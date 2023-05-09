@@ -3,7 +3,7 @@
 
 ANILIST_API: str = "https://graphql.anilist.co"
 
-ANILIST_SEARCH: str = """
+ANIME_SEARCH: str = """
 query($id: Int, $search: String, $page: Int = 1, $per_page: Int = 10) {
     Page(page: $page, perPage: $per_page) {
         pageInfo {
@@ -13,6 +13,28 @@ query($id: Int, $search: String, $page: Int = 1, $per_page: Int = 10) {
             hasNextPage
         }
         media(id: $id, search: $search, type: ANIME, sort: POPULARITY_DESC) {
+            id
+            title {
+                romaji
+                english
+                native
+            }
+            siteUrl
+        }
+    }
+}
+"""
+
+MANGA_SEARCH: str = """
+query($id: Int, $search: String, $page: Int = 1, $per_page: Int = 10) {
+    Page(page: $page, perPage: $per_page) {
+        pageInfo {
+            total
+            currentPage
+            lastPage
+            hasNextPage
+        }
+        media(id: $id, search: $search, type: MANGA, sort: POPULARITY_DESC) {
             id
             title {
                 romaji
@@ -73,6 +95,49 @@ query($id: Int) {
     }
 }
 """
+
+
+MANGA_GET: str = """
+query($id: Int) {
+    Page(page: 1, perPage: 1) {
+        media(id: $id, type: MANGA) {
+            id
+            title {
+                romaji
+                english
+                native
+            }
+            chapters
+            volumes
+            description
+            format
+            status
+            genres
+            startDate {
+                year
+                month
+                day
+            }
+            endDate {
+                year
+                month
+                day
+            }
+            source
+            averageScore
+            relations {
+                edges {
+                    node {
+                        id
+                    }
+                    relationType(version: 2)
+                }
+            }
+        }
+    }
+}
+"""
+
 
 TRAILER_QUERY: str = """
 query($id: Int, $media: MediaType) {

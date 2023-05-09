@@ -43,6 +43,7 @@ select = [
   "UP",  # pyupgrade
   "SIM", # flake8-simplify
   "RET", # flake8-return
+  "C4",  # flake8-comprehensions
 ]
 
 [tool.ruff.isort]

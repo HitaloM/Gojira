@@ -9,12 +9,12 @@ from aiogram.exceptions import TelegramAPIError
 from aiogram.types import CallbackQuery, InlineKeyboardButton
 from aiogram.utils.i18n import gettext as _
 
-from gojira.utils.anime import ANILIST_API, UPCOMING_QUERY
 from gojira.utils.callback_data import (
     AnimeCallback,
     AnimeUpcomingCallback,
     StartCallback,
 )
+from gojira.utils.graphql import ANILIST_API, UPCOMING_QUERY
 from gojira.utils.keyboard_pagination import Pagination
 
 router = Router(name="anime_upcoming")

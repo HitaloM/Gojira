@@ -5,7 +5,6 @@ import asyncio
 import math
 
 import aiohttp
-import humanize
 import numpy as np
 from aiogram import Router
 from aiogram.enums import ChatType
@@ -15,37 +14,32 @@ from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from lxml import html
 
-from gojira.handlers.anime.start import anime_start
+from gojira.handlers.manga.start import manga_start
 from gojira.utils.callback_data import (
-    AnimeAiringCallback,
-    AnimeCallback,
-    AnimeCharCallback,
-    AnimeDescCallback,
-    AnimeMoreCallback,
-    AnimeStaffCallback,
-    AnimeStudioCallback,
+    MangaCallback,
+    MangaCharCallback,
+    MangaDescCallback,
+    MangaMoreCallback,
+    MangaStaffCallback,
 )
 from gojira.utils.graphql import (
-    AIRING_QUERY,
     ANILIST_API,
-    ANIME_GET,
-    ANIME_SEARCH,
     CHARACTER_QUERY,
     DESCRIPTION_QUERY,
+    MANGA_GET,
+    MANGA_SEARCH,
     STAFF_QUERY,
-    STUDIOS_QUERY,
-    TRAILER_QUERY,
 )
 
-router = Router(name="anime_view")
+router = Router(name="manga_view")
 
 
-@router.message(Command("anime"))
-@router.callback_query(AnimeCallback.filter())
-async def anime(
+@router.message(Command("manga"))
+@router.callback_query(MangaCallback.filter())
+async def manga(
     union: Message | CallbackQuery,
     command: CommandObject | None = None,
-    callback_data: AnimeCallback | None = None,
+    callback_data: MangaCallback | None = None,
 ):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
@@ -55,9 +49,9 @@ async def anime(
 
     if command and not command.args:
         if message.chat.type == ChatType.PRIVATE:
-            await anime_start(message)
+            await manga_start(message)
             return
-        await message.reply(_("You need to specify an anime. Use /anime name or id"))
+        await message.reply(_("You need to specify an manga. Use /manga name or id"))
         return
 
     is_private: bool = message.chat.type == ChatType.PRIVATE
@@ -95,7 +89,7 @@ async def anime(
             response = await client.post(
                 url=ANILIST_API,
                 json={
-                    "query": ANIME_SEARCH,
+                    "query": MANGA_SEARCH,
                     "variables": {
                         "search": query,
                     },
@@ -106,7 +100,7 @@ async def anime(
                 response = await client.post(
                     url=ANILIST_API,
                     json={
-                        "query": ANIME_SEARCH,
+                        "query": MANGA_SEARCH,
                         "variables": {
                             "search": query,
                         },
@@ -125,14 +119,14 @@ async def anime(
                 return
 
             if len(results) == 1:
-                anime_id = results[0]["id"]
+                manga_id = results[0]["id"]
             else:
                 keyboard = InlineKeyboardBuilder()
                 for result in results:
                     keyboard.row(
                         InlineKeyboardButton(
                             text=result["title"]["romaji"],
-                            callback_data=AnimeCallback(
+                            callback_data=MangaCallback(
                                 query=result["id"],
                                 user_id=user.id,
                                 is_search=True,
@@ -140,19 +134,19 @@ async def anime(
                         )
                     )
                 await message.reply(
-                    _("Search Results For: <b>{anime}</b>").format(anime=query),
+                    _("Search Results For: <b>{manga}</b>").format(manga=query),
                     reply_markup=keyboard.as_markup(),
                 )
                 return
         else:
-            anime_id = int(query)
+            manga_id = int(query)
 
         response = await client.post(
             url=ANILIST_API,
             json={
-                "query": ANIME_GET,
+                "query": MANGA_GET,
                 "variables": {
-                    "id": anime_id,
+                    "id": manga_id,
                 },
             },
         )
@@ -161,9 +155,9 @@ async def anime(
             await message.reply(_("No results found."))
             return
 
-        anime = data["data"]["Page"]["media"][0]
+        manga = data["data"]["Page"]["media"][0]
 
-        if not anime:
+        if not manga:
             await union.answer(
                 _("No results found."),
                 show_alert=True,
@@ -171,22 +165,14 @@ async def anime(
             )
             return
 
-    photo = f"https://img.anili.st/media/{anime_id}"
-
-    studios = []
-    producers = []
-    for studio in anime["studios"]["nodes"]:
-        if studio["isAnimationStudio"]:
-            studios.append(studio["name"])
-        else:
-            producers.append(studio["name"])
+    photo = f"https://img.anili.st/media/{manga_id}"
 
     end_date_components = [
         component
         for component in (
-            anime["endDate"].get("day"),
-            anime["endDate"].get("month"),
-            anime["endDate"].get("year"),
+            manga["endDate"].get("day"),
+            manga["endDate"].get("month"),
+            manga["endDate"].get("year"),
         )
         if component is not None
     ]
@@ -194,9 +180,9 @@ async def anime(
     start_date_components = [
         component
         for component in (
-            anime["startDate"].get("day"),
-            anime["startDate"].get("month"),
-            anime["startDate"].get("year"),
+            manga["startDate"].get("day"),
+            manga["startDate"].get("month"),
+            manga["startDate"].get("year"),
         )
         if component is not None
     ]
@@ -204,43 +190,35 @@ async def anime(
     end_date = "/".join(str(component) for component in end_date_components)
     start_date = "/".join(str(component) for component in start_date_components)
 
-    text = f"<b>{anime['title']['romaji']}</b>"
-    if anime["title"]["native"]:
-        text += f" (<code>{anime['title']['native']}</code>)"
-    text += _("\n\n<b>ID</b>: <code>{id}</code>").format(id=anime_id)
-    if anime["format"]:
-        text += _("\n<b>Format</b>: <code>{format}</code>").format(format=anime["format"])
-    if anime["format"] != "MOVIE" and anime["episodes"]:
-        text += _("\n<b>Episodes</b>: <code>{episodes}</code>").format(episodes=anime["episodes"])
-    if anime["duration"]:
-        text += _("\n<b>Episode Duration</b>: <code>{duration} mins</code>").format(
-            duration=anime["duration"]
+    text = f"<b>{manga['title']['romaji']}</b>"
+    if manga["title"]["native"]:
+        text += f" (<code>{manga['title']['native']}</code>)"
+    text += _("\n\n<b>ID</b>: <code>{id}</code>").format(id=manga["id"])
+    if manga["format"]:
+        text += _("\n<b>Format</b>: <code>{format}</code>").format(format=manga["format"])
+    if manga["volumes"]:
+        text += _("\n<b>Volumes</b>: <code>{volumes}</code>").format(volumes=manga["volumes"])
+    if manga["chapters"]:
+        text += _("\n<b>Chapters</b>: <code>{chapters}</code>").format(chapters=manga["chapters"])
+    if manga["status"]:
+        text += _("\n<b>Status</b>: <code>{status}</code>").format(
+            status=manga["status"].capitalize()
         )
-    text += _("\n<b>Status</b>: <code>{status}</code>").format(status=anime["status"].capitalize())
-    if anime["status"] != "NOT_YET_RELEASED":
+    if manga["status"] != "NOT_YET_RELEASED":
         text += _("\n<b>Start Date</b>: <code>{date}</code>").format(date=start_date)
-    if anime["status"] not in ["NOT_YET_RELEASED", "RELEASING"]:
+    if manga["status"] not in ["NOT_YET_RELEASED", "RELEASING"]:
         text += _("\n<b>End Date</b>: <code>{date}</code>").format(date=end_date)
-    if anime["season"]:
-        season = f"{anime['season'].capitalize()} {anime['seasonYear']}"
-        text += _("\n<b>Season</b>: <code>{season}</code>").format(season=season)
-    if anime["averageScore"]:
+    if manga["averageScore"]:
         text += _("\n<b>Average Score</b>: <code>{score}</code>").format(
-            score=anime["averageScore"]
+            score=manga["averageScore"]
         )
-    if anime["studios"] and len(anime["studios"]["nodes"]) > 0:
-        text += _("\n<b>Studios</b>: <code>{studios}</code>").format(studios=", ".join(studios))
-    if len(producers) > 0:
-        text += _("\n<b>Producers</b>: <code>{producers}</code>").format(
-            producers=", ".join(producers)
-        )
-    if anime["source"]:
+    if manga["source"]:
         text += _("\n<b>Source</b>: <code>{source}</code>").format(
-            source=anime["source"].capitalize()
+            source=manga["source"].capitalize()
         )
-    if anime["genres"]:
+    if manga["genres"]:
         text += _("\n<b>Genres</b>: <code>{genres}</code>").format(
-            genres=", ".join(anime["genres"])
+            genres=", ".join(manga["genres"])
         )
 
     keyboard = InlineKeyboardBuilder()
@@ -248,16 +226,16 @@ async def anime(
     keyboard.row(
         InlineKeyboardButton(
             text=_("👓 View More"),
-            callback_data=AnimeMoreCallback(
-                anime_id=anime_id,
+            callback_data=MangaMoreCallback(
+                manga_id=manga_id,
                 user_id=user.id,
             ).pack(),
         )
     )
 
-    if "relations" in anime and len(anime["relations"]["edges"]) > 0:
+    if "relations" in manga and len(manga["relations"]["edges"]) > 0:
         relations_buttons = []
-        for relation in anime["relations"]["edges"]:
+        for relation in manga["relations"]["edges"]:
             if relation["relationType"] in ["PREQUEL", "SEQUEL"]:
                 button_text = (
                     _("➡️ Sequel") if relation["relationType"] == "SEQUEL" else _("⬅️ Prequel")
@@ -265,7 +243,7 @@ async def anime(
                 relations_buttons.append(
                     InlineKeyboardButton(
                         text=button_text,
-                        callback_data=AnimeCallback(
+                        callback_data=MangaCallback(
                             query=relation["node"]["id"],
                             user_id=user.id,
                         ).pack(),
@@ -296,15 +274,16 @@ async def anime(
     )
 
 
-@router.callback_query(AnimeMoreCallback.filter())
-async def anime_more(callback: CallbackQuery, callback_data: AnimeMoreCallback):
+@router.callback_query(MangaMoreCallback.filter())
+async def manga_more(callback: CallbackQuery, callback_data: MangaMoreCallback):
     message = callback.message
     user = callback.from_user
     if not message:
         return
 
-    anime_id = callback_data.anime_id
+    manga_id = callback_data.manga_id
     user_id = callback_data.user_id
+    manga_url = f"https://anilist.co/manga/{manga_id}"
 
     if user_id != user.id:
         await callback.answer(
@@ -314,89 +293,53 @@ async def anime_more(callback: CallbackQuery, callback_data: AnimeMoreCallback):
         )
         return
 
-    async with aiohttp.ClientSession() as client:
-        response = await client.post(
-            url=ANILIST_API,
-            json={
-                "query": TRAILER_QUERY,
-                "variables": {
-                    "id": (anime_id),
-                    "media": "ANIME",
-                },
-            },
-            headers={
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-            },
-        )
-        data = await response.json()
-        anime = data["data"]["Page"]["media"][0]
+    keyboard = InlineKeyboardBuilder()
 
-        keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=_("📜 Description"),
+        callback_data=MangaDescCallback(manga_id=manga_id, user_id=user_id),
+    )
+    keyboard.button(
+        text=_("🧑‍🤝‍🧑 Characters"),
+        callback_data=MangaCharCallback(manga_id=manga_id, user_id=user_id),
+    )
+    keyboard.button(
+        text=_("👨‍💻 Staff"),
+        callback_data=MangaStaffCallback(manga_id=manga_id, user_id=user_id),
+    )
 
-        keyboard.button(
-            text=_("📜 Description"),
-            callback_data=AnimeDescCallback(anime_id=anime_id, user_id=user_id),
-        )
-        keyboard.button(
-            text=_("🧑‍🤝‍🧑 Characters"),
-            callback_data=AnimeCharCallback(anime_id=anime_id, user_id=user_id),
-        )
-        keyboard.button(
-            text=_("👨‍💻 Staff"),
-            callback_data=AnimeStaffCallback(anime_id=anime_id, user_id=user_id),
-        )
-        keyboard.button(
-            text=_("🌆 Studios"),
-            callback_data=AnimeStudioCallback(anime_id=anime_id, user_id=user_id),
-        )
-        keyboard.button(
-            text=_("📺 Airing"),
-            callback_data=AnimeAiringCallback(anime_id=anime_id, user_id=user_id),
-        )
+    keyboard.button(text=_("🐢 AniList"), url=manga_url)
+    keyboard.adjust(2)
 
-        if anime["trailer"]:
-            trailer_site = anime["trailer"]["site"]
-            trailer_id = anime["trailer"]["id"]
-            trailer_url = (
-                f"https://www.dailymotion.com/video/{trailer_id}"
-                if trailer_site != "youtube"
-                else f"https://youtu.be/{trailer_id}"
-            )
-            keyboard.button(text=_("🎦 Trailer"), url=trailer_url)
-
-        keyboard.button(text=_("🐢 AniList"), url=anime["siteUrl"])
-        keyboard.adjust(2)
-
-        keyboard.row(
-            InlineKeyboardButton(
-                text=_("🔙 Back"),
-                callback_data=AnimeCallback(
-                    query=anime_id,
-                    user_id=user.id,
-                ).pack(),
-            )
+    keyboard.row(
+        InlineKeyboardButton(
+            text=_("🔙 Back"),
+            callback_data=MangaCallback(
+                query=manga_id,
+                user_id=user.id,
+            ).pack(),
         )
+    )
 
-        text = _(
-            "Here you will be able to see the description, characters, staff and\
+    text = _(
+        "Here you will be able to see the description, characters, staff and\
 some other things, make good use of it. 🙃"
-        )
+    )
 
-        await message.edit_caption(
-            caption=text,
-            reply_markup=keyboard.as_markup(),
-        )
+    await message.edit_caption(
+        caption=text,
+        reply_markup=keyboard.as_markup(),
+    )
 
 
-@router.callback_query(AnimeDescCallback.filter())
-async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCallback):
+@router.callback_query(MangaDescCallback.filter())
+async def manga_description(callback: CallbackQuery, callback_data: MangaDescCallback):
     message = callback.message
     user = callback.from_user
     if not message:
         return
 
-    anime_id = callback_data.anime_id
+    manga_id = callback_data.manga_id
     user_id = callback_data.user_id
     page = callback_data.page
 
@@ -414,8 +357,8 @@ async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCal
             json={
                 "query": DESCRIPTION_QUERY,
                 "variables": {
-                    "id": (anime_id),
-                    "media": "ANIME",
+                    "id": manga_id,
+                    "media": "MANGA",
                 },
             },
             headers={
@@ -424,17 +367,17 @@ async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCal
             },
         )
         data = await response.json()
-        anime = data["data"]["Page"]["media"][0]
+        manga = data["data"]["Page"]["media"][0]
 
-        if not anime["description"]:
+        if not manga["description"]:
             await callback.answer(
-                _("This anime does not have a description."),
+                _("This manga does not have a description."),
                 show_alert=True,
                 cache_time=60,
             )
             return
 
-        description = anime["description"]
+        description = manga["description"]
         amount = 1024
         page = 1 if page <= 0 else page
         offset = (page - 1) * amount
@@ -447,8 +390,8 @@ async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCal
             page_buttons.append(
                 InlineKeyboardButton(
                     text="⬅️",
-                    callback_data=AnimeDescCallback(
-                        anime_id=anime_id, user_id=user_id, page=page - 1
+                    callback_data=MangaDescCallback(
+                        manga_id=manga_id, user_id=user_id, page=page - 1
                     ).pack(),
                 )
             )
@@ -458,8 +401,8 @@ async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCal
             page_buttons.append(
                 InlineKeyboardButton(
                     text="➡️",
-                    callback_data=AnimeDescCallback(
-                        anime_id=anime_id, user_id=user_id, page=page + 1
+                    callback_data=MangaDescCallback(
+                        manga_id=manga_id, user_id=user_id, page=page + 1
                     ).pack(),
                 )
             )
@@ -471,8 +414,8 @@ async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCal
         keyboard.row(
             InlineKeyboardButton(
                 text=_("🔙 Back"),
-                callback_data=AnimeMoreCallback(
-                    anime_id=anime_id,
+                callback_data=MangaMoreCallback(
+                    manga_id=manga_id,
                     user_id=user_id,
                 ).pack(),
             )
@@ -491,14 +434,14 @@ async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCal
         )
 
 
-@router.callback_query(AnimeCharCallback.filter())
-async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCallback):
+@router.callback_query(MangaCharCallback.filter())
+async def manga_characters(callback: CallbackQuery, callback_data: MangaCharCallback):
     message = callback.message
     user = callback.from_user
     if not message:
         return
 
-    anime_id = callback_data.anime_id
+    manga_id = callback_data.manga_id
     user_id = callback_data.user_id
     page = callback_data.page
 
@@ -516,8 +459,8 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
             json={
                 "query": CHARACTER_QUERY,
                 "variables": {
-                    "id": anime_id,
-                    "media": "ANIME",
+                    "id": manga_id,
+                    "media": "MANGA",
                 },
             },
             headers={
@@ -526,11 +469,11 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
             },
         )
         data = await response.json()
-        anime = data["data"]["Page"]["media"][0]
+        manga = data["data"]["Page"]["media"][0]
 
-        if not anime["characters"]:
+        if not manga["characters"]:
             await callback.answer(
-                _("This anime does not have characters."),
+                _("This manga does not have characters."),
                 show_alert=True,
                 cache_time=60,
             )
@@ -544,7 +487,7 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
                     "name": character["node"]["name"],
                     "role": character["role"],
                 }
-                for character in anime["characters"]["edges"]
+                for character in manga["characters"]["edges"]
             ],
             key=lambda x: x["id"],
         )
@@ -568,8 +511,8 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
             page_buttons.append(
                 InlineKeyboardButton(
                     text="⬅️",
-                    callback_data=AnimeCharCallback(
-                        anime_id=anime_id, user_id=user_id, page=page - 1
+                    callback_data=MangaCharCallback(
+                        manga_id=manga_id, user_id=user_id, page=page - 1
                     ).pack(),
                 )
             )
@@ -577,8 +520,8 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
             page_buttons.append(
                 InlineKeyboardButton(
                     text="➡️",
-                    callback_data=AnimeCharCallback(
-                        anime_id=anime_id, user_id=user_id, page=page + 1
+                    callback_data=MangaCharCallback(
+                        manga_id=manga_id, user_id=user_id, page=page + 1
                     ).pack(),
                 )
             )
@@ -593,8 +536,8 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
         keyboard.row(
             InlineKeyboardButton(
                 text=_("🔙 Back"),
-                callback_data=AnimeMoreCallback(
-                    anime_id=anime_id,
+                callback_data=MangaMoreCallback(
+                    manga_id=manga_id,
                     user_id=user_id,
                 ).pack(),
             )
@@ -608,14 +551,14 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
         )
 
 
-@router.callback_query(AnimeStaffCallback.filter())
-async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback):
+@router.callback_query(MangaStaffCallback.filter())
+async def manga_staff(callback: CallbackQuery, callback_data: MangaStaffCallback):
     message = callback.message
     user = callback.from_user
     if not message:
         return
 
-    anime_id = callback_data.anime_id
+    manga_id = callback_data.manga_id
     user_id = callback_data.user_id
     page = callback_data.page
 
@@ -633,8 +576,8 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
             json={
                 "query": STAFF_QUERY,
                 "variables": {
-                    "id": anime_id,
-                    "media": "ANIME",
+                    "id": manga_id,
+                    "media": "MANGA",
                 },
             },
             headers={
@@ -684,8 +627,8 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
             page_buttons.append(
                 InlineKeyboardButton(
                     text="⬅️",
-                    callback_data=AnimeStaffCallback(
-                        anime_id=anime_id, user_id=user_id, page=page - 1
+                    callback_data=MangaStaffCallback(
+                        manga_id=manga_id, user_id=user_id, page=page - 1
                     ).pack(),
                 )
             )
@@ -693,8 +636,8 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
             page_buttons.append(
                 InlineKeyboardButton(
                     text="➡️",
-                    callback_data=AnimeStaffCallback(
-                        anime_id=anime_id, user_id=user_id, page=page + 1
+                    callback_data=MangaStaffCallback(
+                        manga_id=manga_id, user_id=user_id, page=page + 1
                     ).pack(),
                 )
             )
@@ -709,8 +652,8 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
         keyboard.row(
             InlineKeyboardButton(
                 text=_("🔙 Back"),
-                callback_data=AnimeMoreCallback(
-                    anime_id=anime_id,
+                callback_data=MangaMoreCallback(
+                    manga_id=manga_id,
                     user_id=user_id,
                 ).pack(),
             )
@@ -718,182 +661,6 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
 
         text = _("Below are some persons from the item in question.")
         text = f"{text}\n\n{staff_text}"
-        await message.edit_caption(
-            caption=text,
-            reply_markup=keyboard.as_markup(),
-        )
-
-
-@router.callback_query(AnimeAiringCallback.filter())
-async def anime_airing(callback: CallbackQuery, callback_data: AnimeAiringCallback):
-    message = callback.message
-    user = callback.from_user
-    if not message:
-        return
-
-    anime_id = callback_data.anime_id
-    user_id = callback_data.user_id
-
-    if user_id != user.id:
-        await callback.answer(
-            _("This button is not for you"),
-            show_alert=True,
-            cache_time=60,
-        )
-        return
-
-    async with aiohttp.ClientSession() as client:
-        response = await client.post(
-            url=ANILIST_API,
-            json={
-                "query": AIRING_QUERY,
-                "variables": {
-                    "id": anime_id,
-                    "media": "ANIME",
-                },
-            },
-            headers={
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-            },
-        )
-        data = await response.json()
-        anime = data["data"]["Page"]["media"][0]
-
-        text = _("See below when the next episode of the anime in question will air.\n\n")
-        if anime["nextAiringEpisode"]:
-            text += _("<b>Episode:</b> <code>{episode}</code>\n").format(
-                episode=anime["nextAiringEpisode"]["episode"]
-            )
-            text += _("<b>Airing:</b> <code>{airing_time}</code>").format(
-                airing_time=humanize.precisedelta(anime["nextAiringEpisode"]["timeUntilAiring"])
-            )
-        else:
-            episodes = anime["episodes"] if anime["episodes"] else "N/A"
-            text += _("<b>Episode:</b> <code>{episode}</code>\n").format(episode=episodes)
-            text += _("<b>Airing:</b> <code>N/A</code>")
-
-        buttons = []
-        externalLinks = anime["externalLinks"]
-        if externalLinks:
-            for link in externalLinks:
-                if link["type"] == "STREAMING":
-                    buttons.append(InlineKeyboardButton(text=link["site"], url=link["url"]))
-
-        keyboard = InlineKeyboardBuilder()
-        if len(buttons) > 0:
-            keyboard.row(*buttons)
-            keyboard.adjust(3)
-
-        keyboard.row(
-            InlineKeyboardButton(
-                text=_("🔙 Back"),
-                callback_data=AnimeMoreCallback(
-                    anime_id=anime_id,
-                    user_id=user_id,
-                ).pack(),
-            )
-        )
-
-        await message.edit_caption(
-            caption=text,
-            reply_markup=keyboard.as_markup(),
-        )
-
-
-@router.callback_query(AnimeStudioCallback.filter())
-async def anime_studio(callback: CallbackQuery, callback_data: AnimeStudioCallback):
-    message = callback.message
-    user = callback.from_user
-    if not message:
-        return
-
-    anime_id = callback_data.anime_id
-    user_id = callback_data.user_id
-    page = callback_data.page
-
-    if user_id != user.id:
-        await callback.answer(
-            _("This button is not for you"),
-            show_alert=True,
-            cache_time=60,
-        )
-        return
-
-    async with aiohttp.ClientSession() as client:
-        response = await client.post(
-            url=ANILIST_API,
-            json={
-                "query": STUDIOS_QUERY,
-                "variables": {
-                    "id": anime_id,
-                    "media": "ANIME",
-                },
-            },
-            headers={
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-            },
-        )
-        data = await response.json()
-        studio = data["data"]["Page"]["media"][0]["studios"]["nodes"]
-
-        studio_text = ""
-        # TODO: add hyperlink to studio name to retrieve more info
-        # me = await bot.get_me()
-        # bot_username = me.username
-        studios = sorted(studio, key=lambda x: x["name"])
-        for studio in studios:
-            studio_text += f"\n• <code>{studio['id']}</code> - {studio['name']} \
-{'(producer)' if not studio['isAnimationStudio'] else ''}"
-
-        # Separate staff_text into pages of 8 items if more than 8 items
-        studio_text = np.array(studio_text.split("\n"))
-        studio_text = np.delete(studio_text, np.argwhere(studio_text == ""))
-        studio_text = np.split(studio_text, np.arange(8, len(studio_text), 8))
-
-        pages = len(studio_text)
-
-        page_buttons = []
-        if page > 0:
-            page_buttons.append(
-                InlineKeyboardButton(
-                    text="⬅️",
-                    callback_data=AnimeStudioCallback(
-                        anime_id=anime_id, user_id=user_id, page=page - 1
-                    ).pack(),
-                )
-            )
-        if page + 1 != pages:
-            page_buttons.append(
-                InlineKeyboardButton(
-                    text="➡️",
-                    callback_data=AnimeStudioCallback(
-                        anime_id=anime_id, user_id=user_id, page=page + 1
-                    ).pack(),
-                )
-            )
-
-        studio_text = studio_text[page].tolist()
-        studio_text = "\n".join(studio_text)
-
-        keyboard = InlineKeyboardBuilder()
-        if len(page_buttons) > 0:
-            keyboard.row(*page_buttons)
-            keyboard.adjust(3)
-
-        keyboard.row(
-            InlineKeyboardButton(
-                text=_("🔙 Back"),
-                callback_data=AnimeMoreCallback(
-                    anime_id=anime_id,
-                    user_id=user_id,
-                ).pack(),
-            )
-        )
-
-        text = _("Below are some studios from the item in question.")
-        text = f"{text}\n\n{studio_text}"
         await message.edit_caption(
             caption=text,
             reply_markup=keyboard.as_markup(),

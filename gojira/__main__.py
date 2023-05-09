@@ -7,7 +7,7 @@ from tortoise.connection import connections
 
 from gojira import bot, dp, i18n
 from gojira.database.base import connect_database
-from gojira.handlers import anime, language, pm_menu, users
+from gojira.handlers import anime, language, manga, pm_menu, users
 from gojira.middlewares.acl import ACLMiddleware
 from gojira.middlewares.i18n import MyI18nMiddleware
 from gojira.utils.command_list import set_ui_commands
@@ -29,6 +29,8 @@ async def main():
         anime.popular.router,
         anime.categories.router,
         anime.scan.router,
+        manga.view.router,
+        manga.start.router,
         language.router,
         users.router,
     )

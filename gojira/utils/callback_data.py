@@ -69,3 +69,32 @@ class AnimeCategCallback(CallbackData, prefix="anime_categories"):
 class AnimeGCategCallback(CallbackData, prefix="anime_categorie"):
     page: int
     categorie: str
+
+
+class MangaCallback(CallbackData, prefix="manga"):
+    query: int | str
+    user_id: int | None = None
+    is_search: bool = False
+
+
+class MangaMoreCallback(CallbackData, prefix="manga_more"):
+    manga_id: int
+    user_id: int
+
+
+class MangaDescCallback(CallbackData, prefix="manga_description"):
+    manga_id: int
+    user_id: int
+    page: int = 0
+
+
+class MangaCharCallback(CallbackData, prefix="manga_character"):
+    manga_id: int
+    user_id: int
+    page: int = 0
+
+
+class MangaStaffCallback(CallbackData, prefix="manga_staff"):
+    manga_id: int
+    user_id: int
+    page: int = 0
