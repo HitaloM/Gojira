@@ -517,7 +517,7 @@ msgstr "<b>Exibição em</b>: <code>{airing_time}</code>"
 
 #: gojira/handlers/anime/view.py:774
 msgid "<b>Airing:</b> <code>N/A</code>"
-msgstr "<b>Exibição em</b>: <code>{season}</code>"
+msgstr "<b>Exibição em</b>: <code>N/A</</code>"
 
 #: gojira/handlers/anime/view.py:895
 msgid "Below are some studios from the item in question."
