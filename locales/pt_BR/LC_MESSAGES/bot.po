@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-05-09 15:13-0300\n"
-"PO-Revision-Date: 2023-05-09 19:19+0000\n"
+"PO-Revision-Date: 2023-05-10 23:07+0000\n"
 "Last-Translator: \"Hitalo M.\" <hitalo331@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "gojira/bot/pt_BR/>\n"
@@ -517,7 +517,7 @@ msgstr "<b>Exibição em</b>: <code>{airing_time}</code>"
 
 #: gojira/handlers/anime/view.py:774
 msgid "<b>Airing:</b> <code>N/A</code>"
-msgstr "<b>Exibição em</b>: <code>N/A</</code>"
+msgstr "<b>Exibição:</b> <code>N/A</code>"
 
 #: gojira/handlers/anime/view.py:895
 msgid "Below are some studios from the item in question."
