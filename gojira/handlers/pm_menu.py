@@ -4,18 +4,18 @@
 import html
 
 from aiogram import F, Router
+from aiogram.enums import ChatType
 from aiogram.filters import Command, CommandStart
 from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from gojira.filters.chat_status import ChatIsPrivate
 from gojira.utils.callback_data import StartCallback
 
 router = Router(name="pm_menu")
 
 
-@router.message(CommandStart(), ChatIsPrivate())
+@router.message(CommandStart(), F.chat.type == ChatType.PRIVATE)
 @router.callback_query(StartCallback.filter(F.menu == "start"))
 async def start_command(union: Message | CallbackQuery):
     is_callback = isinstance(union, CallbackQuery)
@@ -41,7 +41,7 @@ staff. And much more!"
         await message.reply(text, reply_markup=keyboard.as_markup())
 
 
-@router.message(Command("help"), ChatIsPrivate())
+@router.message(Command("help"), F.chat.type == ChatType.PRIVATE)
 @router.callback_query(StartCallback.filter(F.menu == "help"))
 async def help(union: Message | CallbackQuery):
     is_callback = isinstance(union, CallbackQuery)

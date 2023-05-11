@@ -53,9 +53,12 @@ on one of the buttons below. These are the languages that the bot currently supp
         )
 
     keyboard.adjust(4)
-    keyboard.row(
-        InlineKeyboardButton(text=_("🔙 Back"), callback_data=StartCallback(menu="start").pack())
-    )
+    if message.chat.type == ChatType.PRIVATE:
+        keyboard.row(
+            InlineKeyboardButton(
+                text=_("🔙 Back"), callback_data=StartCallback(menu="start").pack()
+            )
+        )
     if is_callback:
         await message.edit_text(text, reply_markup=keyboard.as_markup())
     else:
