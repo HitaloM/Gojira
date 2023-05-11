@@ -58,7 +58,7 @@ class AnimeUpcomingCallback(CallbackData, prefix="anime_upcoming"):
     page: int
 
 
-class AnimePopuCallback(CallbackData, prefix="anime_suggestions"):
+class AnimePopuCallback(CallbackData, prefix="anime_popular"):
     page: int
 
 
@@ -98,3 +98,20 @@ class MangaStaffCallback(CallbackData, prefix="manga_staff"):
     manga_id: int
     user_id: int
     page: int = 0
+
+
+class MangaUpcomingCallback(CallbackData, prefix="manga_upcoming"):
+    page: int
+
+
+class MangaPopuCallback(CallbackData, prefix="manga_popular"):
+    page: int
+
+
+class MangaCategCallback(CallbackData, prefix="manga_categories"):
+    page: int
+
+
+class MangaGCategCallback(CallbackData, prefix="manga_categorie"):
+    page: int
+    categorie: str

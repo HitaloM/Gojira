@@ -31,6 +31,9 @@ async def main():
         anime.scan.router,
         manga.view.router,
         manga.start.router,
+        manga.upcoming.router,
+        manga.popular.router,
+        manga.categories.router,
         language.router,
         users.router,
     )

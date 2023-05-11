@@ -7,7 +7,12 @@ from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from gojira.utils.callback_data import StartCallback
+from gojira.utils.callback_data import (
+    MangaCategCallback,
+    MangaPopuCallback,
+    MangaUpcomingCallback,
+    StartCallback,
+)
 
 router = Router(name="manga_start")
 
@@ -20,6 +25,9 @@ async def manga_start(union: Message | CallbackQuery):
         return
 
     keyboard = InlineKeyboardBuilder()
+    keyboard.button(text=_("🔝 Popular"), callback_data=MangaPopuCallback(page=1))
+    keyboard.button(text=_("🐛 Categories"), callback_data=MangaCategCallback(page=1))
+    keyboard.button(text=_("🆕 Upcoming"), callback_data=MangaUpcomingCallback(page=1))
     keyboard.adjust(2)
 
     keyboard.row(
