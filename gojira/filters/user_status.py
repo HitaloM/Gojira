@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
-
 from aiogram.enums import ChatMemberStatus, ChatType
 from aiogram.filters import BaseFilter
 from aiogram.types import CallbackQuery, Message

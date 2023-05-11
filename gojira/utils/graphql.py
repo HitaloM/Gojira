@@ -83,6 +83,12 @@ query($id: Int) {
             seasonYear
             source
             averageScore
+            bannerImage
+            coverImage {
+                medium
+                large
+                extraLarge
+            }
             relations {
                 edges {
                     node {
@@ -125,6 +131,12 @@ query($id: Int) {
             }
             source
             averageScore
+            bannerImage
+            coverImage {
+                medium
+                large
+                extraLarge
+            }
             relations {
                 edges {
                     node {

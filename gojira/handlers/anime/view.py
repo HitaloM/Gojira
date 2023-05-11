@@ -42,10 +42,11 @@ router = Router(name="anime_view")
 
 @router.message(Command("anime"))
 @router.callback_query(AnimeCallback.filter())
-async def anime(
+async def anime_view(
     union: Message | CallbackQuery,
     command: CommandObject | None = None,
     callback_data: AnimeCallback | None = None,
+    anime_id: int | None = None,
 ):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
@@ -67,7 +68,7 @@ async def anime(
         if is_callback and callback_data is not None
         else command.args
         if command and command.args
-        else None
+        else anime_id
     )
 
     if is_callback and callback_data is not None:

@@ -7,7 +7,7 @@ from tortoise.connection import connections
 
 from gojira import bot, dp, i18n
 from gojira.database.base import connect_database
-from gojira.handlers import anime, language, manga, pm_menu, users
+from gojira.handlers import anime, language, manga, pm_menu, users, view
 from gojira.middlewares.acl import ACLMiddleware
 from gojira.middlewares.i18n import MyI18nMiddleware
 from gojira.utils.command_list import set_ui_commands
@@ -20,22 +20,27 @@ async def main():
     dp.message.middleware(MyI18nMiddleware(i18n=i18n))
     dp.callback_query.middleware(ACLMiddleware())
     dp.callback_query.middleware(MyI18nMiddleware(i18n=i18n))
+    dp.inline_query.middleware(ACLMiddleware())
+    dp.inline_query.middleware(MyI18nMiddleware(i18n=i18n))
 
     dp.include_routers(
         pm_menu.router,
+        view.router,
+        language.router,
+        users.router,
         anime.start.router,
         anime.view.router,
         anime.upcoming.router,
         anime.popular.router,
         anime.categories.router,
         anime.scan.router,
+        anime.inline.router,
         manga.view.router,
         manga.start.router,
         manga.upcoming.router,
         manga.popular.router,
         manga.categories.router,
-        language.router,
-        users.router,
+        manga.inline.router,
     )
 
     await set_ui_commands(bot, i18n)

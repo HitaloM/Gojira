@@ -36,10 +36,11 @@ router = Router(name="manga_view")
 
 @router.message(Command("manga"))
 @router.callback_query(MangaCallback.filter())
-async def manga(
+async def manga_view(
     union: Message | CallbackQuery,
     command: CommandObject | None = None,
     callback_data: MangaCallback | None = None,
+    manga_id: int | None = None,
 ):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
@@ -61,7 +62,7 @@ async def manga(
         if is_callback and callback_data is not None
         else command.args
         if command and command.args
-        else None
+        else manga_id
     )
 
     if is_callback and callback_data is not None:

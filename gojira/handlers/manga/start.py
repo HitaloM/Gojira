@@ -28,6 +28,7 @@ async def manga_start(union: Message | CallbackQuery):
     keyboard.button(text=_("🔝 Popular"), callback_data=MangaPopuCallback(page=1))
     keyboard.button(text=_("🐛 Categories"), callback_data=MangaCategCallback(page=1))
     keyboard.button(text=_("🆕 Upcoming"), callback_data=MangaUpcomingCallback(page=1))
+    keyboard.button(text=_("🔍 Search"), switch_inline_query_current_chat="!m ")
     keyboard.adjust(2)
 
     keyboard.row(
