@@ -7,7 +7,7 @@ from aiogram.enums import ChatType
 from aiogram.types import Chat, TelegramObject, User
 from aiogram.utils.i18n import I18nMiddleware
 
-from gojira.database.models import Chats, Users
+from gojira.database import Chats, Users
 
 
 class MyI18nMiddleware(I18nMiddleware):
@@ -15,21 +15,20 @@ class MyI18nMiddleware(I18nMiddleware):
         user: User | None = data.get("event_from_user")
         chat: Chat | None = data.get("event_chat")
 
+        if not user or not chat:
+            return self.i18n.default_locale
+
         if chat is not None and chat.type == ChatType.PRIVATE:
-            obj = user
-            objdb = Users
+            obj = await Users.get_user(user=user)
+            language_code = await Users.get_language(user=user)
         else:
-            obj = chat
-            objdb = Chats
+            obj = await Chats.get_chat(chat=chat)
+            language_code = await Chats.get_language(chat=chat)
 
-        if obj is None:
+        if not obj:
             return self.i18n.default_locale
 
-        obj = await objdb.get_or_none(id=obj.id)
-        if obj is None:
+        if language_code not in self.i18n.available_locales:
             return self.i18n.default_locale
 
-        if obj.language_code not in self.i18n.available_locales:
-            return self.i18n.default_locale
-
-        return cast(str, obj.language_code)
+        return cast(str, language_code)

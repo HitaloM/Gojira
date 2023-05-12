@@ -10,7 +10,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from babel import Locale
 
 from gojira import i18n
-from gojira.database.models import Chats, Users
+from gojira.database import Chats, Users
 from gojira.filters.user_status import IsAdmin
 from gojira.utils.callback_data import LanguageCallback, StartCallback
 from gojira.utils.language import get_chat_language
@@ -26,8 +26,8 @@ async def select_language(union: Message | CallbackQuery):
     if not message or not union.from_user:
         return
 
-    chat_type, lang_code = await get_chat_language(message.chat)
-    lang_display_name = str(Locale.parse(lang_code).display_name).capitalize()
+    chat_type, lang_code = await get_chat_language(union)
+    lang_display_name = str(Locale.parse(str(lang_code)).display_name).capitalize()
 
     text = _(
         "You can select your preferred language for the bot in this chat by clicking \
@@ -70,9 +70,9 @@ async def language_callback(callback: CallbackQuery, callback_data: LanguageCall
         return
 
     if callback_data.chat == ChatType.PRIVATE:
-        await Users.filter(id=callback.from_user.id).update(language_code=callback_data.lang)
+        await Users.set_language(user=callback.from_user, language_code=callback_data.lang)
     if callback_data.chat in (ChatType.GROUP, ChatType.SUPERGROUP):
-        await Chats.filter(id=callback.message.chat.id).update(language_code=callback_data.lang)
+        await Chats.set_language(chat=callback.message.chat, language_code=callback_data.lang)
 
     lang = Locale.parse(callback_data.lang)
     await callback.message.edit_text(

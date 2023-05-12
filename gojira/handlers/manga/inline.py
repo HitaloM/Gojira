@@ -2,9 +2,9 @@
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
-import contextlib
 import random
 import re
+from contextlib import suppress
 
 import aiohttp
 from aiogram import F, Router
@@ -178,7 +178,7 @@ async def manga_inline(inline: InlineQuery, match: re.Match[str]):
                 )
             )
 
-    with contextlib.suppress(TelegramBadRequest):
+    with suppress(TelegramBadRequest):
         if len(results) > 0:
             await inline.answer(
                 results=results,

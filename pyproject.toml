@@ -9,8 +9,8 @@ authors = [
 ]
 dependencies = [
     "aiogram[fast, i18n] >= 3.0.0b7",
-    "tortoise-orm[accel] >= 0.19.0",
     "aiohttp[speedups] >= 3.8.4",
+    "aiosqlite >= 0.19.0",
     "numpy >= 1.24.3",
     "lxml >= 4.9.2",
     "humanize >= 4.6.0",
