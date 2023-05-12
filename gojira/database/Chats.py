@@ -29,6 +29,9 @@ class Chats(SqliteConnection):
 
     @staticmethod
     async def set_language(chat: Chat, language_code: str) -> None:
-        sql = "INSERT INTO chats (id, language_code) VALUES (?, ?)"
-        params = (chat.id, language_code)
+        if await Chats.get_chat(chat):
+            sql = "UPDATE chats SET language_code = ? WHERE id = ?"
+        else:
+            sql = "INSERT INTO chats (id, language_code) VALUES (?, ?)"
+        params = (language_code, chat.id)
         await Chats._make_request(sql, params)
