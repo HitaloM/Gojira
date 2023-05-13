@@ -17,9 +17,10 @@ from meval import meval
 from gojira.filters.user_status import IsSudo
 
 router = Router(name="doas")
+router.message.filter(IsSudo())
 
 
-@router.message(Command(commands=["reboot", "restart"]), IsSudo())
+@router.message(Command(commands=["reboot", "restart"]))
 async def reboot(message: Message):
     await message.reply("Rebooting...")
     args = [sys.executable, "-m", "gojira"]
@@ -32,7 +33,7 @@ async def shutdown_message(message: Message):
     os.kill(os.getpid(), SIGINT)
 
 
-@router.message(Command(commands=["eval", "ev"]), IsSudo())
+@router.message(Command(commands=["eval", "ev"]))
 async def evaluate(message: Message, command: CommandObject):
     query = command.args
     sent = await message.reply("Evaluating...")
@@ -71,7 +72,7 @@ async def evaluate(message: Message, command: CommandObject):
     await sent.edit_text(output_message)
 
 
-@router.message(Command("ping"), IsSudo())
+@router.message(Command("ping"))
 async def ping(message: Message):
     start = datetime.datetime.now().replace(tzinfo=datetime.UTC)
     sent = await message.reply("<b>Pong!</b>")
