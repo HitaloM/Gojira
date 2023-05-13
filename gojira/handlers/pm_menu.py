@@ -5,19 +5,32 @@ import html
 
 from aiogram import F, Router
 from aiogram.enums import ChatType
-from aiogram.filters import Command, CommandStart
+from aiogram.filters import Command, CommandObject, CommandStart
 from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
+from gojira.handlers.anime.view import anime_view
+from gojira.handlers.manga.view import manga_view
 from gojira.utils.callback_data import StartCallback
 
 router = Router(name="pm_menu")
 
 
-@router.message(CommandStart(), F.chat.type == ChatType.PRIVATE)
+@router.message(CommandStart(deep_link=True), F.chat.type == ChatType.PRIVATE)
 @router.callback_query(StartCallback.filter(F.menu == "start"))
-async def start_command(union: Message | CallbackQuery):
+async def start_command(union: Message | CallbackQuery, command: CommandObject):
+    if command.args and len(command.args.split("_")) > 1:
+        content_type = command.args.split("_")[0]
+        content_id = command.args.split("_")[1:]
+
+        if content_type == "anime":
+            await anime_view(union, anime_id=int(content_id[0]))
+            return
+        if content_type == "manga":
+            await manga_view(union, manga_id=int(content_id[0]))
+            return
+
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     if not message or not union.from_user:

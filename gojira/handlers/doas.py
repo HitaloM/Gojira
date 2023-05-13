@@ -27,7 +27,7 @@ async def reboot(message: Message):
     os.execv(sys.executable, args)
 
 
-@router.message(Command("shutdown"), IsSudo())
+@router.message(Command("shutdown"))
 async def shutdown_message(message: Message):
     await message.reply("Turning off...")
     os.kill(os.getpid(), SIGINT)
