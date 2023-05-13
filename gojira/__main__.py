@@ -4,7 +4,7 @@
 import asyncio
 
 from gojira import bot, dp, i18n
-from gojira.handlers import anime, language, manga, pm_menu, users, view
+from gojira.handlers import anime, doas, language, manga, pm_menu, users, view
 from gojira.middlewares.acl import ACLMiddleware
 from gojira.middlewares.i18n import MyI18nMiddleware
 from gojira.utils.command_list import set_ui_commands
@@ -22,6 +22,7 @@ async def main():
         pm_menu.router,
         view.router,
         language.router,
+        doas.router,
         anime.start.router,
         anime.view.router,
         anime.upcoming.router,

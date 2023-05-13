@@ -16,6 +16,7 @@ dependencies = [
     "humanize >= 4.6.0",
     "loguru >= 0.7.0",
     "pydantic[dotenv] >= 1.10.7",
+    "meval >= 2.5",
 ]
 dynamic = ["version"]
 
