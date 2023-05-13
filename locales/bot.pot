@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-12 22:51-0300\n"
+"POT-Creation-Date: 2023-05-13 00:47-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,7 +47,7 @@ msgstr ""
 #: gojira/handlers/manga/start.py:36 gojira/handlers/manga/upcoming.py:65
 #: gojira/handlers/manga/view.py:317 gojira/handlers/manga/view.py:417
 #: gojira/handlers/manga/view.py:539 gojira/handlers/manga/view.py:655
-#: gojira/handlers/pm_menu.py:60 gojira/handlers/pm_menu.py:98
+#: gojira/handlers/pm_menu.py:73 gojira/handlers/pm_menu.py:111
 msgid "🔙 Back"
 msgstr ""
 
@@ -55,40 +55,40 @@ msgstr ""
 msgid "Changed language to {lang}"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:27
+#: gojira/handlers/pm_menu.py:40
 msgid "ℹ️ About"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:28
+#: gojira/handlers/pm_menu.py:41
 msgid "🌐 Language"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:29
+#: gojira/handlers/pm_menu.py:42
 msgid "👮‍♂️ Help"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:32
+#: gojira/handlers/pm_menu.py:45
 msgid ""
 "Hello, <b>{user_name}</b>. I am <b>Gojira</b>, a Telegram bot that can "
 "help you with informations about anime and manga, such as genres, "
 "characters, studios, staff. And much more!"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:53
+#: gojira/handlers/pm_menu.py:66
 msgid "👸 Anime"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:54
+#: gojira/handlers/pm_menu.py:67
 msgid "📖 Manga"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:64
+#: gojira/handlers/pm_menu.py:77
 msgid ""
 "This is the menu where all my modules are concentrated, click on one of "
 "the buttons below to start exploring all my functions."
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:83
+#: gojira/handlers/pm_menu.py:96
 msgid ""
 "Gojira is a bot developed using Python that utilizes AIOGram and AniList "
 "GraphQL API to provide fast, stable and comprehensive information about "
@@ -96,11 +96,11 @@ msgid ""
 "name of the famous monster Godzilla."
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:91
+#: gojira/handlers/pm_menu.py:104
 msgid "📦 GitHub"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:92
+#: gojira/handlers/pm_menu.py:105
 msgid "📚 Channel"
 msgstr ""
 
