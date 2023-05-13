@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-05-11 18:44-0300\n"
-"PO-Revision-Date: 2023-05-13 00:26+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-05-13 00:27+0000\n"
+"Last-Translator: \"Hitalo M.\" <hitalo331@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "gojira/glossary/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -225,7 +225,6 @@ msgid "Below are up to <b>50</b> results from the <b>{genre}</b> category."
 msgstr "Abaixo estão até <b>50</b> resultados da categoria <b>{genre}</b>."
 
 #: gojira/handlers/anime/inline.py:131
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -233,7 +232,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"<b>ID</b>: <code>{id}</code>"
+"<b>ID</b>: <code>{id}</code> (<b>ANIME</b>)"
 
 #: gojira/handlers/anime/inline.py:133 gojira/handlers/anime/view.py:213
 #: gojira/handlers/manga/inline.py:125 gojira/handlers/manga/view.py:199
@@ -339,14 +338,14 @@ msgstr ""
 "<b>Gêneros</b>: <code>{genres}</code>"
 
 #: gojira/handlers/anime/inline.py:173 gojira/handlers/manga/inline.py:155
-#, fuzzy
 msgid ""
 "\n"
 "\n"
 "<b>Short Description</b>: <i>{description}</i>"
 msgstr ""
 "\n"
-"<b>Duração do Episódio</b>: <code>{duration} mins</code>"
+"\n"
+"<b>Descrição Curta</b>: <i>{description}</i>"
 
 #: gojira/handlers/anime/inline.py:182 gojira/handlers/anime/view.py:251
 #: gojira/handlers/manga/inline.py:164 gojira/handlers/manga/view.py:229
@@ -444,7 +443,7 @@ msgstr "🆕 Em breve"
 
 #: gojira/handlers/anime/start.py:31 gojira/handlers/manga/start.py:31
 msgid "🔍 Search"
-msgstr ""
+msgstr "🔍 Pesquisar"
 
 #: gojira/handlers/anime/start.py:41
 msgid ""
@@ -577,7 +576,6 @@ msgid "Below are some studios from the item in question."
 msgstr "Abaixo estão alguns estúdios do item em questão."
 
 #: gojira/handlers/manga/inline.py:123
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -585,7 +583,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"<b>ID</b>: <code>{id}</code>"
+"<b>ID</b>: <code>{id}</code> (<b>MANGA</b>)"
 
 #: gojira/handlers/manga/inline.py:127 gojira/handlers/manga/view.py:201
 msgid ""
