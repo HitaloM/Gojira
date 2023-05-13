@@ -11,37 +11,53 @@ from aiogram.utils.i18n import I18n
 
 
 async def set_ui_commands(bot: Bot, i18n: I18n):
-    locale_obj = i18n.gettext
+    _ = i18n.gettext
 
     await bot.delete_my_commands()
     for lang in i18n.available_locales:
         user_commands: list[BotCommand] = [
             BotCommand(
                 command="start",
-                description=locale_obj("Start the bot.", locale=lang),
+                description=_("Start the bot.", locale=lang),
+            ),
+            BotCommand(
+                command="help",
+                description=_("Get help.", locale=lang),
+            ),
+            BotCommand(
+                command="anime",
+                description=_("Get anime informations.", locale=lang),
+            ),
+            BotCommand(
+                command="manga",
+                description=_("Get manga informations.", locale=lang),
             ),
             BotCommand(
                 command="language",
-                description=locale_obj("Change bot language.", locale=lang),
+                description=_("Change bot language.", locale=lang),
             ),
             BotCommand(
                 command="about",
-                description=locale_obj("About the bot.", locale=lang),
+                description=_("About the bot.", locale=lang),
             ),
         ]
 
         group_commands: list[BotCommand] = [
             BotCommand(
                 command="anime",
-                description=locale_obj("Get anime informations.", locale=lang),
+                description=_("Get anime informations.", locale=lang),
+            ),
+            BotCommand(
+                command="manga",
+                description=_("Get manga informations.", locale=lang),
             ),
             BotCommand(
                 command="language",
-                description=locale_obj("Change bot language.", locale=lang),
+                description=_("Change bot language.", locale=lang),
             ),
             BotCommand(
                 command="about",
-                description=locale_obj("About the bot.", locale=lang),
+                description=_("About the bot.", locale=lang),
             ),
         ]
 
