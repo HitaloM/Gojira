@@ -18,19 +18,24 @@ router = Router(name="pm_menu")
 
 
 @router.message(CommandStart(deep_link=True), F.chat.type == ChatType.PRIVATE)
-@router.callback_query(StartCallback.filter(F.menu == "start"))
-async def start_command(union: Message | CallbackQuery, command: CommandObject):
+async def start_command_deep_link(message: Message, command: CommandObject):
     if command.args and len(command.args.split("_")) > 1:
         content_type = command.args.split("_")[0]
         content_id = command.args.split("_")[1:]
 
         if content_type == "anime":
-            await anime_view(union, anime_id=int(content_id[0]))
+            await anime_view(message, anime_id=int(content_id[0]))
             return
         if content_type == "manga":
-            await manga_view(union, manga_id=int(content_id[0]))
+            await manga_view(message, manga_id=int(content_id[0]))
             return
+    else:
+        await start_command(message)
 
+
+@router.message(CommandStart(), F.chat.type == ChatType.PRIVATE)
+@router.callback_query(StartCallback.filter(F.menu == "start"))
+async def start_command(union: Message | CallbackQuery):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     if not message or not union.from_user:
@@ -67,7 +72,7 @@ async def help(union: Message | CallbackQuery):
     keyboard.button(text=_("📖 Manga"), callback_data=StartCallback(menu="manga"))
     keyboard.adjust(2)
 
-    if is_callback:
+    if is_callback or message.chat.type == ChatType.PRIVATE:
         keyboard.row(
             InlineKeyboardButton(
                 text=_("🔙 Back"), callback_data=StartCallback(menu="start").pack()
@@ -105,7 +110,7 @@ monster Godzilla."
     keyboard.button(text=_("📚 Channel"), url="https://t.me/HitaloProjects")
     keyboard.adjust(2)
 
-    if is_callback:
+    if is_callback or message.chat.type == ChatType.PRIVATE:
         keyboard.row(
             InlineKeyboardButton(
                 text=_("🔙 Back"), callback_data=StartCallback(menu="start").pack()
