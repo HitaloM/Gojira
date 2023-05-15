@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-15 19:04-0300\n"
+"POT-Creation-Date: 2023-05-15 19:08-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,7 +48,7 @@ msgstr ""
 #: gojira/handlers/manga/categories.py:103 gojira/handlers/manga/popular.py:44
 #: gojira/handlers/manga/start.py:36 gojira/handlers/manga/upcoming.py:48
 #: gojira/handlers/manga/view.py:280 gojira/handlers/manga/view.py:365
-#: gojira/handlers/manga/view.py:470 gojira/handlers/manga/view.py:571
+#: gojira/handlers/manga/view.py:469 gojira/handlers/manga/view.py:570
 #: gojira/handlers/pm_menu.py:83 gojira/handlers/pm_menu.py:121
 msgid "🔙 Back"
 msgstr ""
@@ -433,7 +433,7 @@ msgstr ""
 #: gojira/handlers/anime/view.py:436 gojira/handlers/anime/view.py:537
 #: gojira/handlers/anime/view.py:636 gojira/handlers/anime/view.py:699
 #: gojira/handlers/manga/view.py:254 gojira/handlers/manga/view.py:312
-#: gojira/handlers/manga/view.py:397 gojira/handlers/manga/view.py:499
+#: gojira/handlers/manga/view.py:397 gojira/handlers/manga/view.py:498
 msgid "This button is not for you"
 msgstr ""
 
@@ -480,15 +480,15 @@ msgstr ""
 msgid "This anime does not have characters."
 msgstr ""
 
-#: gojira/handlers/anime/view.py:516 gojira/handlers/manga/view.py:478
+#: gojira/handlers/anime/view.py:516 gojira/handlers/manga/view.py:477
 msgid "Below are some characters from the item in question."
 msgstr ""
 
-#: gojira/handlers/anime/view.py:548 gojira/handlers/manga/view.py:510
+#: gojira/handlers/anime/view.py:548 gojira/handlers/manga/view.py:509
 msgid "This anime does not have staff."
 msgstr ""
 
-#: gojira/handlers/anime/view.py:616 gojira/handlers/manga/view.py:579
+#: gojira/handlers/anime/view.py:616 gojira/handlers/manga/view.py:578
 msgid "Below are some persons from the item in question."
 msgstr ""
 

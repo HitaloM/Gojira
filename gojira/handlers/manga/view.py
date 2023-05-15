@@ -12,7 +12,7 @@ from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from lxml import html
 
-from gojira import AniList
+from gojira import AniList, bot
 from gojira.handlers.manga.start import manga_start
 from gojira.utils.callback_data import (
     MangaCallback,
@@ -424,12 +424,11 @@ async def manga_characters(callback: CallbackQuery, callback_data: MangaCharCall
         key=lambda x: x["id"],
     )
 
-    # add hyperlink to character name to retrieve more info
-    # me = await bot.get_me()
-    # bot_username = me.username
+    me = await bot.get_me()
     for character in characters:
-        characters_text += f"\n• <code>{character['id']}</code> - \
-{character['name']['full']} (<i>{character['role']}</i>)"
+        characters_text += f"\n• <code>{character['id']}</code> - <a href='https://t.me/\
+{me.username}/?start=character_{character['id']}'>{character['name']['full']}</a> \
+(<i>{character['role']}</i>)"
 
     # Separate staff_text into pages of 8 items
     characters_text = np.array(characters_text.split("\n"))
