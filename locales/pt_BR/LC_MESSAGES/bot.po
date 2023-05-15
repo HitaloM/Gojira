@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: gojira\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-05-14 23:30-0300\n"
-"PO-Revision-Date: 2023-05-15 02:37\n"
+"PO-Revision-Date: 2023-05-15 02:46\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "MIME-Version: 1.0\n"
@@ -81,7 +81,7 @@ msgstr "📖 Mangá"
 
 #: gojira/handlers/pm_menu.py:77
 msgid "👨‍👩‍👧‍👦 Character"
-msgstr ""
+msgstr "👨‍👩‍👧‍👦 Personagens"
 
 #: gojira/handlers/pm_menu.py:87
 msgid "This is the menu where all my modules are concentrated, click on one of the buttons below to start exploring all my functions."
@@ -493,24 +493,26 @@ msgstr "Abaixo estão alguns estúdios do item em questão."
 #: gojira/handlers/character/inline.py:95
 msgid "\n"
 "*ID*: `{id}`"
-msgstr ""
+msgstr "\n"
+"*ID*: `{id}`"
 
 #: gojira/handlers/character/inline.py:97 gojira/handlers/character/view.py:156
 msgid "\n"
 "*Favourites*: `{favourites}`"
-msgstr ""
+msgstr "\n"
+"*Favoritos*: `{favourites}`"
 
 #: gojira/handlers/character/start.py:33
 msgid "You are in the <b>character</b> section, use the buttons below to do what you want, see your favorite character, search, etc..."
-msgstr ""
+msgstr "Você está na seção <b>personagens</b>, use os botões abaixo para fazer o que você quer, ver seu personagem favorito, buscar, etc..."
 
 #: gojira/handlers/character/view.py:41
 msgid "You need to specify an character. Use /character name or id"
-msgstr ""
+msgstr "Você precisa especificar um personagem. Use /character name ou Id"
 
 #: gojira/handlers/character/view.py:122
 msgid "Search Results For: <b>{character}</b>"
-msgstr ""
+msgstr "Resultados da Pesquisa Para: <b>{character}</b>"
 
 #: gojira/handlers/manga/inline.py:129 gojira/handlers/manga/view.py:201
 msgid "\n"
@@ -567,3 +569,4 @@ msgstr "Alterar idioma do bot."
 #: gojira/utils/command_list.py:41 gojira/utils/command_list.py:60
 msgid "About the bot."
 msgstr "Sobre o bot."
+
