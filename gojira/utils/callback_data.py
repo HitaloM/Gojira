@@ -114,3 +114,13 @@ class MangaCategCallback(CallbackData, prefix="manga_categories"):
 class MangaGCategCallback(CallbackData, prefix="manga_categorie"):
     page: int
     categorie: str
+
+
+class CharacterCallback(CallbackData, prefix="character"):
+    query: int | str
+    user_id: int | None = None
+    is_search: bool = False
+
+
+class CharacterPopuCallback(CallbackData, prefix="character_popular"):
+    page: int

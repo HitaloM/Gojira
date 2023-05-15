@@ -6,28 +6,21 @@ from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from gojira.utils.callback_data import (
-    AnimeCategCallback,
-    AnimePopuCallback,
-    AnimeUpcomingCallback,
-    StartCallback,
-)
+from gojira.utils.callback_data import CharacterPopuCallback, StartCallback
 
-router = Router(name="anime_start")
+router = Router(name="character_start")
 
 
-@router.callback_query(StartCallback.filter(F.menu == "anime"))
-async def anime_start(union: Message | CallbackQuery):
+@router.callback_query(StartCallback.filter(F.menu == "character"))
+async def character_start(union: Message | CallbackQuery):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     if not message:
         return
 
     keyboard = InlineKeyboardBuilder()
-    keyboard.button(text=_("🔝 Popular"), callback_data=AnimePopuCallback(page=1))
-    keyboard.button(text=_("🐛 Categories"), callback_data=AnimeCategCallback(page=1))
-    keyboard.button(text=_("🆕 Upcoming"), callback_data=AnimeUpcomingCallback(page=1))
-    keyboard.button(text=_("🔍 Search"), switch_inline_query_current_chat="!a ")
+    keyboard.button(text=_("🔝 Popular"), callback_data=CharacterPopuCallback(page=1))
+    keyboard.button(text=_("🔍 Search"), switch_inline_query_current_chat="!c ")
     keyboard.adjust(2)
 
     keyboard.row(
@@ -38,8 +31,8 @@ async def anime_start(union: Message | CallbackQuery):
     )
 
     text = _(
-        "You are in the <b>anime</b> section, use the buttons below to do what you want\
-, see some suggestions, see your favorite anime, search, etc..."
+        "You are in the <b>character</b> section, use the buttons below to do what you want\
+, see your favorite character, search, etc..."
     )
     if is_callback:
         await message.edit_text(text, reply_markup=keyboard.as_markup())

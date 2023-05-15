@@ -120,7 +120,9 @@ async def manga_inline(inline: InlineQuery, match: re.Match[str]):
             text = f"<b>{manga['title']['romaji']}</b>"
             if manga["title"]["native"]:
                 text += f" (<code>{manga['title']['native']}</code>)"
-            text += _("\n\n<b>ID</b>: <code>{id}</code> (<b>MANGA</b>)").format(id=manga["id"])
+            text += (
+                _("\n\n<b>ID</b>: <code>{id}</code>").format(id=manga["id"]) + " (<b>MANGA</b>)"
+            )
             if manga["format"]:
                 text += _("\n<b>Format</b>: <code>{format}</code>").format(format=manga["format"])
             if manga["volumes"]:

@@ -128,7 +128,9 @@ async def anime_inline(inline: InlineQuery, match: re.Match[str]):
             text = f"<b>{anime['title']['romaji']}</b>"
             if anime["title"]["native"]:
                 text += f" (<code>{anime['title']['native']}</code>)"
-            text += _("\n\n<b>ID</b>: <code>{id}</code> (<b>ANIME</b>)").format(id=anime["id"])
+            text += (
+                _("\n\n<b>ID</b>: <code>{id}</code>").format(id=anime["id"]) + " (<b>ANIME</b>)"
+            )
             if anime["format"]:
                 text += _("\n<b>Format</b>: <code>{format}</code>").format(format=anime["format"])
             if anime["format"] != "MOVIE" and anime["episodes"]:

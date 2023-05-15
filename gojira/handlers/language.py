@@ -48,7 +48,7 @@ on one of the buttons below. These are the languages that the bot currently supp
             lang_display_name = f"✅ {lang_display_name}"
         keyboard.button(
             text=lang_display_name,
-            callback_data=LanguageCallback(lang=lang, chat=chat_type),
+            callback_data=LanguageCallback(lang=lang, chat=str(chat_type)),
         )
 
     keyboard.adjust(4)

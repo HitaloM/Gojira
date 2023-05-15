@@ -11,6 +11,7 @@ from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from gojira.handlers.anime.view import anime_view
+from gojira.handlers.character.view import character_view
 from gojira.handlers.manga.view import manga_view
 from gojira.utils.callback_data import StartCallback
 
@@ -28,6 +29,9 @@ async def start_command_deep_link(message: Message, command: CommandObject):
             return
         if content_type == "manga":
             await manga_view(message, manga_id=int(content_id[0]))
+            return
+        if content_type == "character":
+            await character_view(message, char_id=int(content_id[0]))
             return
     else:
         await start_command(message)
@@ -70,6 +74,7 @@ async def help(union: Message | CallbackQuery):
     keyboard = InlineKeyboardBuilder()
     keyboard.button(text=_("👸 Anime"), callback_data=StartCallback(menu="anime"))
     keyboard.button(text=_("📖 Manga"), callback_data=StartCallback(menu="manga"))
+    keyboard.button(text=_("👨‍👩‍👧‍👦 Character"), callback_data=StartCallback(menu="character"))
     keyboard.adjust(2)
 
     if is_callback or message.chat.type == ChatType.PRIVATE:

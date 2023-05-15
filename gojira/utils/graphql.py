@@ -47,6 +47,25 @@ query($id: Int, $search: String, $page: Int = 1, $per_page: Int = 10) {
 }
 """
 
+CHARACTER_SEARCH: str = """
+query($search: String, $page: Int = 1, $per_page: Int = 10) {
+    Page(page: $page, perPage: $per_page) {
+        pageInfo {
+            total
+            currentPage
+            lastPage
+            hasNextPage
+        }
+        characters(search: $search) {
+            id
+            name {
+                full
+            }
+        }
+    }
+}
+"""
+
 ANIME_GET: str = """
 query($id: Int) {
     Page(page: 1, perPage: 1) {
@@ -145,6 +164,26 @@ query($id: Int) {
                     relationType(version: 2)
                 }
             }
+        }
+    }
+}
+"""
+
+CHARACTER_GET: str = """
+query($id: Int) {
+    Page(page: 1, perPage: 1) {
+        characters(id: $id) {
+            id
+            name {
+                full
+            }
+            image {
+                large
+                medium
+            }
+            description
+            siteUrl
+            favourites
         }
     }
 }
@@ -281,6 +320,20 @@ query($media: MediaType) {
                 english
                 native
             }
+            siteUrl
+        }
+    }
+}
+"""
+
+CHARACTER_POPULAR_QUERY: str = """
+query($per_page: Int = 50) {
+    Page(page: 1, perPage: $per_page) {
+        characters(sort: FAVOURITES_DESC) {
+            id
+            name {
+                full
+                }
             siteUrl
         }
     }

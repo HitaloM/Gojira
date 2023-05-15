@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
-from typing import Literal
 
 from aiogram.enums import ChatType
 from aiogram.types import CallbackQuery, Message
@@ -11,7 +10,7 @@ from gojira.database import Chats, Users
 
 async def get_chat_language(
     union: Message | CallbackQuery,
-) -> tuple[str | Literal[ChatType.PRIVATE] | None, list | str | None]:
+) -> tuple[str | None, list | str | None]:
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     if not message or not union.from_user:

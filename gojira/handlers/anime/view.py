@@ -54,14 +54,14 @@ async def anime_view(
     if not message or not user:
         return
 
+    is_private: bool = message.chat.type == ChatType.PRIVATE
+
     if command and not command.args:
-        if message.chat.type == ChatType.PRIVATE:
+        if is_private:
             await anime_start(message)
             return
         await message.reply(_("You need to specify an anime. Use /anime name or id"))
         return
-
-    is_private: bool = message.chat.type == ChatType.PRIVATE
 
     query = str(
         callback_data.query
