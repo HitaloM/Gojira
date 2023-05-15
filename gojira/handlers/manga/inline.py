@@ -36,10 +36,11 @@ async def manga_inline(inline: InlineQuery, match: re.Match[str]):
         status, data = await AniList.get("manga", result["id"])
         if not data:
             return
-        manga = data["data"]["Page"]["media"][0]
 
-        if not manga:
+        if not data["data"]["Page"]["media"]:
             continue
+
+        manga = data["data"]["Page"]["media"][0]
 
         photo: str = ""
         if manga["bannerImage"]:

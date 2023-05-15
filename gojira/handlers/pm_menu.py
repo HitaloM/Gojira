@@ -13,6 +13,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from gojira.handlers.anime.view import anime_view
 from gojira.handlers.character.view import character_view
 from gojira.handlers.manga.view import manga_view
+from gojira.handlers.staff.view import staff_view
 from gojira.utils.callback_data import StartCallback
 
 router = Router(name="pm_menu")
@@ -26,13 +27,12 @@ async def start_command_deep_link(message: Message, command: CommandObject):
 
         if content_type == "anime":
             await anime_view(message, anime_id=int(content_id[0]))
-            return
-        if content_type == "manga":
+        elif content_type == "manga":
             await manga_view(message, manga_id=int(content_id[0]))
-            return
-        if content_type == "character":
+        elif content_type == "character":
             await character_view(message, char_id=int(content_id[0]))
-            return
+        elif content_type == "staff":
+            await staff_view(message, staff_id=int(content_id[0]))
     else:
         await start_command(message)
 

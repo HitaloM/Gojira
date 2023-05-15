@@ -9,7 +9,9 @@ from aiogram.types import Message
 
 from gojira import bot
 from gojira.handlers.anime.view import anime_view
+from gojira.handlers.character.view import character_view
 from gojira.handlers.manga.view import manga_view
+from gojira.handlers.staff.view import staff_view
 
 router = Router(name="view")
 
@@ -37,3 +39,7 @@ async def view(message: Message):
                     await anime_view(message, anime_id=content_id)
                 elif content_type == "manga":
                     await manga_view(message, manga_id=content_id)
+                elif content_type == "character":
+                    await character_view(message, character_id=content_id)
+                elif content_type == "staff":
+                    await staff_view(message, staff_id=content_id)

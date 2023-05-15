@@ -16,7 +16,10 @@ from gojira.utils.graphql import (
     MANGA_GET,
     MANGA_SEARCH,
     POPULAR_QUERY,
+    STAFF_GET,
+    STAFF_POPULAR_QUERY,
     STAFF_QUERY,
+    STAFF_SEARCH,
     STUDIOS_QUERY,
     TRAILER_QUERY,
     UPCOMING_QUERY,
@@ -66,6 +69,17 @@ class AniList(AiohttpBaseClient):
                     },
                 },
             )
+        if media.lower() == "staff":
+            return await self._make_request(
+                "POST",
+                url="/",
+                json={
+                    "query": STAFF_SEARCH,
+                    "variables": {
+                        "search": query,
+                    },
+                },
+            )
         return None, None
 
     async def get(self, media: str, id: int) -> tuple[int, dict[str, Any]] | tuple[None, None]:
@@ -97,6 +111,17 @@ class AniList(AiohttpBaseClient):
                 url="/",
                 json={
                     "query": MANGA_GET,
+                    "variables": {
+                        "id": id,
+                    },
+                },
+            )
+        if media.lower() == "staff":
+            return await self._make_request(
+                "POST",
+                url="/",
+                json={
+                    "query": STAFF_GET,
                     "variables": {
                         "id": id,
                     },
@@ -201,6 +226,15 @@ class AniList(AiohttpBaseClient):
                 url="/",
                 json={
                     "query": CHARACTER_POPULAR_QUERY,
+                },
+            )
+
+        if media.lower() == "staff":
+            return await self._make_request(
+                "POST",
+                url="/",
+                json={
+                    "query": STAFF_POPULAR_QUERY,
                 },
             )
 

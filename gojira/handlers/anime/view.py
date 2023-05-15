@@ -106,7 +106,7 @@ async def anime_view(
                     )
                 )
             await message.reply(
-                _("Search Results For: <b>{anime}</b>").format(anime=query),
+                _("Search Results For: <b>{query}</b>").format(query=query),
                 reply_markup=keyboard.as_markup(),
             )
             return
@@ -563,11 +563,11 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
         ],
         key=lambda x: x["id"],
     )
-    # TODO: add hyperlink to staff name to retrieve more info
-    # me = await bot.get_me()
+
+    me = await bot.get_me()
     for person in staffs:
-        staff_text += f"\n• <code>{person['id']}</code> - {person['name']['full']} \
-(<i>{person['role']}</i>)"
+        staff_text += f"\n• <code>{person['id']}</code> - <a href='https://t.me/{me.username}/\
+?start=staff_{person['id']}'>{person['name']['full']}</a> (<i>{person['role']}</i>)"
 
     # Separate staff_text into pages of 8 items
     staff_text = np.array(staff_text.split("\n"))

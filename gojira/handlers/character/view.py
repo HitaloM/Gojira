@@ -93,7 +93,7 @@ async def character_view(
                     )
                 )
             await message.reply(
-                _("Search Results For: <b>{character}</b>").format(character=query),
+                _("Search Results For: <b>{query}</b>").format(query=query),
                 reply_markup=keyboard.as_markup(),
             )
             return
@@ -127,11 +127,11 @@ async def character_view(
             text += f"\n\n{character['description']}"
 
         photo: str = ""
-        if character["image"]:
-            if character["image"]["large"]:
-                photo = character["image"]["large"]
-            elif character["image"]["medium"]:
-                photo = character["image"]["medium"]
+        if image := character["image"]:
+            if large_image := image["large"]:
+                photo = large_image
+            elif medium_image := image["medium"]:
+                photo = medium_image
 
         keyboard.button(text=_("🐢 AniList"), url=character["siteUrl"])
 

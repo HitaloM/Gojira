@@ -32,7 +32,10 @@ async def anime_inline(inline: InlineQuery, match: re.Match[str]):
         return
 
     for result in search_results:
-        status, data = await AniList.get_anime(result["id"])
+        status, data = await AniList.get("anime", result["id"])
+        if not data:
+            return
+
         anime = data["data"]["Page"]["media"][0]
 
         if not anime:

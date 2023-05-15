@@ -12,55 +12,57 @@ from aiogram.types import InlineQuery, InlineQueryResult, InlineQueryResultPhoto
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from gojira import bot
-from gojira.utils.aiohttp import AniList
+from gojira import AniList, bot
 
-router = Router(name="character_inline")
+router = Router(name="staff_inline")
 
 
-@router.inline_query(F.query.regexp(r"^!c (?P<query>.+)").as_("match"))
-async def character_inline(inline: InlineQuery, match: re.Match[str]):
+@router.inline_query(F.query.regexp(r"^!s (?P<query>.+)").as_("match"))
+async def staff_inline(inline: InlineQuery, match: re.Match[str]):
     query = match.group("query")
 
     results: list[InlineQueryResult] = []
 
-    search_results = []
-    client = AniList()
-    status, data = await client.search("character", query)
+    status, data = await AniList.search("staff", query)
     if not data:
         return
 
-    search_results = data["data"]["Page"]["characters"]
+    search_results = data["data"]["Page"]["staff"]
+
     if not search_results:
         return
 
     for result in search_results:
-        status, data = await client.get("character", result["id"])
+        status, data = await AniList.get("staff", result["id"])
         if not data:
             return
 
-        if not data["data"]["Page"]["characters"]:
+        if not data["data"]["Page"]["staff"]:
             continue
 
-        character = data["data"]["Page"]["characters"][0]
+        staff = data["data"]["Page"]["staff"][0]
 
         photo: str = ""
-        if image := character["image"]:
+        if image := staff["image"]:
             if large_image := image["large"]:
                 photo = large_image
             elif medium_image := image["medium"]:
                 photo = medium_image
 
         description: str = ""
-        if description := character["description"]:
-            description = description.replace("__", "*")
-            description = description.replace("~", "||")
-            description = description[0:500] + "..."
+        if description := staff["description"]:
+            description = description.replace("__", "")
+            description = description.replace("**", "")
+            description = description.replace("~", "")
+            description = re.sub(re.compile(r"<.*?>"), "", description)
+            description = description[0:260] + "..."
 
-        text = f"*{character['name']['full']}*"
-        text += _("\n*ID*: `{id}`").format(id=character["id"]) + " (*CHARACTER*)"
-        if character["favourites"]:
-            text += _("\n*Favourites*: `{favourites}`").format(favourites=character["favourites"])
+        text = f"**{staff['name']['full']}**"
+        text += _("\n**ID**: `{id}`").format(id=staff["id"]) + " (**STAFF**)"
+        if staff["language"]:
+            text += _("\n**Language**: `{language}`").format(language=staff["language"])
+        if staff["favourites"]:
+            text += _("\n**Favourites**: `{favourites}`").format(favourites=staff["favourites"])
 
         text += f"\n\n{description}"
 
@@ -70,7 +72,7 @@ async def character_inline(inline: InlineQuery, match: re.Match[str]):
         bot_username = me.username
         keyboard.button(
             text=_("👓 View More"),
-            url=f"https://t.me/{bot_username}/?start=character_{character['id']}",
+            url=f"https://t.me/{bot_username}/?start=staff_{staff['id']}",
         )
 
         results.append(
@@ -79,7 +81,7 @@ async def character_inline(inline: InlineQuery, match: re.Match[str]):
                 id=str(random.getrandbits(64)),
                 photo_url=photo,
                 thumb_url=photo,
-                title=character["name"]["full"],
+                title=staff["name"]["full"],
                 description=description,
                 caption=text,
                 parse_mode=ParseMode.MARKDOWN,

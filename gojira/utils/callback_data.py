@@ -124,3 +124,13 @@ class CharacterCallback(CallbackData, prefix="character"):
 
 class CharacterPopuCallback(CallbackData, prefix="character_popular"):
     page: int
+
+
+class StaffCallback(CallbackData, prefix="staff"):
+    query: int | str
+    user_id: int | None = None
+    is_search: bool = False
+
+
+class StaffPopuCallback(CallbackData, prefix="staff_popular"):
+    page: int
