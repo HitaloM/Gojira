@@ -17,6 +17,8 @@ dependencies = [
     "loguru >= 0.7.0",
     "pydantic[dotenv] >= 1.10.7",
     "meval >= 2.5",
+    "ujson >= 5.7.0",
+    "backoff >= 2.2.1",
 ]
 dynamic = ["version"]
 

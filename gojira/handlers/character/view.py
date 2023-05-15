@@ -1,9 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
-
-import aiohttp
 from aiogram import Router
 from aiogram.enums import ChatType, ParseMode
 from aiogram.filters import Command, CommandObject
@@ -11,9 +8,9 @@ from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
+from gojira import AniList
 from gojira.handlers.character.start import character_start
 from gojira.utils.callback_data import CharacterCallback
-from gojira.utils.graphql import ANILIST_API, CHARACTER_GET, CHARACTER_SEARCH
 
 router = Router(name="character_view")
 
@@ -70,72 +67,44 @@ async def character_view(
         return
 
     keyboard = InlineKeyboardBuilder()
-    async with aiohttp.ClientSession() as client:
-        if not query.isdecimal():
-            response = await client.post(
-                url=ANILIST_API,
-                json={
-                    "query": CHARACTER_SEARCH,
-                    "variables": {
-                        "search": query,
-                    },
-                },
-            )
-            if not response:
-                await asyncio.sleep(0.5)
-                response = await client.post(
-                    url=ANILIST_API,
-                    json={
-                        "query": CHARACTER_SEARCH,
-                        "variables": {
-                            "search": query,
-                        },
-                    },
-                    headers={
-                        "Content-Type": "application/json",
-                        "Accept": "application/json",
-                    },
-                )
+    if not query.isdecimal():
+        status, data = await AniList.search("character", query)
+        if not data:
+            await message.reply(_("No results found."))
+            return
 
-            data = await response.json()
-            results = data["data"]["Page"]["characters"]
+        results = data["data"]["Page"]["characters"]
+        if results is None or len(results) == 0:
+            await message.reply(_("No results found."))
+            return
 
-            if results is None or len(results) == 0:
-                await message.reply(_("No results found."))
-                return
-
-            if len(results) == 1:
-                character_id = results[0].id
-            else:
-                for result in results:
-                    keyboard.row(
-                        InlineKeyboardButton(
-                            text=result["name"]["full"],
-                            callback_data=CharacterCallback(
-                                query=result["id"],
-                                user_id=user.id,
-                                is_search=True,
-                            ).pack(),
-                        )
-                    )
-                await message.reply(
-                    _("Search Results For: <b>{character}</b>").format(character=query),
-                    reply_markup=keyboard.as_markup(),
-                )
-                return
+        if len(results) == 1:
+            character_id = results[0].id
         else:
-            character_id = int(query)
+            for result in results:
+                keyboard.row(
+                    InlineKeyboardButton(
+                        text=result["name"]["full"],
+                        callback_data=CharacterCallback(
+                            query=result["id"],
+                            user_id=user.id,
+                            is_search=True,
+                        ).pack(),
+                    )
+                )
+            await message.reply(
+                _("Search Results For: <b>{character}</b>").format(character=query),
+                reply_markup=keyboard.as_markup(),
+            )
+            return
+    else:
+        character_id = int(query)
 
-        response = await client.post(
-            url=ANILIST_API,
-            json={
-                "query": CHARACTER_GET,
-                "variables": {
-                    "id": character_id,
-                },
-            },
-        )
-        data = await response.json()
+        status, data = await AniList.get("character", character_id)
+        if not data:
+            await message.reply(_("No results found."))
+            return
+
         if not data["data"]["Page"]["characters"]:
             await message.reply(_("No results found."))
             return

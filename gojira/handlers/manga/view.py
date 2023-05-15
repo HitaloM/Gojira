@@ -1,10 +1,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
 import math
 
-import aiohttp
 import numpy as np
 from aiogram import Router
 from aiogram.enums import ChatType
@@ -14,6 +12,7 @@ from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from lxml import html
 
+from gojira import AniList
 from gojira.handlers.manga.start import manga_start
 from gojira.utils.callback_data import (
     MangaCallback,
@@ -21,14 +20,6 @@ from gojira.utils.callback_data import (
     MangaDescCallback,
     MangaMoreCallback,
     MangaStaffCallback,
-)
-from gojira.utils.graphql import (
-    ANILIST_API,
-    CHARACTER_QUERY,
-    DESCRIPTION_QUERY,
-    MANGA_GET,
-    MANGA_SEARCH,
-    STAFF_QUERY,
 )
 
 router = Router(name="manga_view")
@@ -85,86 +76,58 @@ async def manga_view(
     if not bool(query):
         return
 
-    async with aiohttp.ClientSession() as client:
-        if not query.isdecimal():
-            response = await client.post(
-                url=ANILIST_API,
-                json={
-                    "query": MANGA_SEARCH,
-                    "variables": {
-                        "search": query,
-                    },
-                },
-            )
-            if not response:
-                await asyncio.sleep(0.5)
-                response = await client.post(
-                    url=ANILIST_API,
-                    json={
-                        "query": MANGA_SEARCH,
-                        "variables": {
-                            "search": query,
-                        },
-                    },
-                    headers={
-                        "Content-Type": "application/json",
-                        "Accept": "application/json",
-                    },
-                )
-
-            data = await response.json()
-            results = data["data"]["Page"]["media"]
-
-            if not results or len(results) == 0:
-                await message.reply(_("No results found."))
-                return
-
-            if len(results) == 1:
-                manga_id = results[0]["id"]
-            else:
-                keyboard = InlineKeyboardBuilder()
-                for result in results:
-                    keyboard.row(
-                        InlineKeyboardButton(
-                            text=result["title"]["romaji"],
-                            callback_data=MangaCallback(
-                                query=result["id"],
-                                user_id=user.id,
-                                is_search=True,
-                            ).pack(),
-                        )
-                    )
-                await message.reply(
-                    _("Search Results For: <b>{manga}</b>").format(manga=query),
-                    reply_markup=keyboard.as_markup(),
-                )
-                return
-        else:
-            manga_id = int(query)
-
-        response = await client.post(
-            url=ANILIST_API,
-            json={
-                "query": MANGA_GET,
-                "variables": {
-                    "id": manga_id,
-                },
-            },
-        )
-        data = await response.json()
-        if not data["data"]["Page"]["media"]:
+    if not query.isdecimal():
+        status, data = await AniList.search("manga", query)
+        if not data:
             await message.reply(_("No results found."))
             return
 
-        manga = data["data"]["Page"]["media"][0]
+        results = data["data"]["Page"]["media"]
+        if not results or len(results) == 0:
+            await message.reply(_("No results found."))
+            return
 
-        if not manga:
-            await union.answer(
-                _("No results found."),
-                show_alert=True,
-                cache_time=60,
+        if len(results) == 1:
+            manga_id = int(results[0]["id"])
+        else:
+            keyboard = InlineKeyboardBuilder()
+            for result in results:
+                keyboard.row(
+                    InlineKeyboardButton(
+                        text=result["title"]["romaji"],
+                        callback_data=MangaCallback(
+                            query=result["id"],
+                            user_id=user.id,
+                            is_search=True,
+                        ).pack(),
+                    )
+                )
+            await message.reply(
+                _("Search Results For: <b>{manga}</b>").format(manga=query),
+                reply_markup=keyboard.as_markup(),
             )
             return
+    else:
+        manga_id = int(query)
+
+    status, data = await AniList.get("manga", manga_id)
+    if not data:
+        await message.reply(_("No results found."))
+        return
+
+    if not data["data"]["Page"]["media"]:
+        await message.reply(_("No results found."))
+        return
+
+    manga = data["data"]["Page"]["media"][0]
+
+    if not manga:
+        await union.answer(
+            _("No results found."),
+            show_alert=True,
+            cache_time=60,
+        )
+        return
 
     photo = f"https://img.anili.st/media/{manga_id}"
 
@@ -352,87 +315,70 @@ async def manga_description(callback: CallbackQuery, callback_data: MangaDescCal
         )
         return
 
-    async with aiohttp.ClientSession() as client:
-        response = await client.post(
-            url=ANILIST_API,
-            json={
-                "query": DESCRIPTION_QUERY,
-                "variables": {
-                    "id": manga_id,
-                    "media": "MANGA",
-                },
-            },
-            headers={
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-            },
+    status, data = await AniList.get_adesc("manga", manga_id)
+    manga = data["data"]["Page"]["media"][0]
+
+    if not manga["description"]:
+        await callback.answer(
+            _("This manga does not have a description."),
+            show_alert=True,
+            cache_time=60,
         )
-        data = await response.json()
-        manga = data["data"]["Page"]["media"][0]
+        return
 
-        if not manga["description"]:
-            await callback.answer(
-                _("This manga does not have a description."),
-                show_alert=True,
-                cache_time=60,
-            )
-            return
+    description = manga["description"]
+    amount = 1024
+    page = 1 if page <= 0 else page
+    offset = (page - 1) * amount
+    stop = offset + amount
+    pages = math.ceil(len(description) / amount)
+    description = description[offset - (3 if page > 1 else 0) : stop]
 
-        description = manga["description"]
-        amount = 1024
-        page = 1 if page <= 0 else page
-        offset = (page - 1) * amount
-        stop = offset + amount
-        pages = math.ceil(len(description) / amount)
-        description = description[offset - (3 if page > 1 else 0) : stop]
-
-        page_buttons = []
-        if page > 1:
-            page_buttons.append(
-                InlineKeyboardButton(
-                    text="⬅️",
-                    callback_data=MangaDescCallback(
-                        manga_id=manga_id, user_id=user_id, page=page - 1
-                    ).pack(),
-                )
-            )
-
-        if page != pages:
-            description = description[: len(description) - 3] + "..."
-            page_buttons.append(
-                InlineKeyboardButton(
-                    text="➡️",
-                    callback_data=MangaDescCallback(
-                        manga_id=manga_id, user_id=user_id, page=page + 1
-                    ).pack(),
-                )
-            )
-
-        keyboard = InlineKeyboardBuilder()
-        if len(page_buttons) > 0:
-            keyboard.row(*page_buttons)
-
-        keyboard.row(
+    page_buttons = []
+    if page > 1:
+        page_buttons.append(
             InlineKeyboardButton(
-                text=_("🔙 Back"),
-                callback_data=MangaMoreCallback(
-                    manga_id=manga_id,
-                    user_id=user_id,
+                text="⬅️",
+                callback_data=MangaDescCallback(
+                    manga_id=manga_id, user_id=user_id, page=page - 1
                 ).pack(),
             )
         )
 
-        parsed_html = html.fromstring(description.replace("<br>", ""))
-        description = (
-            str(html.tostring(parsed_html, encoding="unicode"))
-            .replace("<p>", "")
-            .replace("</p>", "")
+    if page != pages:
+        description = description[: len(description) - 3] + "..."
+        page_buttons.append(
+            InlineKeyboardButton(
+                text="➡️",
+                callback_data=MangaDescCallback(
+                    manga_id=manga_id, user_id=user_id, page=page + 1
+                ).pack(),
+            )
         )
 
-        await message.edit_caption(
-            caption=description,
-            reply_markup=keyboard.as_markup(),
+    keyboard = InlineKeyboardBuilder()
+    if len(page_buttons) > 0:
+        keyboard.row(*page_buttons)
+
+    keyboard.row(
+        InlineKeyboardButton(
+            text=_("🔙 Back"),
+            callback_data=MangaMoreCallback(
+                manga_id=manga_id,
+                user_id=user_id,
+            ).pack(),
         )
+    )
+
+    parsed_html = html.fromstring(description.replace("<br>", ""))
+    description = (
+        str(html.tostring(parsed_html, encoding="unicode")).replace("<p>", "").replace("</p>", "")
+    )
+
+    await message.edit_caption(
+        caption=description,
+        reply_markup=keyboard.as_markup(),
+    )
 
 
 @router.callback_query(MangaCharCallback.filter())
@@ -454,102 +400,87 @@ async def manga_characters(callback: CallbackQuery, callback_data: MangaCharCall
         )
         return
 
-    async with aiohttp.ClientSession() as client:
-        response = await client.post(
-            url=ANILIST_API,
-            json={
-                "query": CHARACTER_QUERY,
-                "variables": {
-                    "id": manga_id,
-                    "media": "MANGA",
-                },
-            },
-            headers={
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-            },
+    status, data = await AniList.get_achars("manga", manga_id)
+    manga = data["data"]["Page"]["media"][0]
+
+    if not manga["characters"]:
+        await callback.answer(
+            _("This manga does not have characters."),
+            show_alert=True,
+            cache_time=60,
         )
-        data = await response.json()
-        manga = data["data"]["Page"]["media"][0]
+        return
 
-        if not manga["characters"]:
-            await callback.answer(
-                _("This manga does not have characters."),
-                show_alert=True,
-                cache_time=60,
-            )
-            return
+    characters_text = ""
+    characters = sorted(
+        [
+            {
+                "id": character["node"]["id"],
+                "name": character["node"]["name"],
+                "role": character["role"],
+            }
+            for character in manga["characters"]["edges"]
+        ],
+        key=lambda x: x["id"],
+    )
 
-        characters_text = ""
-        characters = sorted(
-            [
-                {
-                    "id": character["node"]["id"],
-                    "name": character["node"]["name"],
-                    "role": character["role"],
-                }
-                for character in manga["characters"]["edges"]
-            ],
-            key=lambda x: x["id"],
-        )
-
-        # add hyperlink to character name to retrieve more info
-        # me = await bot.get_me()
-        # bot_username = me.username
-        for character in characters:
-            characters_text += f"\n• <code>{character['id']}</code> - \
+    # add hyperlink to character name to retrieve more info
+    # me = await bot.get_me()
+    # bot_username = me.username
+    for character in characters:
+        characters_text += f"\n• <code>{character['id']}</code> - \
 {character['name']['full']} (<i>{character['role']}</i>)"
 
-        # Separate staff_text into pages of 8 items
-        characters_text = np.array(characters_text.split("\n"))
-        characters_text = np.delete(characters_text, np.argwhere(characters_text == ""))
-        characters_text = np.split(characters_text, np.arange(8, len(characters_text), 8))
+    # Separate staff_text into pages of 8 items
+    characters_text = np.array(characters_text.split("\n"))
+    characters_text = np.delete(characters_text, np.argwhere(characters_text == ""))
+    characters_text = np.split(characters_text, np.arange(8, len(characters_text), 8))
 
-        pages = len(characters_text)
+    pages = len(characters_text)
 
-        page_buttons = []
-        if page > 0:
-            page_buttons.append(
-                InlineKeyboardButton(
-                    text="⬅️",
-                    callback_data=MangaCharCallback(
-                        manga_id=manga_id, user_id=user_id, page=page - 1
-                    ).pack(),
-                )
-            )
-        if page + 1 != pages:
-            page_buttons.append(
-                InlineKeyboardButton(
-                    text="➡️",
-                    callback_data=MangaCharCallback(
-                        manga_id=manga_id, user_id=user_id, page=page + 1
-                    ).pack(),
-                )
-            )
-
-        characters_text = characters_text[page].tolist()
-        characters_text = "\n".join(characters_text)
-
-        keyboard = InlineKeyboardBuilder()
-        if len(page_buttons) > 0:
-            keyboard.add(*page_buttons)
-
-        keyboard.row(
+    page_buttons = []
+    if page > 0:
+        page_buttons.append(
             InlineKeyboardButton(
-                text=_("🔙 Back"),
-                callback_data=MangaMoreCallback(
-                    manga_id=manga_id,
-                    user_id=user_id,
+                text="⬅️",
+                callback_data=MangaCharCallback(
+                    manga_id=manga_id, user_id=user_id, page=page - 1
+                ).pack(),
+            )
+        )
+    if page + 1 != pages:
+        page_buttons.append(
+            InlineKeyboardButton(
+                text="➡️",
+                callback_data=MangaCharCallback(
+                    manga_id=manga_id, user_id=user_id, page=page + 1
                 ).pack(),
             )
         )
 
-        text = _("Below are some characters from the item in question.")
-        text = f"{text}\n\n{characters_text}"
-        await message.edit_caption(
-            caption=text,
-            reply_markup=keyboard.as_markup(),
+    characters_text = characters_text[page].tolist()
+    characters_text = "\n".join(characters_text)
+
+    keyboard = InlineKeyboardBuilder()
+    if len(page_buttons) > 0:
+        keyboard.add(*page_buttons)
+
+    keyboard.row(
+        InlineKeyboardButton(
+            text=_("🔙 Back"),
+            callback_data=MangaMoreCallback(
+                manga_id=manga_id,
+                user_id=user_id,
+            ).pack(),
         )
+    )
+
+    text = _("Below are some characters from the item in question.")
+    text = f"{text}\n\n{characters_text}"
+    await message.edit_caption(
+        caption=text,
+        reply_markup=keyboard.as_markup(),
+    )
 
 
 @router.callback_query(MangaStaffCallback.filter())
@@ -571,98 +502,83 @@ async def manga_staff(callback: CallbackQuery, callback_data: MangaStaffCallback
         )
         return
 
-    async with aiohttp.ClientSession() as client:
-        response = await client.post(
-            url=ANILIST_API,
-            json={
-                "query": STAFF_QUERY,
-                "variables": {
-                    "id": manga_id,
-                    "media": "MANGA",
-                },
-            },
-            headers={
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-            },
-        )
-        data = await response.json()
-        anime = data["data"]["Page"]["media"][0]
+    status, data = await AniList.get_astaff("manga", manga_id)
+    anime = data["data"]["Page"]["media"][0]
 
-        if not anime["staff"]:
-            await callback.answer(
-                _("This anime does not have staff."),
-                show_alert=True,
-                cache_time=60,
-            )
-            return
-
-        staff_text = ""
-        staffs = sorted(
-            [
-                {
-                    "id": staff["node"]["id"],
-                    "name": staff["node"]["name"],
-                    "role": staff["role"],
-                }
-                for staff in anime["staff"]["edges"]
-            ],
-            key=lambda x: x["id"],
+    if not anime["staff"]:
+        await callback.answer(
+            _("This anime does not have staff."),
+            show_alert=True,
+            cache_time=60,
         )
-        # TODO: add hyperlink to staff name to retrieve more info
-        # me = await bot.get_me()
-        # bot_username = me.username
-        for person in staffs:
-            staff_text += f"\n• <code>{person['id']}</code> - {person['name']['full']} \
+        return
+
+    staff_text = ""
+    staffs = sorted(
+        [
+            {
+                "id": staff["node"]["id"],
+                "name": staff["node"]["name"],
+                "role": staff["role"],
+            }
+            for staff in anime["staff"]["edges"]
+        ],
+        key=lambda x: x["id"],
+    )
+    # TODO: add hyperlink to staff name to retrieve more info
+    # me = await bot.get_me()
+    # bot_username = me.username
+    for person in staffs:
+        staff_text += f"\n• <code>{person['id']}</code> - {person['name']['full']} \
 (<i>{person['role']}</i>)"
 
-        # Separate staff_text into pages of 8 items
-        staff_text = np.array(staff_text.split("\n"))
-        staff_text = np.delete(staff_text, np.argwhere(staff_text == ""))
-        staff_text = np.split(staff_text, np.arange(8, len(staff_text), 8))
+    # Separate staff_text into pages of 8 items
+    staff_text = np.array(staff_text.split("\n"))
+    staff_text = np.delete(staff_text, np.argwhere(staff_text == ""))
+    staff_text = np.split(staff_text, np.arange(8, len(staff_text), 8))
 
-        pages = len(staff_text)
+    pages = len(staff_text)
 
-        page_buttons = []
-        if page > 0:
-            page_buttons.append(
-                InlineKeyboardButton(
-                    text="⬅️",
-                    callback_data=MangaStaffCallback(
-                        manga_id=manga_id, user_id=user_id, page=page - 1
-                    ).pack(),
-                )
-            )
-        if page + 1 != pages:
-            page_buttons.append(
-                InlineKeyboardButton(
-                    text="➡️",
-                    callback_data=MangaStaffCallback(
-                        manga_id=manga_id, user_id=user_id, page=page + 1
-                    ).pack(),
-                )
-            )
-
-        staff_text = staff_text[page].tolist()
-        staff_text = "\n".join(staff_text)
-
-        keyboard = InlineKeyboardBuilder()
-        if len(page_buttons) > 0:
-            keyboard.add(*page_buttons)
-
-        keyboard.row(
+    page_buttons = []
+    if page > 0:
+        page_buttons.append(
             InlineKeyboardButton(
-                text=_("🔙 Back"),
-                callback_data=MangaMoreCallback(
-                    manga_id=manga_id,
-                    user_id=user_id,
+                text="⬅️",
+                callback_data=MangaStaffCallback(
+                    manga_id=manga_id, user_id=user_id, page=page - 1
+                ).pack(),
+            )
+        )
+    if page + 1 != pages:
+        page_buttons.append(
+            InlineKeyboardButton(
+                text="➡️",
+                callback_data=MangaStaffCallback(
+                    manga_id=manga_id, user_id=user_id, page=page + 1
                 ).pack(),
             )
         )
 
-        text = _("Below are some persons from the item in question.")
-        text = f"{text}\n\n{staff_text}"
-        await message.edit_caption(
-            caption=text,
-            reply_markup=keyboard.as_markup(),
+    staff_text = staff_text[page].tolist()
+    staff_text = "\n".join(staff_text)
+
+    keyboard = InlineKeyboardBuilder()
+    if len(page_buttons) > 0:
+        keyboard.add(*page_buttons)
+
+    keyboard.row(
+        InlineKeyboardButton(
+            text=_("🔙 Back"),
+            callback_data=MangaMoreCallback(
+                manga_id=manga_id,
+                user_id=user_id,
+            ).pack(),
         )
+    )
+
+    text = _("Below are some persons from the item in question.")
+    text = f"{text}\n\n{staff_text}"
+    await message.edit_caption(
+        caption=text,
+        reply_markup=keyboard.as_markup(),
+    )

@@ -3,7 +3,7 @@
 
 import asyncio
 
-from gojira import bot, dp, i18n
+from gojira import AniList, bot, dp, i18n
 from gojira.handlers import anime, character, doas, language, manga, pm_menu, users, view
 from gojira.middlewares.acl import ACLMiddleware
 from gojira.middlewares.i18n import MyI18nMiddleware
@@ -48,6 +48,7 @@ async def main():
     useful_updates = dp.resolve_used_update_types()
 
     await dp.start_polling(bot, allowed_updates=useful_updates)
+    await AniList.close()
 
 
 if __name__ == "__main__":
