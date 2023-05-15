@@ -7,6 +7,7 @@ from pydantic import AnyHttpUrl, BaseSettings, SecretStr
 class Settings(BaseSettings):
     bot_token: SecretStr
     api_url: AnyHttpUrl | None
+    api_is_local: bool = False
     sudoers: list[int] = [918317361]
 
     class Config:

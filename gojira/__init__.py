@@ -21,7 +21,9 @@ app_dir: Path = Path(__file__).parent.parent
 locales_dir: Path = app_dir / "locales"
 
 if config.api_url:
-    session = AiohttpSession(api=TelegramAPIServer.from_base(config.api_url))
+    session = AiohttpSession(
+        api=TelegramAPIServer.from_base(config.api_url, is_local=config.api_is_local)
+    )
 else:
     session = None
 
