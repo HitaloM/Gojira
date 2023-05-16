@@ -28,7 +28,7 @@ from gojira.utils.graphql import (
 from .client import AiohttpBaseClient
 
 
-class AniList(AiohttpBaseClient):
+class AniListClient(AiohttpBaseClient):
     def __init__(self) -> None:
         self.base_url: str = "https://graphql.anilist.co"
         super().__init__(base_url=self.base_url)

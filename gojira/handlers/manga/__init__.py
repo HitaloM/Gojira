@@ -3,4 +3,11 @@
 
 from . import categories, inline, popular, start, upcoming, view
 
-__all__ = ("categories", "inline", "popular", "start", "upcoming", "view")
+__all__ = (
+    "categories",
+    "inline",
+    "popular",
+    "start",
+    "upcoming",
+    "view",
+)

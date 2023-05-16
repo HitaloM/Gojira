@@ -12,8 +12,7 @@ from aiogram.types import InlineQuery, InlineQueryResult, InlineQueryResultPhoto
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from gojira import bot
-from gojira.utils.aiohttp import AniList
+from gojira import AniList, bot
 
 router = Router(name="character_inline")
 
@@ -25,8 +24,7 @@ async def character_inline(inline: InlineQuery, match: re.Match[str]):
     results: list[InlineQueryResult] = []
 
     search_results = []
-    client = AniList()
-    status, data = await client.search("character", query)
+    status, data = await AniList.search("character", query)
     if not data:
         return
 
@@ -35,7 +33,7 @@ async def character_inline(inline: InlineQuery, match: re.Match[str]):
         return
 
     for result in search_results:
-        status, data = await client.get("character", result["id"])
+        status, data = await AniList.get("character", result["id"])
         if not data:
             return
 

@@ -39,6 +39,7 @@ class AiohttpBaseClient:
         url: str | URL,
         params: dict | None = None,
         json: dict | None = None,
+        data: dict | None = None,
     ) -> tuple[int, dict[str, Any]]:
         session = await self._get_session()
 
@@ -49,7 +50,7 @@ class AiohttpBaseClient:
             json,
             params,
         )
-        async with session.request(method, url, params=params, json=json) as response:
+        async with session.request(method, url, params=params, json=json, data=data) as response:
             status = response.status
             result = await response.json(loads=loads)
 
