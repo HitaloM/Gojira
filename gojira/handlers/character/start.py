@@ -30,10 +30,7 @@ async def character_start(union: Message | CallbackQuery):
         )
     )
 
-    text = _(
-        "You are in the <b>character</b> section, use the buttons below to do what you want\
-, see your favorite character, search, etc..."
-    )
+    text = _("You are in the <b>character</b> section, use the buttons below to do what you want.")
     await (message.edit_text if is_callback else message.reply)(
         text,
         reply_markup=keyboard.as_markup(),

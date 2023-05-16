@@ -31,16 +31,16 @@ async def select_language(union: Message | CallbackQuery):
 
     text = _(
         "You can select your preferred language for the bot in this chat by clicking \
-on one of the buttons below. These are the languages that the bot currently supports."
+on one of the buttons below. These are the languages that the bot currently supports. \
+If you want to contribute to the translation of the bot, click on the last button.\n"
     )
 
     if message.chat.type == ChatType.PRIVATE:
-        text += _("\nYour current language: <i>{lang}</i>").format(lang=lang_display_name)
+        text += _("\nYour current language: {lang}").format(lang=lang_display_name)
     else:
-        text += _("\nGroup current language: <i>{lang}</i>").format(lang=lang_display_name)
+        text += _("\nGroup current language: {lang}").format(lang=lang_display_name)
 
     available_locales = (*i18n.available_locales, i18n.default_locale)
-
     keyboard = InlineKeyboardBuilder()
     for lang in available_locales:
         lang_display_name = str(Locale.parse(lang).display_name).capitalize()
@@ -51,7 +51,13 @@ on one of the buttons below. These are the languages that the bot currently supp
             callback_data=LanguageCallback(lang=lang, chat=str(chat_type)),
         )
 
-    keyboard.adjust(4)
+    keyboard.adjust(2)
+    keyboard.row(
+        InlineKeyboardButton(
+            text=_("🌎 Contribute in translations!"), url="https://crowdin.com/project/gojira/"
+        )
+    )
+
     if message.chat.type == ChatType.PRIVATE:
         keyboard.row(
             InlineKeyboardButton(

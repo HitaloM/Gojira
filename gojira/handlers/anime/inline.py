@@ -42,15 +42,15 @@ async def anime_inline(inline: InlineQuery, match: re.Match[str]):
             continue
 
         photo: str = ""
-        if anime["bannerImage"]:
-            photo = anime["bannerImage"]
-        elif anime["coverImage"]:
-            if anime["coverImage"]["extraLarge"]:
-                photo = anime["coverImage"]["extraLarge"]
-            elif anime["coverImage"]["large"]:
-                photo = anime["coverImage"]["large"]
-            elif anime["coverImage"]["medium"]:
-                photo = anime["coverImage"]["medium"]
+        if cover := anime["bannerImage"]:
+            photo = cover
+        elif cover := anime["coverImage"]:
+            if xl_image := cover["extraLarge"]:
+                photo = xl_image
+            elif large_image := cover["large"]:
+                photo = large_image
+            elif medium_image := cover["medium"]:
+                photo = medium_image
 
         description: str = ""
         if anime["description"]:

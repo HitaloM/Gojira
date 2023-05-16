@@ -43,15 +43,15 @@ async def manga_inline(inline: InlineQuery, match: re.Match[str]):
         manga = data["data"]["Page"]["media"][0]
 
         photo: str = ""
-        if manga["bannerImage"]:
-            photo = manga["bannerImage"]
-        elif manga["coverImage"]:
-            if manga["coverImage"]["extraLarge"]:
-                photo = manga["coverImage"]["extraLarge"]
-            elif manga["coverImage"]["large"]:
-                photo = manga["coverImage"]["large"]
-            elif manga["coverImage"]["medium"]:
-                photo = manga["coverImage"]["medium"]
+        if banner := manga["bannerImage"]:
+            photo = banner
+        elif cover := manga["coverImage"]:
+            if xl_image := cover["extraLarge"]:
+                photo = xl_image
+            elif large_image := cover["large"]:
+                photo = large_image
+            elif medium_image := cover["medium"]:
+                photo = medium_image
 
         description: str = ""
         if manga["description"]:

@@ -68,7 +68,7 @@ async def anime_categories(callback: CallbackQuery, callback_data: AnimeCategCal
 
     with suppress(TelegramAPIError):
         await message.edit_text(
-            _("Below are some categories, choose one and find something you like. 😆"),
+            _("Below are the categories of <b>anime</b>, choose one to see the results:"),
             reply_markup=keyboard.as_markup(),
         )
 

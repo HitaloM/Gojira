@@ -46,10 +46,7 @@ async def character_popular(callback: CallbackQuery, callback_data: CharacterPop
             )
         )
 
-        text = _(
-            "Below are <b>50</b> popular in descending order, I hope you will like\
-some of them. 😅"
-        )
+        text = _("Below are the <b>50</b> most popular characters in descending order.")
         with suppress(TelegramAPIError):
             await message.edit_text(
                 text=text,

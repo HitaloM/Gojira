@@ -38,10 +38,7 @@ async def manga_start(union: Message | CallbackQuery):
         )
     )
 
-    text = _(
-        "You are in the <b>manga</b> section, use the buttons below to do what you want\
-, see some suggestions, see your favorite manga, search, etc..."
-    )
+    text = _("You are in the <b>manga</b> section, use the buttons below to do what you want.")
     await (message.edit_text if is_callback else message.reply)(
         text,
         reply_markup=keyboard.as_markup(),
