@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gojira\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-15 20:39-0300\n"
-"PO-Revision-Date: 2023-05-15 23:47\n"
+"POT-Creation-Date: 2023-05-15 22:25-0300\n"
+"PO-Revision-Date: 2023-05-16 02:15\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
@@ -45,56 +45,56 @@ msgstr ""
 #: gojira/handlers/manga/start.py:36 gojira/handlers/manga/upcoming.py:48
 #: gojira/handlers/manga/view.py:280 gojira/handlers/manga/view.py:365
 #: gojira/handlers/manga/view.py:469 gojira/handlers/manga/view.py:569
-#: gojira/handlers/pm_menu.py:83 gojira/handlers/pm_menu.py:121
+#: gojira/handlers/pm_menu.py:82 gojira/handlers/pm_menu.py:120
 #: gojira/handlers/staff/popular.py:44 gojira/handlers/staff/start.py:28
 msgid "🔙 Back"
 msgstr ""
 
-#: gojira/handlers/language.py:79
+#: gojira/handlers/language.py:80
 msgid "Changed language to {lang}"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:49
+#: gojira/handlers/pm_menu.py:48
 msgid "ℹ️ About"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:50
+#: gojira/handlers/pm_menu.py:49
 msgid "🌐 Language"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:51
+#: gojira/handlers/pm_menu.py:50
 msgid "👮‍♂️ Help"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:54
+#: gojira/handlers/pm_menu.py:53
 msgid "Hello, <b>{user_name}</b>. I am <b>Gojira</b>, a Telegram bot that can help you with informations about anime and manga, such as genres, characters, studios, staff. And much more!"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:75
+#: gojira/handlers/pm_menu.py:74
 msgid "👸 Anime"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:76
+#: gojira/handlers/pm_menu.py:75
 msgid "📖 Manga"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:77
+#: gojira/handlers/pm_menu.py:76
 msgid "👨‍👩‍👧‍👦 Character"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:87
+#: gojira/handlers/pm_menu.py:86
 msgid "This is the menu where all my modules are concentrated, click on one of the buttons below to start exploring all my functions."
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:106
+#: gojira/handlers/pm_menu.py:105
 msgid "Gojira is a bot developed using Python that utilizes AIOGram and AniList GraphQL API to provide fast, stable and comprehensive information about animes and mangas. The name Gojira (ゴジラ) is a reference to the Japanese name of the famous monster Godzilla."
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:114
+#: gojira/handlers/pm_menu.py:113
 msgid "📦 GitHub"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:115
+#: gojira/handlers/pm_menu.py:114
 msgid "📚 Channel"
 msgstr ""
 
@@ -575,3 +575,4 @@ msgstr ""
 #: gojira/utils/command_list.py:41 gojira/utils/command_list.py:60
 msgid "About the bot."
 msgstr ""
+
