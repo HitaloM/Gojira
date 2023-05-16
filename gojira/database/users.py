@@ -11,8 +11,7 @@ class Users(SqliteConnection):
     async def get_user(user: User) -> list | str | None:
         sql = "SELECT * FROM users WHERE id = ?"
         params = (user.id,)
-        r = await Users._make_request(sql, params, fetch=True, mult=True)
-        return r if r else None
+        return await Users._make_request(sql, params, fetch=True, mult=True) or None
 
     @staticmethod
     async def register_user(user: User) -> None:
@@ -24,14 +23,12 @@ class Users(SqliteConnection):
     async def get_language(user: User) -> list | str | None:
         sql = "SELECT language_code FROM users WHERE id = ?"
         params = (user.id,)
-        r = await Users._make_request(sql, params, fetch=True)
-        return r[0] if r and r[0] else None
+        return (await Users._make_request(sql, params, fetch=True) or [None])[0]
 
     @staticmethod
     async def set_language(user: User, language_code: str) -> None:
-        if await Users.get_user(user=user):
-            sql = "UPDATE users SET language_code = ? WHERE id = ?"
-        else:
-            sql = "INSERT INTO users (language_code, id) VALUES (?, ?)"
+        sql = "UPDATE users SET language_code = ? WHERE id = ?"
         params = (language_code, user.id)
+        if not await Users.get_user(user=user):
+            sql = "INSERT INTO users (language_code, id) VALUES (?, ?)"
         await Users._make_request(sql, params)
