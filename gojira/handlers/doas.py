@@ -23,8 +23,7 @@ router.message.filter(IsSudo())
 @router.message(Command(commands=["reboot", "restart"]))
 async def reboot(message: Message):
     await message.reply("Rebooting...")
-    args = [sys.executable, "-m", "gojira"]
-    os.execv(sys.executable, args)
+    os.execv(sys.executable, [sys.executable, "-m", "gojira"])
 
 
 @router.message(Command("shutdown"))
@@ -74,7 +73,8 @@ async def evaluate(message: Message, command: CommandObject):
 
 @router.message(Command("ping"))
 async def ping(message: Message):
-    start = datetime.datetime.now().replace(tzinfo=datetime.UTC)
+    start = datetime.datetime.utcnow()
     sent = await message.reply("<b>Pong!</b>")
-    end = datetime.datetime.now().replace(tzinfo=datetime.UTC)
-    await sent.edit_text(f"<b>Pong!</b> <code>{(end - start).microseconds / 1000}ms</code>")
+    end = datetime.datetime.utcnow()
+    delta = (end - start).total_seconds() * 1000
+    await sent.edit_text(f"<b>Pong!</b> <code>{delta}ms</code>")

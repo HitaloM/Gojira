@@ -18,28 +18,22 @@ router = Router(name="view")
 
 @router.message(F.chat.type == ChatType.PRIVATE, F.via_bot)
 async def view(message: Message):
-    from_bot = message.via_bot
-    if not from_bot:
+    if not message.via_bot:
         return
 
     me = await bot.get_me()
-    if from_bot.id == me.id and bool(message.photo) and bool(message.caption):
-        text = message.caption
-        lines = text.splitlines()
-
-        for line in lines:
+    if message.via_bot.id == me.id and message.photo and message.caption:
+        for line in message.caption.splitlines():
             if "ID:" in line:
                 matches = re.match(r"ID: (\d+) \((\w+)\)", line)
-                if not matches:
-                    return
+                if matches:
+                    content_type, content_id = matches.group(2).lower(), int(matches.group(1))
 
-                content_type: str = matches.group(2).lower()
-                content_id: int = int(matches.group(1))
-                if content_type == "anime":
-                    await anime_view(message, anime_id=content_id)
-                elif content_type == "manga":
-                    await manga_view(message, manga_id=content_id)
-                elif content_type == "character":
-                    await character_view(message, character_id=content_id)
-                elif content_type == "staff":
-                    await staff_view(message, staff_id=content_id)
+                    if content_type == "anime":
+                        await anime_view(message, anime_id=content_id)
+                    elif content_type == "manga":
+                        await manga_view(message, manga_id=content_id)
+                    elif content_type == "character":
+                        await character_view(message, character_id=content_id)
+                    elif content_type == "staff":
+                        await staff_view(message, staff_id=content_id)

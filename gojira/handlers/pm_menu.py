@@ -22,8 +22,7 @@ router = Router(name="pm_menu")
 @router.message(CommandStart(deep_link=True), F.chat.type == ChatType.PRIVATE)
 async def start_command_deep_link(message: Message, command: CommandObject):
     if command.args and len(command.args.split("_")) > 1:
-        content_type = command.args.split("_")[0]
-        content_id = command.args.split("_")[1:]
+        content_type, *content_id = command.args.split("_")
 
         if content_type == "anime":
             await anime_view(message, anime_id=int(content_id[0]))
@@ -33,8 +32,8 @@ async def start_command_deep_link(message: Message, command: CommandObject):
             await character_view(message, char_id=int(content_id[0]))
         elif content_type == "staff":
             await staff_view(message, staff_id=int(content_id[0]))
-    else:
-        await start_command(message)
+        else:
+            await start_command(message)
 
 
 @router.message(CommandStart(), F.chat.type == ChatType.PRIVATE)
@@ -57,10 +56,10 @@ you with informations about anime and manga, such as genres, characters, studios
 staff. And much more!"
     ).format(user_name=html.escape(union.from_user.full_name))
 
-    if is_callback:
-        await message.edit_text(text, reply_markup=keyboard.as_markup())
-    else:
-        await message.reply(text, reply_markup=keyboard.as_markup())
+    await (message.edit_text if is_callback else message.reply)(
+        text,
+        reply_markup=keyboard.as_markup(),
+    )
 
 
 @router.message(Command("help"), F.chat.type == ChatType.PRIVATE)
@@ -89,10 +88,10 @@ async def help(union: Message | CallbackQuery):
 below to start exploring all my functions."
     )
 
-    if is_callback:
-        await message.edit_text(text, reply_markup=keyboard.as_markup())
-    else:
-        await message.reply(text, reply_markup=keyboard.as_markup())
+    await (message.edit_text if is_callback else message.reply)(
+        text,
+        reply_markup=keyboard.as_markup(),
+    )
 
 
 @router.message(Command("about"))
@@ -122,7 +121,7 @@ monster Godzilla."
             )
         )
 
-    if is_callback:
-        await message.edit_text(text, reply_markup=keyboard.as_markup())
-    else:
-        await message.reply(text, reply_markup=keyboard.as_markup())
+    await (message.edit_text if is_callback else message.reply)(
+        text,
+        reply_markup=keyboard.as_markup(),
+    )

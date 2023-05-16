@@ -34,7 +34,7 @@ async def staff_start(union: Message | CallbackQuery):
         "You are in the <b>staff</b> section, use the buttons below to do what you want\
 , see your favorite staff, search, etc..."
     )
-    if is_callback:
-        await message.edit_text(text, reply_markup=keyboard.as_markup())
-    else:
-        await message.reply(text, reply_markup=keyboard.as_markup())
+    await (message.edit_text if is_callback else message.reply)(
+        text,
+        reply_markup=keyboard.as_markup(),
+    )

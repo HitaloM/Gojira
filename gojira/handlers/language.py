@@ -58,10 +58,11 @@ on one of the buttons below. These are the languages that the bot currently supp
                 text=_("🔙 Back"), callback_data=StartCallback(menu="start").pack()
             )
         )
-    if is_callback:
-        await message.edit_text(text, reply_markup=keyboard.as_markup())
-    else:
-        await message.reply(text, reply_markup=keyboard.as_markup())
+
+    await (message.edit_text if is_callback else message.reply)(
+        text,
+        reply_markup=keyboard.as_markup(),
+    )
 
 
 @router.callback_query(LanguageCallback.filter(), IsAdmin())
@@ -71,7 +72,7 @@ async def language_callback(callback: CallbackQuery, callback_data: LanguageCall
 
     if callback_data.chat == ChatType.PRIVATE:
         await Users.set_language(user=callback.from_user, language_code=callback_data.lang)
-    if callback_data.chat in (ChatType.GROUP, ChatType.SUPERGROUP):
+    elif callback_data.chat in (ChatType.GROUP, ChatType.SUPERGROUP):
         await Chats.set_language(chat=callback.message.chat, language_code=callback_data.lang)
 
     lang = Locale.parse(callback_data.lang)
