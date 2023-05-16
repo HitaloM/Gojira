@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gojira\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-15 22:25-0300\n"
-"PO-Revision-Date: 2023-05-16 02:15\n"
+"POT-Creation-Date: 2023-05-16 13:37-0300\n"
+"PO-Revision-Date: 2023-05-16 16:48\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "MIME-Version: 1.0\n"
@@ -19,20 +19,22 @@ msgstr ""
 "Language: pt_BR\n"
 
 #: gojira/handlers/language.py:32
-msgid "You can select your preferred language for the bot in this chat by clicking on one of the buttons below. These are the languages that the bot currently supports."
-msgstr "Você pode selecionar seu idioma preferido para o bot neste chat clicando em um dos botões abaixo. Estes são os idiomas que o bot suporta atualmente."
+msgid "You can select your preferred language for the bot in this chat by clicking on one of the buttons below. These are the languages that the bot currently supports. If you want to contribute to the translation of the bot, click on the last button.\n"
+msgstr ""
 
-#: gojira/handlers/language.py:38
+#: gojira/handlers/language.py:39
 msgid "\n"
-"Your current language: <i>{lang}</i>"
-msgstr "\n"
-"Seu idioma atual: <i>{lang}</i>"
+"Your current language: {lang}"
+msgstr ""
 
-#: gojira/handlers/language.py:40
+#: gojira/handlers/language.py:41
 msgid "\n"
-"Group current language: <i>{lang}</i>"
-msgstr "\n"
-"Idioma atual do grupo: <i>{lang}</i>"
+"Group current language: {lang}"
+msgstr ""
+
+#: gojira/handlers/language.py:57
+msgid "🌎 Contribute in translations!"
+msgstr ""
 
 #: gojira/handlers/anime/categories.py:64
 #: gojira/handlers/anime/categories.py:104 gojira/handlers/anime/popular.py:45
@@ -41,7 +43,7 @@ msgstr "\n"
 #: gojira/handlers/anime/view.py:508 gojira/handlers/anime/view.py:608
 #: gojira/handlers/anime/view.py:672 gojira/handlers/anime/view.py:754
 #: gojira/handlers/character/popular.py:44
-#: gojira/handlers/character/start.py:28 gojira/handlers/language.py:58
+#: gojira/handlers/character/start.py:28 gojira/handlers/language.py:64
 #: gojira/handlers/manga/categories.py:64
 #: gojira/handlers/manga/categories.py:103 gojira/handlers/manga/popular.py:44
 #: gojira/handlers/manga/start.py:36 gojira/handlers/manga/upcoming.py:48
@@ -52,7 +54,7 @@ msgstr "\n"
 msgid "🔙 Back"
 msgstr "🔙 Voltar"
 
-#: gojira/handlers/language.py:80
+#: gojira/handlers/language.py:86
 msgid "Changed language to {lang}"
 msgstr "Idioma alterado para {lang}"
 
@@ -191,9 +193,8 @@ msgid "Thriller"
 msgstr "Suspense"
 
 #: gojira/handlers/anime/categories.py:71
-#: gojira/handlers/manga/categories.py:71
-msgid "Below are some categories, choose one and find something you like. 😆"
-msgstr "Abaixo estão algumas categorias, escolha uma e encontre algo que você goste. 😆"
+msgid "Below are the categories of <b>anime</b>, choose one to see the results:"
+msgstr ""
 
 #: gojira/handlers/anime/categories.py:109
 #: gojira/handlers/manga/categories.py:108
@@ -299,7 +300,7 @@ msgid "👓 View More"
 msgstr "👓 Ver Mais"
 
 #: gojira/handlers/anime/popular.py:50
-msgid "Below are <b>50</b> popular in descending order, I hope you will like some of them. 😅"
+msgid "Below are the <b>50</b> most popular animes in descending order."
 msgstr ""
 
 #: gojira/handlers/anime/scan.py:34
@@ -386,8 +387,8 @@ msgid "🔍 Search"
 msgstr "🔍 Pesquisar"
 
 #: gojira/handlers/anime/start.py:40
-msgid "You are in the <b>anime</b> section, use the buttons below to do what you want, see some suggestions, see your favorite anime, search, etc..."
-msgstr "Você está na seção <b>anime</b>, use os botões abaixo para fazer o que você quer, veja algumas sugestões, veja seu anime favorito, pesquisar, etc..."
+msgid "You are in the <b>anime</b> section, use the buttons below to do what you want."
+msgstr ""
 
 #: gojira/handlers/anime/upcoming.py:55 gojira/handlers/manga/upcoming.py:55
 msgid "Below are <b>50</b> items that have not yet been released."
@@ -508,18 +509,21 @@ msgid "\n"
 msgstr "\n"
 "*Favoritos*: `{favourites}`"
 
-#: gojira/handlers/character/popular.py:49 gojira/handlers/manga/popular.py:49
-#: gojira/handlers/staff/popular.py:49
-msgid "Below are <b>50</b> popular in descending order, I hope you will likesome of them. 😅"
-msgstr "Abaixo estão os <b>50</b> populares em ordem decrescente, espero que você goste de alguns deles. 😅"
+#: gojira/handlers/character/popular.py:49
+msgid "Below are the <b>50</b> most popular characters in descending order."
+msgstr ""
 
 #: gojira/handlers/character/start.py:33
-msgid "You are in the <b>character</b> section, use the buttons below to do what you want, see your favorite character, search, etc..."
-msgstr "Você está na seção <b>personagens</b>, use os botões abaixo para fazer o que você quer, ver seu personagem favorito, buscar, etc..."
+msgid "You are in the <b>character</b> section, use the buttons below to do what you want."
+msgstr ""
 
 #: gojira/handlers/character/view.py:38
 msgid "You need to specify an character. Use /character name or id"
 msgstr "Você precisa especificar um personagem. Use /character name ou Id"
+
+#: gojira/handlers/manga/categories.py:71
+msgid "Below are the categories of <b>manga</b>, choose one to see the results:"
+msgstr ""
 
 #: gojira/handlers/manga/inline.py:92 gojira/handlers/manga/view.py:164
 msgid "\n"
@@ -533,9 +537,13 @@ msgid "\n"
 msgstr "\n"
 "<b>Capítulos</b>: <code>{chapters}</code>"
 
+#: gojira/handlers/manga/popular.py:49
+msgid "Below are the <b>50</b> most popular mangas in descending order."
+msgstr ""
+
 #: gojira/handlers/manga/start.py:41
-msgid "You are in the <b>manga</b> section, use the buttons below to do what you want, see some suggestions, see your favorite manga, search, etc..."
-msgstr "Você está na seção <b>manga</b>, use os botões abaixo para fazer o que você quiser, ver algumas sugestões, ver seus mangas favoritos, pesquisar, etc..."
+msgid "You are in the <b>manga</b> section, use the buttons below to do what you want."
+msgstr ""
 
 #: gojira/handlers/manga/view.py:46
 msgid "You need to specify an manga. Use /manga name or id"
@@ -568,8 +576,12 @@ msgid "\n"
 "**Favourites**: `{favourites}`"
 msgstr ""
 
+#: gojira/handlers/staff/popular.py:49
+msgid "Below are the <b>50</b> most popular staffs in descending order."
+msgstr ""
+
 #: gojira/handlers/staff/start.py:33
-msgid "You are in the <b>staff</b> section, use the buttons below to do what you want, see your favorite staff, search, etc..."
+msgid "You are in the <b>staff</b> section, use the buttons below to do what you want."
 msgstr ""
 
 #: gojira/handlers/staff/view.py:38
@@ -599,3 +611,4 @@ msgstr "Alterar idioma do bot."
 #: gojira/utils/command_list.py:41 gojira/utils/command_list.py:60
 msgid "About the bot."
 msgstr "Sobre o bot."
+
