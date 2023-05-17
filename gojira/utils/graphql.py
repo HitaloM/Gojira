@@ -1,8 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
-ANILIST_API: str = "https://graphql.anilist.co"
-
 ANIME_SEARCH: str = """
 query($id: Int, $search: String, $page: Int = 1, $per_page: Int = 10) {
     Page(page: $page, perPage: $per_page) {
