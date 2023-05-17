@@ -3,11 +3,12 @@
 
 import asyncio
 
+from cashews import cache
+
 from gojira import AniList, bot, dp, i18n
 from gojira.handlers import anime, character, doas, language, manga, pm_menu, staff, users, view
 from gojira.middlewares.acl import ACLMiddleware
 from gojira.middlewares.i18n import MyI18nMiddleware
-from gojira.utils.command_list import set_ui_commands
 
 
 async def main():
@@ -47,12 +48,13 @@ async def main():
         users.router,
     )
 
-    await set_ui_commands(bot, i18n)
+    # await set_ui_commands(bot, i18n)
 
     useful_updates = dp.resolve_used_update_types()
 
     await dp.start_polling(bot, allowed_updates=useful_updates)
     await AniList.close()
+    await cache.clear()
 
 
 if __name__ == "__main__":

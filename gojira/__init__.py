@@ -8,6 +8,7 @@ from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.client.telegram import TelegramAPIServer
 from aiogram.enums import ParseMode
 from aiogram.utils.i18n import I18n
+from cashews import cache
 
 from gojira.config import config
 from gojira.utils.aiohttp import AniListClient, TraceMoeClient
@@ -26,6 +27,8 @@ if config.api_url:
     )
 else:
     session = None
+
+cache.setup("redis://localhost", db=1)
 
 # Aiohttp Clients
 AniList = AniListClient()

@@ -3,6 +3,8 @@
 
 from typing import Any
 
+from cashews import cache
+
 from gojira.utils.graphql import (
     AIRING_QUERY,
     ANIME_GET,
@@ -33,6 +35,7 @@ class AniListClient(AiohttpBaseClient):
         self.base_url: str = "https://graphql.anilist.co"
         super().__init__(base_url=self.base_url)
 
+    @cache(ttl="1h")
     async def search(
         self, media: str, query: str
     ) -> tuple[int, dict[str, Any]] | tuple[None, None]:
@@ -82,6 +85,7 @@ class AniListClient(AiohttpBaseClient):
             )
         return None, None
 
+    @cache(ttl="1h")
     async def get(self, media: str, id: int) -> tuple[int, dict[str, Any]] | tuple[None, None]:
         if media.lower() == "character":
             return await self._make_request(
@@ -129,6 +133,7 @@ class AniListClient(AiohttpBaseClient):
             )
         return None, None
 
+    @cache(ttl="1h")
     async def get_adesc(self, media: str, id: int) -> tuple[int, dict[str, Any]]:
         return await self._make_request(
             "POST",
@@ -142,6 +147,7 @@ class AniListClient(AiohttpBaseClient):
             },
         )
 
+    @cache(ttl="1h")
     async def get_achars(self, media: str, id: int) -> tuple[int, dict[str, Any]]:
         return await self._make_request(
             "POST",
@@ -155,6 +161,7 @@ class AniListClient(AiohttpBaseClient):
             },
         )
 
+    @cache(ttl="1h")
     async def get_astaff(self, media: str, id: int) -> tuple[int, dict[str, Any]]:
         return await self._make_request(
             "POST",
@@ -168,6 +175,7 @@ class AniListClient(AiohttpBaseClient):
             },
         )
 
+    @cache(ttl="1h")
     async def get_airing(self, anime_id: int) -> tuple[int, dict[str, Any]]:
         return await self._make_request(
             "POST",
@@ -180,6 +188,7 @@ class AniListClient(AiohttpBaseClient):
             },
         )
 
+    @cache(ttl="1h")
     async def get_astudios(self, media: str, id: int) -> tuple[int, dict[str, Any]]:
         return await self._make_request(
             "POST",
@@ -193,6 +202,7 @@ class AniListClient(AiohttpBaseClient):
             },
         )
 
+    @cache(ttl="1h")
     async def get_atrailer(self, media: str, id: int) -> tuple[int, dict[str, Any]]:
         return await self._make_request(
             "POST",
@@ -206,6 +216,7 @@ class AniListClient(AiohttpBaseClient):
             },
         )
 
+    @cache(ttl="1h")
     async def upcoming(self, media: str) -> tuple[int, dict[str, Any]]:
         return await self._make_request(
             "POST",
@@ -219,6 +230,7 @@ class AniListClient(AiohttpBaseClient):
             },
         )
 
+    @cache(ttl="1h")
     async def popular(self, media: str) -> tuple[int, dict[str, Any]]:
         if media.lower() == "character":
             return await self._make_request(
@@ -249,6 +261,7 @@ class AniListClient(AiohttpBaseClient):
             },
         )
 
+    @cache(ttl="1h")
     async def categories(
         self, media: str, page: int, categorie: str
     ) -> tuple[int, dict[str, Any]]:
