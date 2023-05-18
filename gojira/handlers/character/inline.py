@@ -29,6 +29,7 @@ async def character_inline(inline: InlineQuery, match: re.Match[str]):
         return
 
     search_results = data["data"]["Page"]["characters"]
+
     if not search_results:
         return
 

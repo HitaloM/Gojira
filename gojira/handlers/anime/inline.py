@@ -26,6 +26,7 @@ async def anime_inline(inline: InlineQuery, match: re.Match[str]):
     status, data = await AniList.search("anime", query)
     if not data:
         return
+
     search_results = data["data"]["Page"]["media"]
 
     if not search_results:
@@ -147,7 +148,7 @@ async def anime_inline(inline: InlineQuery, match: re.Match[str]):
             url=f"https://t.me/{bot_username}/?start=anime_{anime['id']}",
         )
 
-        anime_format = "| " + anime["format"] if anime["format"] else None
+        anime_format = f"| {anime['format']}" if anime["format"] else None
 
         results.append(
             InlineQueryResultPhoto(

@@ -4,10 +4,9 @@
 import asyncio
 import sys
 
-from cashews import cache
 from cashews.exceptions import CacheBackendInteractionError
 
-from gojira import AniList, bot, dp, i18n
+from gojira import AniList, bot, cache, dp, i18n
 from gojira.handlers import anime, character, doas, language, manga, pm_menu, staff, users, view
 from gojira.middlewares.acl import ACLMiddleware
 from gojira.middlewares.i18n import MyI18nMiddleware
@@ -29,31 +28,14 @@ async def main():
     dp.inline_query.middleware(MyI18nMiddleware(i18n=i18n))
 
     dp.include_routers(
-        pm_menu.router,
         view.router,
+        pm_menu.router,
         language.router,
         doas.router,
-        anime.start.router,
-        anime.view.router,
-        anime.upcoming.router,
-        anime.popular.router,
-        anime.categories.router,
-        anime.scan.router,
-        anime.inline.router,
-        manga.view.router,
-        manga.start.router,
-        manga.upcoming.router,
-        manga.popular.router,
-        manga.categories.router,
-        manga.inline.router,
-        character.start.router,
-        character.view.router,
-        character.popular.router,
-        character.inline.router,
-        staff.view.router,
-        staff.start.router,
-        staff.popular.router,
-        staff.inline.router,
+        *anime.setup_routers(),
+        *character.setup_routers(),
+        *manga.setup_routers(),
+        *staff.setup_routers(),
         users.router,
     )
 
