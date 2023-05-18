@@ -2,17 +2,25 @@
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
+import sys
 
 from cashews import cache
+from cashews.exceptions import CacheBackendInteractionError
 
 from gojira import AniList, bot, dp, i18n
 from gojira.handlers import anime, character, doas, language, manga, pm_menu, staff, users, view
 from gojira.middlewares.acl import ACLMiddleware
 from gojira.middlewares.i18n import MyI18nMiddleware
 from gojira.utils.command_list import set_ui_commands
+from gojira.utils.logging import log
 
 
 async def main():
+    try:
+        await cache.ping()
+    except CacheBackendInteractionError:
+        sys.exit(log.critical("Can't connect to RedisDB! Exiting..."))
+
     dp.message.middleware(ACLMiddleware())
     dp.message.middleware(MyI18nMiddleware(i18n=i18n))
     dp.callback_query.middleware(ACLMiddleware())

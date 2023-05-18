@@ -3,8 +3,7 @@
 
 from typing import Any
 
-from cashews import cache
-
+from gojira import cache
 from gojira.utils.graphql import (
     AIRING_QUERY,
     ANIME_GET,

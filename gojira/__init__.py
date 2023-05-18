@@ -28,7 +28,7 @@ if config.api_url:
 else:
     session = None
 
-cache.setup("redis://localhost", db=1)
+cache.setup(f"redis://{config.redis_host}", db=1)
 
 # Aiohttp Clients
 AniList = AniListClient()

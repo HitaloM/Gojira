@@ -3,7 +3,7 @@
 
 from typing import Any, BinaryIO
 
-from cashews import cache
+from gojira import cache
 
 from .client import AiohttpBaseClient
 
