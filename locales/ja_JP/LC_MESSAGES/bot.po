@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gojira\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-16 14:15-0300\n"
-"PO-Revision-Date: 2023-05-16 17:51\n"
+"POT-Creation-Date: 2023-05-17 22:36-0300\n"
+"PO-Revision-Date: 2023-05-18 01:47\n"
 "Last-Translator: \n"
 "Language-Team: Japanese\n"
 "MIME-Version: 1.0\n"
@@ -570,26 +570,27 @@ msgstr ""
 msgid "You need to specify an staff. Use /staff name or id"
 msgstr ""
 
-#: gojira/utils/command_list.py:21
+#: gojira/utils/command_list.py:25
 msgid "Start the bot."
 msgstr ""
 
-#: gojira/utils/command_list.py:25
+#: gojira/utils/command_list.py:29
 msgid "Get help."
 msgstr ""
 
-#: gojira/utils/command_list.py:29 gojira/utils/command_list.py:48
+#: gojira/utils/command_list.py:33 gojira/utils/command_list.py:52
 msgid "Get anime informations."
 msgstr ""
 
-#: gojira/utils/command_list.py:33 gojira/utils/command_list.py:52
+#: gojira/utils/command_list.py:37 gojira/utils/command_list.py:56
 msgid "Get manga informations."
 msgstr ""
 
-#: gojira/utils/command_list.py:37 gojira/utils/command_list.py:56
+#: gojira/utils/command_list.py:41 gojira/utils/command_list.py:60
 msgid "Change bot language."
 msgstr ""
 
-#: gojira/utils/command_list.py:41 gojira/utils/command_list.py:60
+#: gojira/utils/command_list.py:45 gojira/utils/command_list.py:64
 msgid "About the bot."
 msgstr ""
+
