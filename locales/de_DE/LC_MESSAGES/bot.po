@@ -593,4 +593,3 @@ msgstr ""
 #: gojira/utils/command_list.py:45 gojira/utils/command_list.py:64
 msgid "About the bot."
 msgstr ""
-
