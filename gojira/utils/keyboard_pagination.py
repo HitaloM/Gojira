@@ -1,13 +1,17 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
+import collections.abc
 import math
-from collections.abc import Callable
+import typing
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from typing import Any
 
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+
+T = typing.TypeVar("T")
 
 
 def default_page_callback(x: int) -> str:
@@ -18,8 +22,9 @@ def default_item_callback(i: Any, pg: int) -> str:
     return f"[{pg}] {i}"
 
 
-def chunk_list(input: list[Any], size: int) -> list[list[Any]]:
-    return [input[i : i + size] for i in range(0, len(input), size)]
+def chunk_list(input: Sequence[T], size: int) -> collections.abc.Iterator[typing.Sequence[T]]:
+    for i in range(0, len(input), size):
+        yield input[i : i + size]
 
 
 @dataclass
@@ -79,6 +84,7 @@ class Pagination:
         kb_lines = chunk_list(buttons, columns)
 
         if last_page > 1:
+            kb_lines = list(kb_lines)
             kb_lines.append(nav)
 
         keyboard_markup = InlineKeyboardBuilder()
