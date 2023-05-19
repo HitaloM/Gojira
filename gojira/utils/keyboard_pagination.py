@@ -40,26 +40,40 @@ class Pagination:
         pages_range = list(range(1, math.ceil(total / quant_per_page) + 1))
         last_page = len(pages_range)
 
-        nav = [
-            (
-                f"‹ {page-1}"
-                if n == page - 1 and n != 1
-                else f"{page+1} ›"
-                if n == page + 1 and n != page
-                else "« 1"
-                if n == 1 and n != page
-                else f"{last_page} »"
-                if n == last_page and n != page
-                else f"· {n} ·"
-                if n == page
-                else n,
-                self.page_data(n),
+        nav: list[tuple] = []
+        if page <= 3:
+            for n in [1, 2, 3]:
+                if n in pages_range:
+                    text = f"· {n} ·" if n == page else n
+                    nav.append((text, self.page_data(n)))
+            if last_page >= 4:
+                nav.append(("4 ›" if last_page > 5 else 4, self.page_data(4)))
+            if last_page > 4:
+                nav.append(
+                    (f"{last_page} »" if last_page > 5 else last_page, self.page_data(last_page))
+                )
+        elif page >= last_page - 2:
+            nav.extend(
+                [
+                    ("« 1" if last_page - 4 > 1 else 1, self.page_data(1)),
+                    (
+                        f"‹ {last_page-3}" if last_page - 4 > 1 else last_page - 3,
+                        self.page_data(last_page - 3),
+                    ),
+                ]
             )
-            for n in pages_range
-            if (page <= 3 and 1 <= n <= 3)
-            or (page >= last_page - 2 and last_page - 2 <= n <= last_page)
-            or (n in {1, page - 1, page, page + 1, last_page})
-        ]
+            for n in range(last_page - 2, last_page + 1):
+                if n in pages_range:
+                    text = f"· {n} ·" if n == page else n
+                    nav.append((text, self.page_data(n)))
+        else:
+            nav = [
+                ("« 1", self.page_data(1)),
+                (f"‹ {page-1}", self.page_data(page - 1)),
+                (f"· {page} ·", "noop"),
+                (f"{page+1} ›", self.page_data(page + 1)),
+                (f"{last_page} »", self.page_data(last_page)),
+            ]
 
         buttons = [(self.item_title(item, page), self.item_data(item, page)) for item in cutted]
         kb_lines = chunk_list(buttons, columns)
