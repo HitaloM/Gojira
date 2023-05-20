@@ -30,7 +30,7 @@ class AiohttpBaseClient:
 
         return self._session
 
-    @backoff.on_exception(backoff.expo, ClientError, max_time=60)
+    @backoff.on_exception(backoff.expo, ClientError, max_tries=2)
     async def _make_request(
         self,
         method: str,
