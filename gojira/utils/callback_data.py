@@ -134,3 +134,20 @@ class StaffCallback(CallbackData, prefix="staff"):
 
 class StaffPopuCallback(CallbackData, prefix="staff_popular"):
     page: int
+
+
+class StudioCallback(CallbackData, prefix="studio"):
+    query: int | str
+    user_id: int | None = None
+    is_search: bool = False
+
+
+class StudioMediaCallback(CallbackData, prefix="studio_media"):
+    studio_name: str
+    studio_id: int
+    user_id: int
+    page: int = 0
+
+
+class StudioPopuCallback(CallbackData, prefix="studio_popular"):
+    page: int

@@ -705,13 +705,12 @@ async def anime_studio(callback: CallbackQuery, callback_data: AnimeStudioCallba
     status, data = await AniList.get_astudios("anime", anime_id)
     studio = data["data"]["Page"]["media"][0]["studios"]["nodes"]
 
-    # TODO: add hyperlink to studio name to retrieve more info
-    # me = await bot.get_me()
-    # bot_username = me.username
+    me = await bot.get_me()
     studio_text = ""
     studios = sorted(studio, key=lambda x: x["name"])
     for studio in studios:
-        studio_text += f"\n• <code>{studio['id']}</code> - {studio['name']} \
+        studio_text += f"\n• <code>{studio['id']}</code> - <a href='https://t.me/\
+{me.username}/?start=studio_{studio['id']}'>{studio['name']}</a> \
 {'(producer)' if not studio['isAnimationStudio'] else ''}"
 
     # Separate staff_text into pages of 8 items if more than 8 items

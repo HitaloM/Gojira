@@ -7,7 +7,18 @@ import sys
 from cashews.exceptions import CacheBackendInteractionError
 
 from gojira import AniList, bot, cache, dp, i18n
-from gojira.handlers import anime, character, doas, language, manga, pm_menu, staff, users, view
+from gojira.handlers import (
+    anime,
+    character,
+    doas,
+    language,
+    manga,
+    pm_menu,
+    staff,
+    studio,
+    users,
+    view,
+)
 from gojira.middlewares.acl import ACLMiddleware
 from gojira.middlewares.i18n import MyI18nMiddleware
 from gojira.utils.command_list import set_ui_commands
@@ -36,6 +47,7 @@ async def main():
         *character.setup_routers(),
         *manga.setup_routers(),
         *staff.setup_routers(),
+        *studio.setup_routers(),
         users.router,
     )
 

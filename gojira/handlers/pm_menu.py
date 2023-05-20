@@ -14,6 +14,7 @@ from gojira.handlers.anime.view import anime_view
 from gojira.handlers.character.view import character_view
 from gojira.handlers.manga.view import manga_view
 from gojira.handlers.staff.view import staff_view
+from gojira.handlers.studio.view import studio_view
 from gojira.utils.callback_data import StartCallback
 
 router = Router(name="pm_menu")
@@ -32,6 +33,8 @@ async def start_command_deep_link(message: Message, command: CommandObject):
             await character_view(message, char_id=int(content_id[0]))
         elif content_type == "staff":
             await staff_view(message, staff_id=int(content_id[0]))
+        elif content_type == "studio":
+            await studio_view(message, studio_id=int(content_id[0]))
         else:
             await start_command(message)
 

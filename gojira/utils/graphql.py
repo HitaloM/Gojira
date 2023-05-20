@@ -83,6 +83,19 @@ query($search: String, $page: Int = 1, $per_page: Int = 10) {
 }
 """
 
+
+STUDIO_SEARCH: str = """
+query($search: String) {
+    Page(page: 1, perPage: 10) {
+        studios(search: $search, sort: SEARCH_MATCH) {
+            id
+            name
+        }
+    }
+}
+"""
+
+
 ANIME_GET: str = """
 query($id: Int) {
     Page(page: 1, perPage: 1) {
@@ -223,6 +236,19 @@ query($id: Int) {
             favourites
             language
         }
+    }
+}
+"""
+
+
+STUDIO_GET: str = """
+query($id: Int) {
+    Studio(id: $id) {
+        id
+        name
+        siteUrl
+        favourites
+        isAnimationStudio
     }
 }
 """
@@ -392,6 +418,19 @@ query($per_page: Int = 50) {
 }
 """
 
+STUDIO_POPULAR_QUERY: str = """
+query($per_page: Int) {
+    Page(page: 1, perPage: $per_page) {
+        studios(sort: FAVOURITES_DESC) {
+            id
+            name
+            siteUrl
+        }
+    }
+}
+"""
+
+
 CATEGORIE_QUERY: str = """
 query($genre: String, $page: Int, $media: MediaType) {
     Page(page: $page, perPage: 50) {
@@ -399,6 +438,25 @@ query($genre: String, $page: Int, $media: MediaType) {
             id
             title {
                 romaji
+            }
+        }
+    }
+}
+"""
+
+
+STUDIO_MEDIA_QUERY: str = """
+query($id: Int) {
+    Studio(id: $id) {
+        media(sort: POPULARITY_DESC) {
+            nodes {
+                id
+                title {
+                    romaji
+                    english
+                    native
+                }
+                type
             }
         }
     }

@@ -21,6 +21,10 @@ from gojira.utils.graphql import (
     STAFF_POPULAR_QUERY,
     STAFF_QUERY,
     STAFF_SEARCH,
+    STUDIO_GET,
+    STUDIO_MEDIA_QUERY,
+    STUDIO_POPULAR_QUERY,
+    STUDIO_SEARCH,
     STUDIOS_QUERY,
     TRAILER_QUERY,
     UPCOMING_QUERY,
@@ -82,6 +86,17 @@ class AniListClient(AiohttpBaseClient):
                     },
                 },
             )
+        if media.lower() == "studio":
+            return await self._make_request(
+                "POST",
+                url="/",
+                json={
+                    "query": STUDIO_SEARCH,
+                    "variables": {
+                        "search": query,
+                    },
+                },
+            )
         return None, None
 
     @cache(ttl="1h")
@@ -125,6 +140,17 @@ class AniListClient(AiohttpBaseClient):
                 url="/",
                 json={
                     "query": STAFF_GET,
+                    "variables": {
+                        "id": id,
+                    },
+                },
+            )
+        if media.lower() == "studio":
+            return await self._make_request(
+                "POST",
+                url="/",
+                json={
+                    "query": STUDIO_GET,
                     "variables": {
                         "id": id,
                     },
@@ -249,6 +275,15 @@ class AniListClient(AiohttpBaseClient):
                 },
             )
 
+        if media.lower() == "studio":
+            return await self._make_request(
+                "POST",
+                url="/",
+                json={
+                    "query": STUDIO_POPULAR_QUERY,
+                },
+            )
+
         return await self._make_request(
             "POST",
             url="/",
@@ -273,6 +308,19 @@ class AniListClient(AiohttpBaseClient):
                     "page": page,
                     "genre": categorie,
                     "media": media.upper(),
+                },
+            },
+        )
+
+    @cache(ttl="1h")
+    async def get_studio_media(self, studio_id: int) -> tuple[int, dict[str, Any]]:
+        return await self._make_request(
+            "POST",
+            url="/",
+            json={
+                "query": STUDIO_MEDIA_QUERY,
+                "variables": {
+                    "id": studio_id,
                 },
             },
         )

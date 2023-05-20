@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-18 22:48-0300\n"
+"POT-Creation-Date: 2023-05-19 22:50-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,7 +46,7 @@ msgstr ""
 #: gojira/handlers/anime/start.py:35 gojira/handlers/anime/upcoming.py:48
 #: gojira/handlers/anime/view.py:319 gojira/handlers/anime/view.py:404
 #: gojira/handlers/anime/view.py:508 gojira/handlers/anime/view.py:608
-#: gojira/handlers/anime/view.py:672 gojira/handlers/anime/view.py:754
+#: gojira/handlers/anime/view.py:672 gojira/handlers/anime/view.py:753
 #: gojira/handlers/character/popular.py:44
 #: gojira/handlers/character/start.py:28 gojira/handlers/language.py:64
 #: gojira/handlers/manga/categories.py:64
@@ -54,8 +54,10 @@ msgstr ""
 #: gojira/handlers/manga/start.py:36 gojira/handlers/manga/upcoming.py:48
 #: gojira/handlers/manga/view.py:280 gojira/handlers/manga/view.py:365
 #: gojira/handlers/manga/view.py:469 gojira/handlers/manga/view.py:569
-#: gojira/handlers/pm_menu.py:82 gojira/handlers/pm_menu.py:120
+#: gojira/handlers/pm_menu.py:85 gojira/handlers/pm_menu.py:123
 #: gojira/handlers/staff/popular.py:44 gojira/handlers/staff/start.py:28
+#: gojira/handlers/studio/popular.py:44 gojira/handlers/studio/start.py:29
+#: gojira/handlers/studio/view.py:193
 msgid "🔙 Back"
 msgstr ""
 
@@ -63,44 +65,44 @@ msgstr ""
 msgid "Changed language to {lang}"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:48
+#: gojira/handlers/pm_menu.py:51
 msgid "ℹ️ About"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:49
+#: gojira/handlers/pm_menu.py:52
 msgid "🌐 Language"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:50
+#: gojira/handlers/pm_menu.py:53
 msgid "👮‍♂️ Help"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:53
+#: gojira/handlers/pm_menu.py:56
 msgid ""
 "Hello, <b>{user_name}</b>. I am <b>Gojira</b>, a Telegram bot that can "
 "help you with informations about anime and manga, such as genres, "
 "characters, studios, staff. And much more!"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:74
+#: gojira/handlers/pm_menu.py:77
 msgid "👸 Anime"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:75
+#: gojira/handlers/pm_menu.py:78
 msgid "📖 Manga"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:76
+#: gojira/handlers/pm_menu.py:79
 msgid "👨‍👩‍👧‍👦 Character"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:86
+#: gojira/handlers/pm_menu.py:89
 msgid ""
 "This is the menu where all my modules are concentrated, click on one of "
 "the buttons below to start exploring all my functions."
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:105
+#: gojira/handlers/pm_menu.py:108
 msgid ""
 "Gojira is a bot developed using Python that utilizes AIOGram and AniList "
 "GraphQL API to provide fast, stable and comprehensive information about "
@@ -108,11 +110,11 @@ msgid ""
 "name of the famous monster Godzilla."
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:113
+#: gojira/handlers/pm_menu.py:116
 msgid "📦 GitHub"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:114
+#: gojira/handlers/pm_menu.py:117
 msgid "📚 Channel"
 msgstr ""
 
@@ -353,6 +355,8 @@ msgstr ""
 #: gojira/handlers/manga/view.py:119 gojira/handlers/manga/view.py:126
 #: gojira/handlers/staff/view.py:68 gojira/handlers/staff/view.py:73
 #: gojira/handlers/staff/view.py:100 gojira/handlers/staff/view.py:106
+#: gojira/handlers/studio/view.py:69 gojira/handlers/studio/view.py:74
+#: gojira/handlers/studio/view.py:101 gojira/handlers/studio/view.py:107
 msgid "No results found."
 msgstr ""
 
@@ -391,6 +395,7 @@ msgstr ""
 
 #: gojira/handlers/anime/start.py:27 gojira/handlers/character/start.py:22
 #: gojira/handlers/manga/start.py:28 gojira/handlers/staff/start.py:22
+#: gojira/handlers/studio/start.py:23
 msgid "🔝 Popular"
 msgstr ""
 
@@ -428,6 +433,7 @@ msgstr ""
 
 #: gojira/handlers/anime/view.py:109 gojira/handlers/character/view.py:96
 #: gojira/handlers/manga/view.py:106 gojira/handlers/staff/view.py:91
+#: gojira/handlers/studio/view.py:92
 msgid "Search Results For: <b>{query}</b>"
 msgstr ""
 
@@ -444,6 +450,7 @@ msgstr ""
 #: gojira/handlers/anime/view.py:636 gojira/handlers/anime/view.py:699
 #: gojira/handlers/manga/view.py:254 gojira/handlers/manga/view.py:312
 #: gojira/handlers/manga/view.py:397 gojira/handlers/manga/view.py:498
+#: gojira/handlers/studio/view.py:150
 msgid "This button is not for you"
 msgstr ""
 
@@ -473,6 +480,7 @@ msgstr ""
 
 #: gojira/handlers/anime/view.py:314 gojira/handlers/character/view.py:136
 #: gojira/handlers/manga/view.py:275 gojira/handlers/staff/view.py:128
+#: gojira/handlers/studio/view.py:127
 msgid "🐢 AniList"
 msgstr ""
 
@@ -520,7 +528,7 @@ msgstr ""
 msgid "<b>Airing:</b> <code>N/A</code>"
 msgstr ""
 
-#: gojira/handlers/anime/view.py:762
+#: gojira/handlers/anime/view.py:761
 msgid "Below are some studios from the item in question."
 msgstr ""
 
@@ -624,6 +632,64 @@ msgstr ""
 
 #: gojira/handlers/staff/view.py:38
 msgid "You need to specify an staff. Use /staff name or id"
+msgstr ""
+
+#: gojira/handlers/studio/popular.py:49
+msgid "Below are the <b>50</b> most popular studios in descending order."
+msgstr ""
+
+#: gojira/handlers/studio/start.py:34
+msgid ""
+"You are in the <b>studio</b> section, use the buttons below to do what "
+"you want."
+msgstr ""
+
+#: gojira/handlers/studio/view.py:39
+msgid "You need to specify an studio. Use /studio name or id"
+msgstr ""
+
+#: gojira/handlers/studio/view.py:114
+msgid ""
+"\n"
+"<b>ID</b>: <code>{id}</code>"
+msgstr ""
+
+#: gojira/handlers/studio/view.py:115
+msgid ""
+"\n"
+"<b>Favourites</b>: <code>{favourites}</code>"
+msgstr ""
+
+#: gojira/handlers/studio/view.py:118
+msgid "Yes"
+msgstr ""
+
+#: gojira/handlers/studio/view.py:118
+msgid "No"
+msgstr ""
+
+#: gojira/handlers/studio/view.py:119
+msgid ""
+"\n"
+"<b>Animation Studio</b>: <code>{is_anim}</code>"
+msgstr ""
+
+#: gojira/handlers/studio/view.py:122
+msgid "🎬 Medias"
+msgstr ""
+
+#: gojira/handlers/studio/view.py:176
+msgid "◀️"
+msgstr ""
+
+#: gojira/handlers/studio/view.py:183
+msgid "▶️"
+msgstr ""
+
+#: gojira/handlers/studio/view.py:201
+msgid ""
+"Media that <b>{name}</b> has worked on:\n"
+"{list}"
 msgstr ""
 
 #: gojira/utils/command_list.py:25
