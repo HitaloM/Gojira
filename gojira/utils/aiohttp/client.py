@@ -4,18 +4,26 @@
 import asyncio
 import logging
 import ssl
+from collections.abc import Callable
 from typing import Any
 
 import backoff
+import msgspec
 from aiohttp import ClientError, ClientSession, TCPConnector
-from ujson import dumps, loads
 from yarl import URL
+
+_JsonLoads = Callable[..., Any]
+_JsonDumps = Callable[..., str]
 
 
 class AiohttpBaseClient:
     def __init__(self, base_url: str | URL) -> None:
         self._base_url = base_url
         self._session: ClientSession | None = None
+        self.json_loads: _JsonLoads = msgspec.json.decode
+        self.json_dumps: _JsonDumps = lambda obj, *, enc_hook=None: msgspec.json.encode(
+            obj, enc_hook=enc_hook
+        ).decode()
         self.log = logging.getLogger(self.__class__.__name__)
 
     async def _get_session(self) -> ClientSession:
@@ -25,7 +33,7 @@ class AiohttpBaseClient:
             self._session = ClientSession(
                 base_url=self._base_url,
                 connector=connector,
-                json_serialize=dumps,
+                json_serialize=self.json_dumps,
             )
 
         return self._session
@@ -50,7 +58,7 @@ class AiohttpBaseClient:
         )
         async with session.request(method, url, params=params, json=json, data=data) as response:
             status = response.status
-            result = await response.json(loads=loads)
+            result = await response.json(loads=self.json_loads)
 
         self.log.debug(
             "Got response %r %r with status %r and json %r",
