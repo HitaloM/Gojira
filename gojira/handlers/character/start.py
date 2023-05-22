@@ -19,7 +19,7 @@ async def character_start(union: Message | CallbackQuery):
         return
 
     keyboard = InlineKeyboardBuilder()
-    keyboard.button(text=_("🔝 Popular"), callback_data=CharacterPopuCallback(page=1))
+    keyboard.button(text=_("📈 Popular"), callback_data=CharacterPopuCallback(page=1))
     keyboard.button(text=_("🔍 Search"), switch_inline_query_current_chat="!c ")
     keyboard.adjust(2)
 

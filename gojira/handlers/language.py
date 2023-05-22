@@ -31,8 +31,9 @@ async def select_language(union: Message | CallbackQuery):
 
     text = _(
         "You can select your preferred language for the bot in this chat by clicking \
-on one of the buttons below. These are the languages that the bot currently supports. \
-If you want to contribute to the translation of the bot, click on the last button.\n"
+on one of the buttons below. These are the languages that the bot currently supports.\n\
+If you are interested in contributing to the translations with your language, please contact \
+@Hitalo.\n"
     )
 
     if message.chat.type == ChatType.PRIVATE:

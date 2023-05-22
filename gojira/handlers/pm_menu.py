@@ -76,8 +76,10 @@ async def help(union: Message | CallbackQuery):
     keyboard = InlineKeyboardBuilder()
     keyboard.button(text=_("👸 Anime"), callback_data=StartCallback(menu="anime"))
     keyboard.button(text=_("📖 Manga"), callback_data=StartCallback(menu="manga"))
-    keyboard.button(text=_("👨‍👩‍👧‍👦 Character"), callback_data=StartCallback(menu="character"))
-    keyboard.adjust(2)
+    keyboard.button(text=_("👤 Character"), callback_data=StartCallback(menu="character"))
+    keyboard.button(text=_("👨‍💻 Staff"), callback_data=StartCallback(menu="staff"))
+    keyboard.button(text=_("🎬 Studio"), callback_data=StartCallback(menu="studio"))
+    keyboard.adjust(3)
 
     if is_callback or message.chat.type == ChatType.PRIVATE:
         keyboard.row(

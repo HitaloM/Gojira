@@ -19,7 +19,7 @@ async def staff_start(union: Message | CallbackQuery):
         return
 
     keyboard = InlineKeyboardBuilder()
-    keyboard.button(text=_("🔝 Popular"), callback_data=StaffPopuCallback(page=1))
+    keyboard.button(text=_("📈 Popular"), callback_data=StaffPopuCallback(page=1))
     keyboard.button(text=_("🔍 Search"), switch_inline_query_current_chat="!s ")
     keyboard.adjust(2)
 
