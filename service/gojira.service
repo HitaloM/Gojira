@@ -1,0 +1,14 @@
+[Unit]
+Description=Gojira Telegram Bot
+Requires=redis.service
+After=redis.service
+
+[Service]
+type=simple
+WorkingDirectory=/home/hitalo/Gojira
+ExecStart=/usr/bin/rye run python -m gojira
+EnvironmentFile=/home/hitalo/Gojira/data/config.env
+restart=always
+
+[Install]
+WantedBy=multi-user.target
