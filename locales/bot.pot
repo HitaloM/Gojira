@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-23 22:43-0300\n"
+"POT-Creation-Date: 2023-05-24 00:44-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -128,7 +128,7 @@ msgstr ""
 msgid "📚 Channel"
 msgstr ""
 
-#: gojira/handlers/users.py:36
+#: gojira/handlers/user.py:36
 msgid "You need to specify an user. Use /user name or id"
 msgstr ""
 
@@ -144,91 +144,91 @@ msgstr ""
 #: gojira/handlers/staff/view.py:100 gojira/handlers/staff/view.py:106
 #: gojira/handlers/studio/view.py:69 gojira/handlers/studio/view.py:74
 #: gojira/handlers/studio/view.py:101 gojira/handlers/studio/view.py:107
-#: gojira/handlers/users.py:66 gojira/handlers/users.py:71
-#: gojira/handlers/users.py:98 gojira/handlers/users.py:104
-#: gojira/handlers/users.py:154
+#: gojira/handlers/user.py:66 gojira/handlers/user.py:71
+#: gojira/handlers/user.py:98 gojira/handlers/user.py:104
+#: gojira/handlers/user.py:154
 msgid "No results found."
 msgstr ""
 
 #: gojira/handlers/anime/view.py:109 gojira/handlers/character/view.py:96
 #: gojira/handlers/manga/view.py:106 gojira/handlers/staff/view.py:91
-#: gojira/handlers/studio/view.py:92 gojira/handlers/users.py:89
+#: gojira/handlers/studio/view.py:92 gojira/handlers/user.py:89
 msgid "Search Results For: <b>{query}</b>"
 msgstr ""
 
-#: gojira/handlers/users.py:110
+#: gojira/handlers/user.py:110
 msgid "<b>Username</b>: <code>{name}</code>\n"
 msgstr ""
 
-#: gojira/handlers/users.py:111
+#: gojira/handlers/user.py:111
 msgid "<b>ID</b>: <code>{id}</code>\n"
 msgstr ""
 
-#: gojira/handlers/studio/view.py:118 gojira/handlers/users.py:112
+#: gojira/handlers/studio/view.py:118 gojira/handlers/user.py:112
 msgid "Yes"
 msgstr ""
 
-#: gojira/handlers/studio/view.py:118 gojira/handlers/users.py:112
+#: gojira/handlers/studio/view.py:118 gojira/handlers/user.py:112
 msgid "No"
 msgstr ""
 
-#: gojira/handlers/users.py:113
+#: gojira/handlers/user.py:113
 msgid "<b>Donator</b>: <code>{donator}</code>\n"
 msgstr ""
 
-#: gojira/handlers/users.py:117
+#: gojira/handlers/user.py:117
 msgid "<b>About</b>: <code>{about}</code>\n"
 msgstr ""
 
-#: gojira/handlers/users.py:119
+#: gojira/handlers/user.py:119
 msgid ""
 "\n"
 "<b>Created At</b>: <code>{date}</code>\n"
 msgstr ""
 
-#: gojira/handlers/users.py:122
+#: gojira/handlers/user.py:122
 msgid "<b>Updated At</b>: <code>{date}</code>"
 msgstr ""
 
-#: gojira/handlers/users.py:129
+#: gojira/handlers/user.py:129
 msgid "Anime Stats"
 msgstr ""
 
-#: gojira/handlers/users.py:133
+#: gojira/handlers/user.py:133
 msgid "Manga Stats"
 msgstr ""
 
 #: gojira/handlers/anime/view.py:314 gojira/handlers/character/view.py:136
 #: gojira/handlers/manga/view.py:275 gojira/handlers/staff/view.py:128
-#: gojira/handlers/studio/view.py:127 gojira/handlers/users.py:136
+#: gojira/handlers/studio/view.py:127 gojira/handlers/user.py:136
 msgid "🐢 AniList"
 msgstr ""
 
-#: gojira/handlers/users.py:165
+#: gojira/handlers/user.py:165
 msgid "Total Anime Watched: {count}\n"
 msgstr ""
 
-#: gojira/handlers/users.py:166
+#: gojira/handlers/user.py:166
 msgid "Total Episode Watched: {episodes}\n"
 msgstr ""
 
-#: gojira/handlers/users.py:167
+#: gojira/handlers/user.py:167
 msgid "Total Time Spent: {minutes_watched}\n"
 msgstr ""
 
-#: gojira/handlers/users.py:170 gojira/handlers/users.py:178
+#: gojira/handlers/user.py:170 gojira/handlers/user.py:178
 msgid "Average Score: {mean_score}"
 msgstr ""
 
-#: gojira/handlers/users.py:175
+#: gojira/handlers/user.py:175
 msgid "Total Manga Read: {count}\n"
 msgstr ""
 
-#: gojira/handlers/users.py:176
+#: gojira/handlers/user.py:176
 msgid "Total Chapter Read: {chapters}\n"
 msgstr ""
 
-#: gojira/handlers/users.py:177
+#: gojira/handlers/user.py:177
 msgid "Total Volume Read: {volumes}\n"
 msgstr ""
 
@@ -751,14 +751,6 @@ msgstr ""
 
 #: gojira/handlers/studio/view.py:122
 msgid "🎬 Medias"
-msgstr ""
-
-#: gojira/handlers/studio/view.py:176
-msgid "◀️"
-msgstr ""
-
-#: gojira/handlers/studio/view.py:183
-msgid "▶️"
 msgstr ""
 
 #: gojira/handlers/studio/view.py:201
