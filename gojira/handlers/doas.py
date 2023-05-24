@@ -30,6 +30,24 @@ class ShellException(Exception):
     pass
 
 
+def parse_commits(log: str) -> dict:
+    commits = {}
+    last_commit = ""
+    for line in log.splitlines():
+        if line.startswith("commit"):
+            last_commit = line.split()[1]
+            commits[last_commit] = {}
+        elif line.startswith("    "):
+            if "title" in commits[last_commit]:
+                commits[last_commit]["message"] = line[4:]
+            else:
+                commits[last_commit]["title"] = line[4:]
+        elif ":" in line:
+            key, value = line.split(": ", 1)
+            commits[last_commit][key] = value
+    return commits
+
+
 async def shell_run(command: str) -> str:
     process = await asyncio.create_subprocess_shell(
         command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
@@ -66,36 +84,19 @@ async def bot_update(message: Message):
         if not stdout:
             await sent.edit_text("There is nothing to update.")
             return
-
-        commits = parse_commits(stdout)
-        changelog = "<b>Changelog</b>:\n"
-        for c_hash, commit in commits.items():
-            changelog += f"  - [<code>{c_hash[:7]}</code>] {commit['title']}\n"
-        changelog += f"\n<b>New commits count</b>: <code>{len(commits)}</code>."
-
-        keyboard = InlineKeyboardBuilder()
-        keyboard.button(text="🆕 Update", callback_data=StartCallback(menu="update"))
-        await sent.edit_text(changelog, reply_markup=keyboard.as_markup())
     except ShellException as error:
         await sent.edit_text(f"<code>{error}</code>")
+        return
 
+    commits = parse_commits(stdout)
+    changelog = "<b>Changelog</b>:\n"
+    for c_hash, commit in commits.items():
+        changelog += f"  - [<code>{c_hash[:7]}</code>] {commit['title']}\n"
+    changelog += f"\n<b>New commits count</b>: <code>{len(commits)}</code>."
 
-def parse_commits(log: str) -> dict:
-    commits = {}
-    last_commit = ""
-    for line in log.splitlines():
-        if line.startswith("commit"):
-            last_commit = line.split()[1]
-            commits[last_commit] = {}
-        elif line.startswith("    "):
-            if "title" in commits[last_commit]:
-                commits[last_commit]["message"] = line[4:]
-            else:
-                commits[last_commit]["title"] = line[4:]
-        elif ":" in line:
-            key, value = line.split(": ", 1)
-            commits[last_commit][key] = value
-    return commits
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(text="🆕 Update", callback_data=StartCallback(menu="update"))
+    await sent.edit_text(changelog, reply_markup=keyboard.as_markup())
 
 
 @router.callback_query(StartCallback.filter(F.menu == "update"))
@@ -109,10 +110,12 @@ async def upgrade_callback(callback: CallbackQuery):
 
     try:
         await shell_run("git reset --hard origin/main")
-        await sent.edit_text("Restarting...")
-        os.execv(sys.executable, [sys.executable, "-m", "gojira"])
     except ShellException as error:
         await sent.edit_text(f"<code>{error}</code>")
+        return
+
+    await sent.edit_text("Restarting...")
+    os.execv(sys.executable, [sys.executable, "-m", "gojira"])
 
 
 @router.message(Command(commands=["shell", "sh"]))
@@ -120,7 +123,11 @@ async def bot_shell(message: Message, command: CommandObject):
     code = str(command.args)
     sent = await message.reply("Running...")
 
-    stdout = await shell_run(command=code)
+    try:
+        stdout = await shell_run(command=code)
+    except ShellException as error:
+        await sent.edit_text(f"<code>{error}</code>")
+        return
 
     output = f"<b>Input\n&gt;</b> <code>{code}</code>\n\n"
     if stdout:
