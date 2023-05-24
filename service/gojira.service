@@ -4,6 +4,8 @@ Requires=redis.service
 After=redis.service
 
 [Service]
+User=hitalo
+Group=wheel
 type=simple
 WorkingDirectory=/home/hitalo/Gojira
 ExecStart=/usr/bin/rye run python -m gojira
