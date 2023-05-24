@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
+import asyncio
 import datetime
 import html
 import io
@@ -9,15 +10,38 @@ import sys
 import traceback
 from signal import SIGINT
 
-from aiogram import Router
+from aiogram import F, Router
 from aiogram.filters import Command, CommandObject
-from aiogram.types import BufferedInputFile, Message
+from aiogram.types import BufferedInputFile, CallbackQuery, Message
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 from meval import meval
 
 from gojira.filters.user_status import IsSudo
+from gojira.utils.callback_data import StartCallback
 
 router = Router(name="doas")
+
+# Only sudo users can use these commands
 router.message.filter(IsSudo())
+router.callback_query.filter(IsSudo())
+
+
+class ShellException(Exception):
+    pass
+
+
+async def shell_run(command: str) -> str:
+    process = await asyncio.create_subprocess_shell(
+        command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+    )
+    stdout, stderr = await process.communicate()
+
+    if process.returncode == 0:
+        return stdout.decode("utf-8").strip()
+
+    raise ShellException(
+        f"Command '{command}' exited with {process.returncode}:\n{stderr.decode('utf-8').strip()}"
+    )
 
 
 @router.message(Command(commands=["reboot", "restart"]))
@@ -30,6 +54,85 @@ async def reboot(message: Message):
 async def shutdown_message(message: Message):
     await message.reply("Turning off...")
     os.kill(os.getpid(), SIGINT)
+
+
+@router.message(Command(commands=["update", "upgrade"]))
+async def bot_update(message: Message):
+    sent = await message.reply("Checking for updates...")
+
+    try:
+        await shell_run("git fetch origin")
+        stdout = await shell_run("git log HEAD..origin/main")
+        if not stdout:
+            await sent.edit_text("There is nothing to update.")
+            return
+
+        commits = parse_commits(stdout)
+        changelog = "<b>Changelog</b>:\n"
+        for c_hash, commit in commits.items():
+            changelog += f"  - [<code>{c_hash[:7]}</code>] {commit['title']}\n"
+        changelog += f"\n<b>New commits count</b>: <code>{len(commits)}</code>."
+
+        keyboard = InlineKeyboardBuilder()
+        keyboard.button(text="🆕 Update", callback_data=StartCallback(menu="update"))
+        await sent.edit_text(changelog, reply_markup=keyboard.as_markup())
+    except ShellException as error:
+        await sent.edit_text(f"<code>{error}</code>")
+
+
+def parse_commits(log: str) -> dict:
+    commits = {}
+    last_commit = ""
+    for line in log.splitlines():
+        if line.startswith("commit"):
+            last_commit = line.split()[1]
+            commits[last_commit] = {}
+        elif line.startswith("    "):
+            if "title" in commits[last_commit]:
+                commits[last_commit]["message"] = line[4:]
+            else:
+                commits[last_commit]["title"] = line[4:]
+        elif ":" in line:
+            key, value = line.split(": ", 1)
+            commits[last_commit][key] = value
+    return commits
+
+
+@router.callback_query(StartCallback.filter(F.menu == "update"))
+async def upgrade_callback(callback: CallbackQuery):
+    message = callback.message
+    if not message:
+        return
+
+    await message.edit_reply_markup()
+    sent = await message.reply("Upgrading...")
+
+    try:
+        await shell_run("git reset --hard origin/main")
+        await sent.edit_text("Restarting...")
+        os.execv(sys.executable, [sys.executable, "-m", "gojira"])
+    except ShellException as error:
+        await sent.edit_text(f"<code>{error}</code>")
+
+
+@router.message(Command(commands=["shell", "sh"]))
+async def bot_shell(message: Message, command: CommandObject):
+    code = str(command.args)
+    sent = await message.reply("Running...")
+
+    stdout = await shell_run(command=code)
+
+    output = f"<b>Input\n&gt;</b> <code>{code}</code>\n\n"
+    if stdout:
+        if len(stdout) > (4096 - len(output)):
+            document = io.BytesIO(stdout.encode())
+            document.name = "output.txt"
+            document = BufferedInputFile(document.getvalue(), filename=document.name)
+            await message.reply_document(document=document)
+        else:
+            output += f"<b>Output\n&gt;</b> <code>{stdout}</code>"
+
+    await sent.edit_text(output)
 
 
 @router.message(Command(commands=["eval", "ev"]))
@@ -75,6 +178,5 @@ async def evaluate(message: Message, command: CommandObject):
 async def ping(message: Message):
     start = datetime.datetime.utcnow()
     sent = await message.reply("<b>Pong!</b>")
-    end = datetime.datetime.utcnow()
-    delta = (end - start).total_seconds() * 1000
-    await sent.edit_text(f"<b>Pong!</b> <code>{delta}ms</code>")
+    delta = (datetime.datetime.utcnow() - start).total_seconds() * 1000
+    await sent.edit_text(f"<b>Pong!</b> <code>{delta:.2f}ms</code>")
