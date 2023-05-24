@@ -96,6 +96,24 @@ query($search: String) {
 """
 
 
+USER_SEARCH: str = """
+query($search: String, $page: Int = 1, $per_page: Int = 10) {
+    Page(page: $page, perPage: $per_page) {
+        pageInfo {
+            total
+            currentPage
+            lastPage
+            hasNextPage
+        }
+        users(search: $search) {
+            id
+            name
+        }
+    }
+}
+"""
+
+
 ANIME_GET: str = """
 query($id: Int) {
     Page(page: 1, perPage: 1) {
@@ -249,6 +267,21 @@ query($id: Int) {
         siteUrl
         favourites
         isAnimationStudio
+    }
+}
+"""
+
+
+USER_GET: str = """
+query($id: Int) {
+    User(id: $id) {
+        id
+        name
+        about
+        siteUrl
+        donatorTier
+        createdAt
+        updatedAt
     }
 }
 """
@@ -457,6 +490,40 @@ query($id: Int) {
                     native
                 }
                 type
+            }
+        }
+    }
+}
+"""
+
+
+USER_ANIME_QUERY: str = """
+query($id: Int) {
+    User(id: $id) {
+        statistics {
+            anime {
+                count
+                meanScore
+                standardDeviation
+                minutesWatched
+                episodesWatched
+            }
+        }
+    }
+}
+"""
+
+
+USER_MANGA_QUERY: str = """
+query($id: Int) {
+    User(id: $id) {
+        statistics {
+            manga {
+                count
+                meanScore
+                standardDeviation
+                chaptersRead
+                volumesRead
             }
         }
     }

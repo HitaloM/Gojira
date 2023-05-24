@@ -16,7 +16,7 @@ from gojira.handlers import (
     pm_menu,
     staff,
     studio,
-    users,
+    user,
     view,
 )
 from gojira.middlewares.acl import ACLMiddleware
@@ -43,12 +43,12 @@ async def main():
         pm_menu.router,
         language.router,
         doas.router,
+        user.router,
         *anime.setup_routers(),
         *character.setup_routers(),
         *manga.setup_routers(),
         *staff.setup_routers(),
         *studio.setup_routers(),
-        users.router,
     )
 
     await set_ui_commands(bot, i18n)

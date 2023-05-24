@@ -151,3 +151,14 @@ class StudioMediaCallback(CallbackData, prefix="studio_media"):
 
 class StudioPopuCallback(CallbackData, prefix="studio_popular"):
     page: int
+
+
+class UserCallback(CallbackData, prefix="user"):
+    query: int | str
+    user_id: int | None = None
+    is_search: bool = False
+
+
+class UserStatsCallback(CallbackData, prefix="user_stats"):
+    user_id: int
+    stat_type: str

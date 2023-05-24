@@ -28,6 +28,10 @@ from gojira.utils.graphql import (
     STUDIOS_QUERY,
     TRAILER_QUERY,
     UPCOMING_QUERY,
+    USER_ANIME_QUERY,
+    USER_GET,
+    USER_MANGA_QUERY,
+    USER_SEARCH,
 )
 
 from .client import AiohttpBaseClient
@@ -97,6 +101,17 @@ class AniListClient(AiohttpBaseClient):
                     },
                 },
             )
+        if media.lower() == "user":
+            return await self._make_request(
+                "POST",
+                url="/",
+                json={
+                    "query": USER_SEARCH,
+                    "variables": {
+                        "search": query,
+                    },
+                },
+            )
         return None, None
 
     @cache(ttl="1h")
@@ -151,6 +166,17 @@ class AniListClient(AiohttpBaseClient):
                 url="/",
                 json={
                     "query": STUDIO_GET,
+                    "variables": {
+                        "id": id,
+                    },
+                },
+            )
+        if media.lower() == "user":
+            return await self._make_request(
+                "POST",
+                url="/",
+                json={
+                    "query": USER_GET,
                     "variables": {
                         "id": id,
                     },
@@ -321,6 +347,19 @@ class AniListClient(AiohttpBaseClient):
                 "query": STUDIO_MEDIA_QUERY,
                 "variables": {
                     "id": studio_id,
+                },
+            },
+        )
+
+    @cache(ttl="1h")
+    async def get_user_stat(self, user_id: int, stat_type: str) -> tuple[int, dict[str, Any]]:
+        return await self._make_request(
+            "POST",
+            url="/",
+            json={
+                "query": USER_ANIME_QUERY if stat_type.lower() == "anime" else USER_MANGA_QUERY,
+                "variables": {
+                    "id": user_id,
                 },
             },
         )
