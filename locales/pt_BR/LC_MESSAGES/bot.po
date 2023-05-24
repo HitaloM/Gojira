@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: gojira\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-05-23 22:43-0300\n"
-"PO-Revision-Date: 2023-05-24 01:47\n"
+"PO-Revision-Date: 2023-05-24 02:42\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "MIME-Version: 1.0\n"
@@ -119,7 +119,7 @@ msgstr "📚 Canal"
 
 #: gojira/handlers/users.py:36
 msgid "You need to specify an user. Use /user name or id"
-msgstr ""
+msgstr "Você precisa especificar um usuário. Use /user ou id"
 
 #: gojira/handlers/anime/scan.py:89 gojira/handlers/anime/view.py:85
 #: gojira/handlers/anime/view.py:90 gojira/handlers/anime/view.py:118
@@ -147,11 +147,11 @@ msgstr "Resultados da Pesquisa Para: <b>{query}</b>"
 
 #: gojira/handlers/users.py:110
 msgid "<b>Username</b>: <code>{name}</code>\n"
-msgstr ""
+msgstr "<b>Nome de usuário</b>: <code>{name}</code>\n"
 
 #: gojira/handlers/users.py:111
 msgid "<b>ID</b>: <code>{id}</code>\n"
-msgstr ""
+msgstr "<b>ID</b>: <code>{id}</code>\n"
 
 #: gojira/handlers/studio/view.py:118 gojira/handlers/users.py:112
 msgid "Yes"
@@ -163,28 +163,29 @@ msgstr "Não"
 
 #: gojira/handlers/users.py:113
 msgid "<b>Donator</b>: <code>{donator}</code>\n"
-msgstr ""
+msgstr "<b>Doador</b>: <code>{donator}</code>\n"
 
 #: gojira/handlers/users.py:117
 msgid "<b>About</b>: <code>{about}</code>\n"
-msgstr ""
+msgstr "<b>Sobre</b>: <code>{about}</code>\n"
 
 #: gojira/handlers/users.py:119
 msgid "\n"
 "<b>Created At</b>: <code>{date}</code>\n"
-msgstr ""
+msgstr "\n"
+"<b>Criado em</b>: <code>{date}</code>\n"
 
 #: gojira/handlers/users.py:122
 msgid "<b>Updated At</b>: <code>{date}</code>"
-msgstr ""
+msgstr "<b>Atualizado em</b>: <code>{date}</code>"
 
 #: gojira/handlers/users.py:129
 msgid "Anime Stats"
-msgstr ""
+msgstr "Estatísticas de Anime"
 
 #: gojira/handlers/users.py:133
 msgid "Manga Stats"
-msgstr ""
+msgstr "Estatísticas de Mangá"
 
 #: gojira/handlers/anime/view.py:314 gojira/handlers/character/view.py:136
 #: gojira/handlers/manga/view.py:275 gojira/handlers/staff/view.py:128
@@ -194,31 +195,31 @@ msgstr "🐢 AniList"
 
 #: gojira/handlers/users.py:165
 msgid "Total Anime Watched: {count}\n"
-msgstr ""
+msgstr "Total de anime assistido: {count}\n"
 
 #: gojira/handlers/users.py:166
 msgid "Total Episode Watched: {episodes}\n"
-msgstr ""
+msgstr "Total de episódios assistidos: {episodes}\n"
 
 #: gojira/handlers/users.py:167
 msgid "Total Time Spent: {minutes_watched}\n"
-msgstr ""
+msgstr "Tempo total gasto: {minutes_watched}\n"
 
 #: gojira/handlers/users.py:170 gojira/handlers/users.py:178
 msgid "Average Score: {mean_score}"
-msgstr ""
+msgstr "Média de pontuação: {mean_score}"
 
 #: gojira/handlers/users.py:175
 msgid "Total Manga Read: {count}\n"
-msgstr ""
+msgstr "Total de mangás lidos: {count}\n"
 
 #: gojira/handlers/users.py:176
 msgid "Total Chapter Read: {chapters}\n"
-msgstr ""
+msgstr "Total de capítulos lidos: {chapters}\n"
 
 #: gojira/handlers/users.py:177
 msgid "Total Volume Read: {volumes}\n"
-msgstr ""
+msgstr "Total de volumes lidos: {volumes}\n"
 
 #: gojira/handlers/anime/categories.py:32
 #: gojira/handlers/manga/categories.py:32
@@ -759,3 +760,4 @@ msgstr "Alterar idioma do bot."
 #: gojira/utils/command_list.py:45 gojira/utils/command_list.py:64
 msgid "About the bot."
 msgstr "Sobre o bot."
+
