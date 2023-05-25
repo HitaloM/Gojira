@@ -11,6 +11,7 @@ from gojira.handlers import (
     anime,
     character,
     doas,
+    error,
     language,
     manga,
     pm_menu,
@@ -39,6 +40,7 @@ async def main():
     dp.inline_query.middleware(MyI18nMiddleware(i18n=i18n))
 
     dp.include_routers(
+        error.router,
         view.router,
         pm_menu.router,
         language.router,
