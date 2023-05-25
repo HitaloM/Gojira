@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
 import datetime
 import html
 import io
@@ -10,14 +9,18 @@ import sys
 import traceback
 from signal import SIGINT
 
+import aiofiles
+import msgspec
 from aiogram import F, Router
 from aiogram.filters import Command, CommandObject
 from aiogram.types import BufferedInputFile, CallbackQuery, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from meval import meval
 
+from gojira import cache
 from gojira.filters.user_status import IsSudo
 from gojira.utils.callback_data import StartCallback
+from gojira.utils.systools import ShellException, parse_commits, shell_run
 
 router = Router(name="doas")
 
@@ -26,40 +29,34 @@ router.message.filter(IsSudo())
 router.callback_query.filter(IsSudo())
 
 
-class ShellException(Exception):
-    pass
+@router.message(Command("purgecache"))
+async def purge_cache(message: Message):
+    start = datetime.datetime.utcnow()
+    await cache.clear()
+    delta = (datetime.datetime.utcnow() - start).total_seconds() * 1000
+    await message.reply(f"Cache purged in <code>{delta:.2f}ms</code>.")
 
 
-def parse_commits(log: str) -> dict:
-    commits = {}
-    last_commit = ""
-    for line in log.splitlines():
-        if line.startswith("commit"):
-            last_commit = line.split()[1]
-            commits[last_commit] = {}
-        elif line.startswith("    "):
-            if "title" in commits[last_commit]:
-                commits[last_commit]["message"] = line[4:]
-            else:
-                commits[last_commit]["title"] = line[4:]
-        elif ":" in line:
-            key, value = line.split(": ", 1)
-            commits[last_commit][key] = value
-    return commits
+@router.message(Command("event"))
+async def json_dump(message: Message):
+    event = str(msgspec.json.encode(str(message)).decode())
+    await message.reply(event)
 
 
-async def shell_run(command: str) -> str:
-    process = await asyncio.create_subprocess_shell(
-        command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
-    )
-    stdout, stderr = await process.communicate()
+@router.message(Command(commands=["doc", "upload"]))
+async def upload_document(message: Message, command: CommandObject):
+    path = str(command.args)
+    if not os.path.exists(path):
+        await message.reply("File not found.")
+        return
 
-    if process.returncode == 0:
-        return stdout.decode("utf-8").strip()
+    await message.reply("Processing...")
 
-    raise ShellException(
-        f"Command '{command}' exited with {process.returncode}:\n{stderr.decode('utf-8').strip()}"
-    )
+    caption = f"<b>File:</b> <code>{os.path.basename(path)}</code>"
+    async with aiofiles.open(path, "rb") as file:
+        file = await file.read()
+        file = BufferedInputFile(file, filename=os.path.basename(path))
+        await message.reply_document(file, caption=caption)
 
 
 @router.message(Command(commands=["reboot", "restart"]))
