@@ -79,7 +79,7 @@ async def character_view(
             return
 
         if len(results) == 1:
-            character_id = results[0].id
+            character_id = int(results[0]["id"])
         else:
             for result in results:
                 keyboard.row(
@@ -100,60 +100,60 @@ async def character_view(
     else:
         character_id = int(query)
 
-        status, data = await AniList.get("character", character_id)
-        if not data:
-            await message.reply(_("No results found."))
-            return
+    status, data = await AniList.get("character", character_id)
+    if not data:
+        await message.reply(_("No results found."))
+        return
 
-        if not data["data"]["Page"]["characters"]:
-            await message.reply(_("No results found."))
-            return
+    if not data["data"]["Page"]["characters"]:
+        await message.reply(_("No results found."))
+        return
 
-        character = data["data"]["Page"]["characters"][0]
+    character = data["data"]["Page"]["characters"][0]
 
-        if not character:
-            await union.answer(
-                _("No results found."),
-                show_alert=True,
-                cache_time=60,
-            )
-            return
+    if not character:
+        await union.answer(
+            _("No results found."),
+            show_alert=True,
+            cache_time=60,
+        )
+        return
 
-        text = f"*{character['name']['full']}*"
-        text += f"\n*ID*: `{character['id']}`"
-        if character["favourites"]:
-            text += _("\n*Favourites*: `{favourites}`").format(favourites=character["favourites"])
-        if character["description"]:
-            text += f"\n\n{character['description']}"
+    text = f"*{character['name']['full']}*"
+    text += f"\n*ID*: `{character['id']}`"
+    if character["favourites"]:
+        text += _("\n*Favourites*: `{favourites}`").format(favourites=character["favourites"])
+    if character["description"]:
+        text += f"\n\n{character['description']}"
 
-        photo: str = ""
-        if image := character["image"]:
-            if large_image := image["large"]:
-                photo = large_image
-            elif medium_image := image["medium"]:
-                photo = medium_image
+    photo: str = ""
+    if image := character["image"]:
+        if large_image := image["large"]:
+            photo = large_image
+        elif medium_image := image["medium"]:
+            photo = medium_image
 
-        keyboard.button(text=_("🐢 AniList"), url=character["siteUrl"])
+    keyboard.button(text=_("🐢 AniList"), url=character["siteUrl"])
 
-        keyboard.adjust(2)
+    keyboard.adjust(2)
 
-        if len(text) > 1024:
-            text = text[:1021] + "..."
+    if len(text) > 1024:
+        text = text[:1021] + "..."
 
-        # Markdown
-        text = text.replace("__", "*")
-        text = text.replace("~", "||")
+    # Markdown
+    text = text.replace("__", "*")
+    text = text.replace("~", "||")
 
-        if len(photo) > 0:
-            await message.reply_photo(
-                photo=photo,
-                caption=text,
-                parse_mode=ParseMode.MARKDOWN,
-                reply_markup=keyboard.as_markup(),
-            )
-        else:
-            await message.reply(
-                text=text,
-                parse_mode=ParseMode.MARKDOWN,
-                reply_markup=keyboard.as_markup(),
-            )
+    if len(photo) > 0:
+        await message.reply_photo(
+            photo=photo,
+            caption=text,
+            parse_mode=ParseMode.MARKDOWN,
+            reply_markup=keyboard.as_markup(),
+        )
+    else:
+        await message.reply(
+            text=text,
+            parse_mode=ParseMode.MARKDOWN,
+            reply_markup=keyboard.as_markup(),
+        )
