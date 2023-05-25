@@ -10,7 +10,7 @@ from aiogram.utils.i18n import gettext as _
 
 from gojira import AniList
 from gojira.utils.callback_data import StartCallback, StudioCallback, StudioPopuCallback
-from gojira.utils.keyboard_pagination import Pagination
+from gojira.utils.keyboard import Pagination
 
 router = Router(name="studio_popular")
 

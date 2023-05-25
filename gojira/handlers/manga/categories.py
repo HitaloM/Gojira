@@ -15,7 +15,7 @@ from gojira.utils.callback_data import (
     MangaGCategCallback,
     StartCallback,
 )
-from gojira.utils.keyboard_pagination import Pagination
+from gojira.utils.keyboard import Pagination
 
 router = Router(name="manga_categories")
 
