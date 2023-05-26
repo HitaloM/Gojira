@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gojira\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-24 22:58-0300\n"
-"PO-Revision-Date: 2023-05-25 03:00\n"
+"POT-Creation-Date: 2023-05-25 22:17-0300\n"
+"PO-Revision-Date: 2023-05-26 01:26\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "MIME-Version: 1.0\n"
@@ -121,13 +121,13 @@ msgstr "📚 Canal"
 msgid "You need to specify an user. Use /user name or id"
 msgstr "Você precisa especificar um usuário. Use /user ou id"
 
-#: gojira/handlers/anime/scan.py:89 gojira/handlers/anime/view.py:85
-#: gojira/handlers/anime/view.py:90 gojira/handlers/anime/view.py:118
+#: gojira/handlers/anime/scan.py:89 gojira/handlers/anime/view.py:86
+#: gojira/handlers/anime/view.py:91 gojira/handlers/anime/view.py:118
 #: gojira/handlers/anime/view.py:122 gojira/handlers/anime/view.py:129
 #: gojira/handlers/character/view.py:73 gojira/handlers/character/view.py:78
 #: gojira/handlers/character/view.py:105 gojira/handlers/character/view.py:109
-#: gojira/handlers/character/view.py:116 gojira/handlers/manga/view.py:82
-#: gojira/handlers/manga/view.py:87 gojira/handlers/manga/view.py:115
+#: gojira/handlers/character/view.py:116 gojira/handlers/manga/view.py:83
+#: gojira/handlers/manga/view.py:88 gojira/handlers/manga/view.py:115
 #: gojira/handlers/manga/view.py:119 gojira/handlers/manga/view.py:126
 #: gojira/handlers/staff/view.py:68 gojira/handlers/staff/view.py:73
 #: gojira/handlers/staff/view.py:100 gojira/handlers/staff/view.py:106
@@ -768,3 +768,4 @@ msgstr "Inicia o bot."
 #: gojira/utils/command_list.py:64
 msgid "Get help."
 msgstr "Obtenha ajuda."
+
