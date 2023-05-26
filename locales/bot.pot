@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-25 22:17-0300\n"
+"POT-Creation-Date: 2023-05-26 20:43-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -132,7 +132,7 @@ msgstr ""
 msgid "You need to specify an user. Use /user name or id"
 msgstr ""
 
-#: gojira/handlers/anime/scan.py:89 gojira/handlers/anime/view.py:86
+#: gojira/handlers/anime/scan.py:93 gojira/handlers/anime/view.py:86
 #: gojira/handlers/anime/view.py:91 gojira/handlers/anime/view.py:118
 #: gojira/handlers/anime/view.py:122 gojira/handlers/anime/view.py:129
 #: gojira/handlers/character/view.py:73 gojira/handlers/character/view.py:78
@@ -443,52 +443,52 @@ msgstr ""
 msgid "No media was found in this message."
 msgstr ""
 
-#: gojira/handlers/anime/scan.py:68
+#: gojira/handlers/anime/scan.py:69
 msgid "File not found."
 msgstr ""
 
-#: gojira/handlers/anime/scan.py:73
+#: gojira/handlers/anime/scan.py:75
 msgid "Something went wrong while downloading the file."
 msgstr ""
 
-#: gojira/handlers/anime/scan.py:81
+#: gojira/handlers/anime/scan.py:85
 msgid "Excessive use of the API, please try again later."
 msgstr ""
 
-#: gojira/handlers/anime/scan.py:84
+#: gojira/handlers/anime/scan.py:88
 msgid "The API is unavailable, please try again later."
 msgstr ""
 
-#: gojira/handlers/anime/scan.py:108
+#: gojira/handlers/anime/scan.py:112
 msgid ""
 "\n"
 "\n"
 "<b>ID</b>: <code>{anime_id}</code>"
 msgstr ""
 
-#: gojira/handlers/anime/scan.py:110
+#: gojira/handlers/anime/scan.py:114
 msgid ""
 "\n"
 "<b>Episode</b>: <code>{episode}</code>"
 msgstr ""
 
-#: gojira/handlers/anime/scan.py:112
+#: gojira/handlers/anime/scan.py:116
 msgid ""
 "\n"
 "<b>Adult</b>: <code>Yes</code>"
 msgstr ""
 
-#: gojira/handlers/anime/scan.py:113
+#: gojira/handlers/anime/scan.py:117
 msgid ""
 "\n"
 "<b>Similarity</b>: <code>{similarity}%</code>"
 msgstr ""
 
-#: gojira/handlers/anime/scan.py:118
+#: gojira/handlers/anime/scan.py:122
 msgid "👓 View more"
 msgstr ""
 
-#: gojira/handlers/anime/scan.py:142
+#: gojira/handlers/anime/scan.py:146
 msgid "📹 Preview"
 msgstr ""
 

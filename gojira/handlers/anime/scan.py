@@ -12,7 +12,7 @@ from aiogram.types import Document, InputMediaPhoto, Message, Video
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from gojira import TraceMoe, bot
+from gojira import TraceMoe, api_work_dir, bot, config
 from gojira.utils.callback_data import AnimeCallback
 
 router = Router(name="anime_scan")
@@ -63,15 +63,19 @@ async def anime_scan(message: Message):
     )
 
     file_id = media.file_id
+
     file = await bot.get_file(file_id)
-    if not file.file_path:
+    if not file or not file.file_path:
         await sent.edit_text(_("File not found."))
         return
 
-    file = await bot.download_file(file.file_path)
-    if file is None:
-        await sent.edit_text(_("Something went wrong while downloading the file."))
-        return
+    if not config.api_is_local:
+        file = await bot.download_file(file.file_path)
+        if not file:
+            await sent.edit_text(_("Something went wrong while downloading the file."))
+            return
+    else:
+        file = f"{api_work_dir}/{file.file_path}"
 
     status, data = await TraceMoe.search(file=file)
 

@@ -20,14 +20,17 @@ log.info("Starting Gojira... | Version: %s", __version__)
 
 app_dir: Path = Path(__file__).parent.parent
 locales_dir: Path = app_dir / "locales"
+api_work_dir: Path | None = None
+if config.api_work_dir:
+    api_work_dir: Path | None = Path(
+        f"{config.api_work_dir}/{config.bot_token.get_secret_value()}"
+    )
 
-
+session: AiohttpSession | None = None
 if config.api_url:
     session = AiohttpSession(
         api=TelegramAPIServer.from_base(config.api_url, is_local=config.api_is_local)
     )
-else:
-    session = None
 
 cache.setup(f"redis://{config.redis_host}", db=1)
 

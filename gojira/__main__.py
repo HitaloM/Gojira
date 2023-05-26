@@ -33,6 +33,9 @@ async def main():
     except CacheBackendInteractionError:
         sys.exit(log.critical("Can't connect to RedisDB! Exiting..."))
 
+    if config.api_is_local and not config.api_work_dir:
+        sys.exit(log.warning("local mode is enabled but no API work dir was provided."))
+
     if config.sentry_url:
         log.info("Starting sentry.io integraion...")
 
