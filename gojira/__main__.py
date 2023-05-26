@@ -4,9 +4,10 @@
 import asyncio
 import sys
 
+import sentry_sdk
 from cashews.exceptions import CacheBackendInteractionError
 
-from gojira import AniList, bot, cache, dp, i18n
+from gojira import AniList, bot, cache, config, dp, i18n
 from gojira.handlers import (
     anime,
     character,
@@ -32,6 +33,14 @@ async def main():
     except CacheBackendInteractionError:
         sys.exit(log.critical("Can't connect to RedisDB! Exiting..."))
 
+    if config.sentry_url:
+        log.info("Starting sentry.io integraion...")
+
+        sentry_sdk.init(
+            config.sentry_url,
+            traces_sample_rate=1.0,
+        )
+
     dp.message.middleware(ACLMiddleware())
     dp.message.middleware(MyI18nMiddleware(i18n=i18n))
     dp.callback_query.middleware(ACLMiddleware())
@@ -56,11 +65,7 @@ async def main():
     await set_ui_commands(bot, i18n)
 
     useful_updates = dp.resolve_used_update_types()
-
-    try:
-        await dp.start_polling(bot, allowed_updates=useful_updates)
-    finally:
-        await bot.session.close()
+    await dp.start_polling(bot, allowed_updates=useful_updates)
 
     await AniList.close()
     await cache.clear()

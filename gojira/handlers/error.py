@@ -48,7 +48,8 @@ async def errors_handler(error: ErrorEvent):
     if err_tlt in ignored_errors:
         return
 
-    log.warn("Update that caused the error:\n %s", message, exc_info=error.exception)
+    log.warn("Update that caused the error:\n %s", message)
+    log.error("Error: %s", err_msg, exc_info=error.exception)
 
     text = "<b>Sorry, I encountered a error!</b>\n"
     text += (

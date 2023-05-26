@@ -29,6 +29,13 @@ router.message.filter(IsSudo())
 router.callback_query.filter(IsSudo())
 
 
+@router.message(Command("errtest"))
+async def error_test(message: Message):
+    await message.reply("Testing error handler...")
+    test = 2 / 0
+    print(test)
+
+
 @router.message(Command("purgecache"))
 async def purge_cache(message: Message):
     start = datetime.datetime.utcnow()

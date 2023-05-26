@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     redis_host: str = "localhost"
     api_url: AnyHttpUrl | None
     api_is_local: bool = False
+    sentry_url: AnyHttpUrl | None
     sudoers: list[int] = [918317361]
 
     class Config:
