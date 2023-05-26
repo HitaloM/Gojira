@@ -6,7 +6,7 @@ import html
 from aiogram import Router
 from aiogram.types import ErrorEvent
 
-from gojira import bot
+from gojira import bot, cache
 from gojira.utils.logging import log
 
 router = Router(name="error")
@@ -20,9 +20,6 @@ async def errors_handler(error: ErrorEvent):
         or getattr(update, "callback_query", None)
         or getattr(update, "edited_message", None)
     )
-    if message is None:
-        return
-
     if not message:
         return
 
@@ -31,6 +28,9 @@ async def errors_handler(error: ErrorEvent):
     chat_id = message.chat.id
     err_tlt = type(exception).__name__
     err_msg = str(exception)
+
+    if await cache.get(f"error:{chat_id}") == err_msg:
+        return
 
     conn_errors = (
         "TelegramNetworkError",
@@ -54,4 +54,5 @@ async def errors_handler(error: ErrorEvent):
     text += (
         f"<code>{html.escape(err_tlt, quote=False)}: {html.escape(err_msg, quote=False)}</code>"
     )
+    await cache.set(f"error:{chat_id}", err_msg, "1h")
     await bot.send_message(chat_id, text)

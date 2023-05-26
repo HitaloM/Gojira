@@ -79,6 +79,7 @@ async def anime_view(
     if not bool(query):
         return
 
+    keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
         status, data = await AniList.search("anime", query)
         if not data:
@@ -93,7 +94,6 @@ async def anime_view(
         if len(results) == 1:
             anime_id = int(results[0]["id"])
         else:
-            keyboard = InlineKeyboardBuilder()
             for result in results:
                 keyboard.row(
                     InlineKeyboardButton(

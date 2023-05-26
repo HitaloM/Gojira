@@ -76,6 +76,7 @@ async def manga_view(
     if not bool(query):
         return
 
+    keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
         status, data = await AniList.search("manga", query)
         if not data:
@@ -90,7 +91,6 @@ async def manga_view(
         if len(results) == 1:
             manga_id = int(results[0]["id"])
         else:
-            keyboard = InlineKeyboardBuilder()
             for result in results:
                 keyboard.row(
                     InlineKeyboardButton(
