@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gojira\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-25 22:17-0300\n"
-"PO-Revision-Date: 2023-05-26 01:26\n"
+"POT-Creation-Date: 2023-05-26 20:43-0300\n"
+"PO-Revision-Date: 2023-05-27 00:01\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "MIME-Version: 1.0\n"
@@ -121,7 +121,7 @@ msgstr "📚 Canal"
 msgid "You need to specify an user. Use /user name or id"
 msgstr "Você precisa especificar um usuário. Use /user ou id"
 
-#: gojira/handlers/anime/scan.py:89 gojira/handlers/anime/view.py:86
+#: gojira/handlers/anime/scan.py:93 gojira/handlers/anime/view.py:86
 #: gojira/handlers/anime/view.py:91 gojira/handlers/anime/view.py:118
 #: gojira/handlers/anime/view.py:122 gojira/handlers/anime/view.py:129
 #: gojira/handlers/character/view.py:73 gojira/handlers/character/view.py:78
@@ -430,51 +430,51 @@ msgstr "Responda a uma mensagem com uma mídia."
 msgid "No media was found in this message."
 msgstr "Nenhum media foi encontrada nesta mensagem."
 
-#: gojira/handlers/anime/scan.py:68
+#: gojira/handlers/anime/scan.py:69
 msgid "File not found."
 msgstr "Arquivo não encontrado."
 
-#: gojira/handlers/anime/scan.py:73
+#: gojira/handlers/anime/scan.py:75
 msgid "Something went wrong while downloading the file."
 msgstr "Algo deu errado durante o download do arquivo."
 
-#: gojira/handlers/anime/scan.py:81
+#: gojira/handlers/anime/scan.py:85
 msgid "Excessive use of the API, please try again later."
 msgstr "Uso excessivo da API, por favor tente novamente mais tarde."
 
-#: gojira/handlers/anime/scan.py:84
+#: gojira/handlers/anime/scan.py:88
 msgid "The API is unavailable, please try again later."
 msgstr "A API está indisponível, por favor tente novamente mais tarde."
 
-#: gojira/handlers/anime/scan.py:108
+#: gojira/handlers/anime/scan.py:112
 msgid "\n\n"
 "<b>ID</b>: <code>{anime_id}</code>"
 msgstr "\n\n"
 "<b>ID:</b> <code>{anime_id}</code>"
 
-#: gojira/handlers/anime/scan.py:110
+#: gojira/handlers/anime/scan.py:114
 msgid "\n"
 "<b>Episode</b>: <code>{episode}</code>"
 msgstr "\n"
 "<b>Episódio</b>: <code>{episode}</code>"
 
-#: gojira/handlers/anime/scan.py:112
+#: gojira/handlers/anime/scan.py:116
 msgid "\n"
 "<b>Adult</b>: <code>Yes</code>"
 msgstr "\n"
 "<b>Adulto</b>: <code>Sim</code>"
 
-#: gojira/handlers/anime/scan.py:113
+#: gojira/handlers/anime/scan.py:117
 msgid "\n"
 "<b>Similarity</b>: <code>{similarity}%</code>"
 msgstr "\n"
 "<b>Similaridade</b>: <code>{similarity}%</code>"
 
-#: gojira/handlers/anime/scan.py:118
+#: gojira/handlers/anime/scan.py:122
 msgid "👓 View more"
 msgstr "👓 Ver Mais"
 
-#: gojira/handlers/anime/scan.py:142
+#: gojira/handlers/anime/scan.py:146
 msgid "📹 Preview"
 msgstr "📹 Prévia"
 
@@ -768,3 +768,4 @@ msgstr "Inicia o bot."
 #: gojira/utils/command_list.py:64
 msgid "Get help."
 msgstr "Obtenha ajuda."
+
