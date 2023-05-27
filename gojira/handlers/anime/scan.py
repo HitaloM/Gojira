@@ -4,6 +4,7 @@
 from contextlib import suppress
 from datetime import timedelta
 
+import aiofiles
 from aiogram import Router
 from aiogram.enums import ChatType
 from aiogram.exceptions import TelegramBadRequest
@@ -76,6 +77,8 @@ async def anime_scan(message: Message):
             return
     else:
         file = f"{api_work_dir}/{file.file_path}"
+        async with aiofiles.open(file, "rb") as f:
+            file = await f.read()
 
     status, data = await TraceMoe.search(file=file)
 
