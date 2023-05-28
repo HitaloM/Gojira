@@ -12,7 +12,7 @@ from aiogram.types import Document, InputMediaPhoto, Message, Video
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from gojira import TraceMoe, bot
+from gojira import TraceMoe, bot, cache
 from gojira.utils.callback_data import AnimeCallback
 
 router = Router(name="anime_scan")
@@ -131,8 +131,11 @@ async def anime_scan(message: Message):
 
     if video is not None:
         with suppress(TelegramBadRequest):
+            cached_video = await cache.get(f"trace_moe:{video}")
+            video = cached_video if cached_video else f"{video}&size=l"
+
             sent_video = await reply.reply_video(
-                video=f"{video}&size=l",
+                video=video,
                 caption=(
                     f"<code>{file_name}</code>\n\n<code>{from_time}</code> - \
 <code>{to_time}</code>"
@@ -146,3 +149,5 @@ async def anime_scan(message: Message):
                     message_id=sent.message_id,  # type: ignore
                     reply_markup=keyboard.as_markup(),
                 )
+
+            await cache.set(f"trace_moe:{video}", sent_video.video, expire="1d")
