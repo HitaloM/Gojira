@@ -772,4 +772,3 @@ msgstr "Inicia o bot."
 #: gojira/utils/command_list.py:68
 msgid "Get help."
 msgstr "Obtenha ajuda."
-
