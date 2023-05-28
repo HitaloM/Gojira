@@ -88,8 +88,4 @@ async def character_inline(inline: InlineQuery, match: re.Match[str]):
 
     with suppress(TelegramBadRequest):
         if len(results) > 0:
-            await inline.answer(
-                results=results,
-                is_personal=True,
-                cache_time=6,
-            )
+            await inline.answer(results=results, is_personal=True)

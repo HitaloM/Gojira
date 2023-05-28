@@ -4,6 +4,7 @@
 import time
 from datetime import datetime
 
+import humanize
 from aiogram import Router
 from aiogram.enums import ChatType
 from aiogram.filters import Command, CommandObject
@@ -171,9 +172,8 @@ async def user_stats(callback_query: CallbackQuery, callback_data: UserStatsCall
 
         text = _("Total Anime Watched: {count}\n").format(count=stat["count"])
         text += _("Total Episode Watched: {episodes}\n").format(episodes=stat["episodesWatched"])
-        text += _("Total Time Spent: {minutes_watched}\n").format(
-            minutes_watched=stat["minutesWatched"]
-        )
+        days_watched = humanize.naturaldelta(stat["minutesWatched"] * 60, months=False)
+        text += _("Total Time Spent: {time}\n").format(time=days_watched)
         text += _("Average Score: {mean_score}").format(mean_score=stat["meanScore"])
 
     if stat_type.lower() == "manga":
@@ -184,4 +184,4 @@ async def user_stats(callback_query: CallbackQuery, callback_data: UserStatsCall
         text += _("Total Volume Read: {volumes}\n").format(volumes=stat["volumesRead"])
         text += _("Average Score: {mean_score}").format(mean_score=stat["meanScore"])
 
-    await callback_query.answer(text, show_alert=True, cache_time=60)
+    await callback_query.answer(text, show_alert=True)
