@@ -41,6 +41,10 @@ async def set_ui_commands(bot: Bot, i18n: I18n):
                     description=_("Get studio informations.", locale=lang),
                 ),
                 BotCommand(
+                    command="scan",
+                    description=_("Try to identify the source anime of a media", locale=lang),
+                ),
+                BotCommand(
                     command="user",
                     description=_("Get AniList user informations.", locale=lang),
                 ),

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-27 23:18-0300\n"
+"POT-Creation-Date: 2023-05-28 13:19-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -780,21 +780,25 @@ msgid "Get studio informations."
 msgstr ""
 
 #: gojira/utils/command_list.py:45
-msgid "Get AniList user informations."
+msgid "Try to identify the source anime of a media"
 msgstr ""
 
 #: gojira/utils/command_list.py:49
-msgid "Change bot language."
+msgid "Get AniList user informations."
 msgstr ""
 
 #: gojira/utils/command_list.py:53
+msgid "Change bot language."
+msgstr ""
+
+#: gojira/utils/command_list.py:57
 msgid "About the bot."
 msgstr ""
 
-#: gojira/utils/command_list.py:60
+#: gojira/utils/command_list.py:64
 msgid "Start the bot."
 msgstr ""
 
-#: gojira/utils/command_list.py:64
+#: gojira/utils/command_list.py:68
 msgid "Get help."
 msgstr ""
