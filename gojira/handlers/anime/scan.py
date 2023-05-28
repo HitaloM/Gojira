@@ -4,7 +4,6 @@
 from contextlib import suppress
 from datetime import timedelta
 
-import aiofiles
 from aiogram import Router
 from aiogram.enums import ChatType
 from aiogram.exceptions import TelegramBadRequest
@@ -13,7 +12,7 @@ from aiogram.types import Document, InputMediaPhoto, Message, Video
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from gojira import TraceMoe, api_work_dir, bot, config
+from gojira import TraceMoe, bot
 from gojira.utils.callback_data import AnimeCallback
 
 router = Router(name="anime_scan")
@@ -70,15 +69,10 @@ async def anime_scan(message: Message):
         await sent.edit_text(_("File not found."))
         return
 
-    if not config.api_is_local:
-        file = await bot.download_file(file.file_path)
-        if not file:
-            await sent.edit_text(_("Something went wrong while downloading the file."))
-            return
-    else:
-        file = f"{api_work_dir}/{file.file_path}"
-        async with aiofiles.open(file, "rb") as f:
-            file = await f.read()
+    file = await bot.download_file(file.file_path)
+    if not file:
+        await sent.edit_text(_("Something went wrong while downloading the file."))
+        return
 
     status, data = await TraceMoe.search(file=file)
 

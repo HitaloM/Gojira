@@ -4,8 +4,6 @@
 from pathlib import Path
 
 from aiogram import Bot, Dispatcher
-from aiogram.client.session.aiohttp import AiohttpSession
-from aiogram.client.telegram import TelegramAPIServer
 from aiogram.enums import ParseMode
 from aiogram.utils.i18n import I18n
 from cashews import cache
@@ -20,17 +18,6 @@ log.info("Starting Gojira... | Version: %s", __version__)
 
 app_dir: Path = Path(__file__).parent.parent
 locales_dir: Path = app_dir / "locales"
-api_work_dir: Path | None = None
-if config.api_work_dir:
-    api_work_dir: Path | None = Path(
-        f"{config.api_work_dir}/{config.bot_token.get_secret_value()}"
-    )
-
-session: AiohttpSession | None = None
-if config.api_url:
-    session = AiohttpSession(
-        api=TelegramAPIServer.from_base(config.api_url, is_local=config.api_is_local)
-    )
 
 cache.setup(f"redis://{config.redis_host}", db=1)
 
@@ -38,10 +25,6 @@ cache.setup(f"redis://{config.redis_host}", db=1)
 AniList = AniListClient()
 TraceMoe = TraceMoeClient()
 
-bot = Bot(
-    token=config.bot_token.get_secret_value(),
-    session=session,
-    parse_mode=ParseMode.HTML,
-)
+bot = Bot(token=config.bot_token.get_secret_value(), parse_mode=ParseMode.HTML)
 dp = Dispatcher()
 i18n = I18n(path=locales_dir, default_locale="en", domain="bot")

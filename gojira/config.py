@@ -7,9 +7,6 @@ from pydantic import AnyHttpUrl, BaseSettings, SecretStr
 class Settings(BaseSettings):
     bot_token: SecretStr
     redis_host: str = "localhost"
-    api_url: AnyHttpUrl | None
-    api_is_local: bool = False
-    api_work_dir: str | None
     sentry_url: AnyHttpUrl | None
     sudoers: list[int] = [918317361]
 
