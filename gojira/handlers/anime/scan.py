@@ -150,4 +150,5 @@ async def anime_scan(message: Message):
                     reply_markup=keyboard.as_markup(),
                 )
 
-            await cache.set(f"trace_moe:{video}", sent_video.video, expire="1d")
+            if not cached_video:
+                await cache.set(f"trace_moe:{video}", sent_video.video, expire="1d")

@@ -147,7 +147,7 @@ async def user_view(
         reply_markup=keyboard.as_markup(),
     )
 
-    if sent.photo:
+    if sent.photo and not cached_photo:
         await cache.set(f"anilist_user_{auser['id']}", sent.photo[-1].file_id, expire="1h")
 
 
