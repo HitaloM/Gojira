@@ -121,7 +121,7 @@ async def studio_view(
     keyboard.button(
         text=_("🎬 Medias"),
         callback_data=StudioMediaCallback(
-            studio_name=studio["name"], studio_id=studio["id"], user_id=user.id, page=1
+            studio_name=studio["name"], studio_id=studio["id"], user_id=user.id, page=0
         ),
     )
     keyboard.button(text=_("🐢 AniList"), url=studio["siteUrl"])
