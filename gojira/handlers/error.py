@@ -4,7 +4,7 @@
 import html
 
 from aiogram import Router
-from aiogram.types import ErrorEvent
+from aiogram.types import CallbackQuery, ErrorEvent
 
 from gojira import bot, cache
 from gojira.utils.logging import log
@@ -20,6 +20,8 @@ async def errors_handler(error: ErrorEvent):
         or getattr(update, "callback_query", None)
         or getattr(update, "edited_message", None)
     )
+    is_callback = isinstance(message, CallbackQuery)
+    message = message.message if is_callback else message
     if not message:
         return
 
