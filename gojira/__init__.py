@@ -19,7 +19,7 @@ log.info("Starting Gojira... | Version: %s", __version__)
 app_dir: Path = Path(__file__).parent.parent
 locales_dir: Path = app_dir / "locales"
 
-cache.setup(f"redis://{config.redis_host}", db=1)
+cache.setup(f"redis://{config.redis_host}", client_side=True)
 
 # Aiohttp Clients
 AniList = AniListClient()
