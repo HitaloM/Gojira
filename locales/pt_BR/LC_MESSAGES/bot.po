@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: gojira\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-05-27 23:18-0300\n"
-"PO-Revision-Date: 2023-05-28 03:18\n"
+"PO-Revision-Date: 2023-05-28 16:16\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "MIME-Version: 1.0\n"
@@ -21,8 +21,8 @@ msgstr ""
 #: gojira/handlers/language.py:32
 msgid "You can select your preferred language for the bot in this chat by clicking on one of the buttons below. These are the languages that the bot currently supports.\n"
 "If you are interested in contributing to the translations with your language, please contact @Hitalo.\n"
-msgstr "Você pode selecionar o idioma preferido para o bot neste chat, clicando em um dos botões abaixo. Estas são as línguas que o bot suporta atualmente.\n"
-"Se você está interessado em contribuir para as traduções com seu idioma, entre em contato com @Hitalo.\n"
+msgstr "Você pode selecionar seu idioma preferido para o bot neste chat clicando em um dos botões abaixo. Esses são os idiomas que o bot suporta atualmente.\n"
+"Se estiver interessado em contribuir para as traduções em seu idioma, entre em contato com @Hitalo.\n"
 
 #: gojira/handlers/language.py:40
 msgid "\n"
@@ -203,7 +203,7 @@ msgstr "Total de episódios assistidos: {episodes}\n"
 
 #: gojira/handlers/user.py:176
 msgid "Total Time Spent: {time}\n"
-msgstr ""
+msgstr "Total de Tempo Gasto: {time}\n"
 
 #: gojira/handlers/user.py:177 gojira/handlers/user.py:185
 msgid "Average Score: {mean_score}"
@@ -768,3 +768,4 @@ msgstr "Inicia o bot."
 #: gojira/utils/command_list.py:64
 msgid "Get help."
 msgstr "Obtenha ajuda."
+
