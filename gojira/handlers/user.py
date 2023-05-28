@@ -11,7 +11,7 @@ from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from gojira import AniList
+from gojira import AniList, cache
 from gojira.utils.callback_data import UserCallback, UserStatsCallback
 
 router = Router(name="users")
@@ -123,7 +123,11 @@ async def user_view(
         date=datetime.fromtimestamp(auser["updatedAt"]).strftime("%d/%m/%Y")
     )
 
-    photo = f"https://img.anili.st/user/{auser['id']}?a={time.time()}"
+    cached_photo = await cache.get(f"anilist_user_{auser['id']}")
+    if cached_photo:
+        photo = cached_photo
+    else:
+        photo = f"https://img.anili.st/user/{auser['id']}?a={time.time()}"
 
     keyboard.button(
         text=_("Anime Stats"),
@@ -136,11 +140,14 @@ async def user_view(
     keyboard.button(text=_("🐢 AniList"), url=auser["siteUrl"])
     keyboard.adjust(2)
 
-    await message.reply_photo(
+    sent = await message.reply_photo(
         photo=photo,
         caption=text,
         reply_markup=keyboard.as_markup(),
     )
+
+    if sent.photo:
+        await cache.set(f"anilist_user_{auser['id']}", sent.photo[-1].file_id, expire="1h")
 
 
 @router.callback_query(UserStatsCallback.filter())

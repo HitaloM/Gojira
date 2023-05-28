@@ -13,7 +13,7 @@ from gojira import AniList, bot
 from gojira.handlers.studio.start import studio_start
 from gojira.utils.callback_data import StudioCallback, StudioMediaCallback
 
-router = Router()
+router = Router(name="studio_view")
 
 
 @router.message(Command("studio"))
