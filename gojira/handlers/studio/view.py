@@ -127,7 +127,7 @@ async def studio_view(
     keyboard.button(text=_("🐢 AniList"), url=studio["siteUrl"])
     keyboard.adjust(2)
 
-    await (message.edit_text if is_callback and not is_search else message.reply)(
+    await (message.edit_text if is_callback and not is_search else message.answer)(
         text,
         reply_markup=keyboard.as_markup(),
     )

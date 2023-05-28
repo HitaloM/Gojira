@@ -137,14 +137,14 @@ async def staff_view(
     text = text.replace("~", "||")
 
     if len(photo) > 0:
-        await message.reply_photo(
+        await message.answer_photo(
             photo=photo,
             caption=text,
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=keyboard.as_markup(),
         )
     else:
-        await message.reply(
+        await message.answer(
             text=text,
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=keyboard.as_markup(),

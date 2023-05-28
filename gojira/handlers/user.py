@@ -44,7 +44,6 @@ async def user_view(
         if command and command.args
         else None
     )
-    is_search = callback_data.is_search if is_callback and callback_data else None
 
     if is_callback and callback_data is not None:
         user_id = callback_data.user_id
@@ -54,6 +53,7 @@ async def user_view(
             if user_id != user.id:
                 return
 
+        is_search = callback_data.is_search
         if bool(is_search) and not is_private:
             await message.delete()
 
@@ -141,7 +141,7 @@ async def user_view(
     keyboard.button(text=_("🐢 AniList"), url=auser["siteUrl"])
     keyboard.adjust(2)
 
-    sent = await message.reply_photo(
+    sent = await message.answer_photo(
         photo=photo,
         caption=text,
         reply_markup=keyboard.as_markup(),

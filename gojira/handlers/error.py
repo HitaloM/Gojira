@@ -43,13 +43,6 @@ async def errors_handler(error: ErrorEvent):
         log.error("Connection/API error detected!", exc_info=error.exception)
         return
 
-    ignored_errors = (
-        "TelegramBadRequest",
-        "TelegramRetryAfter",
-    )
-    if err_tlt in ignored_errors:
-        return
-
     log.warn("Update that caused the error:\n %s", message)
     log.error("Error: %s", err_msg, exc_info=error.exception)
 

@@ -21,7 +21,7 @@ async def character_view(
     union: Message | CallbackQuery,
     command: CommandObject | None = None,
     callback_data: CharacterCallback | None = None,
-    char_id: int | None = None,
+    character_id: int | None = None,
 ):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
@@ -43,7 +43,7 @@ async def character_view(
         if is_callback and callback_data is not None
         else command.args
         if command and command.args
-        else char_id
+        else character_id
     )
 
     if is_callback and callback_data is not None:
@@ -145,14 +145,14 @@ async def character_view(
     text = text.replace("~", "||")
 
     if len(photo) > 0:
-        await message.reply_photo(
+        await message.answer_photo(
             photo=photo,
             caption=text,
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=keyboard.as_markup(),
         )
     else:
-        await message.reply(
+        await message.answer(
             text=text,
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=keyboard.as_markup(),
