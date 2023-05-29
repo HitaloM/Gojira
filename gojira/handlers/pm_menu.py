@@ -30,7 +30,7 @@ async def start_command_deep_link(message: Message, command: CommandObject):
         elif content_type == "manga":
             await manga_view(message, manga_id=int(content_id[0]))
         elif content_type == "character":
-            await character_view(message, char_id=int(content_id[0]))
+            await character_view(message, character_id=int(content_id[0]))
         elif content_type == "staff":
             await staff_view(message, staff_id=int(content_id[0]))
         elif content_type == "studio":
