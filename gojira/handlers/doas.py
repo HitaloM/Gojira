@@ -118,12 +118,18 @@ async def upgrade_callback(callback: CallbackQuery):
         "pip install -U .",
     ]
 
+    stdout = ""
     for command in commands:
         try:
-            await shell_run(command)
+            stdout += await shell_run(command)
         except ShellException as error:
             await sent.edit_text(f"<code>{error}</code>")
             return
+
+    document = io.BytesIO(stdout.encode())
+    document.name = "update_log.txt"
+    document = BufferedInputFile(document.getvalue(), filename=document.name)
+    await sent.reply_document(document=document)
 
     await sent.edit_text("Restarting...")
     os.execv(sys.executable, [sys.executable, "-m", "gojira"])
@@ -176,7 +182,7 @@ async def evaluate(message: Message, command: CommandObject):
 
     if stdout:
         lines = str(stdout).splitlines()
-        output = "".join(f"<code>{line}</code>\n" for line in lines)
+        output = "".join(f"<code>{html.escape(line)}</code>\n" for line in lines)
 
         if len(output) > 0:
             if len(output) > (4096 - len(output_message)):
@@ -187,7 +193,7 @@ async def evaluate(message: Message, command: CommandObject):
                 document = BufferedInputFile(document.getvalue(), filename=document.name)
                 await message.reply_document(document=document)
             else:
-                output_message += f"\n\n<b>Result:\n&gt;</b> <code>{html.escape(output)}</code>"
+                output_message += f"\n\n<b>Result:\n&gt;</b> <code>{output}</code>"
 
     await sent.edit_text(output_message)
 
