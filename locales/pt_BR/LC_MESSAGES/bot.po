@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: gojira\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-05-30 20:03-0300\n"
-"PO-Revision-Date: 2023-05-30 23:05\n"
+"PO-Revision-Date: 2023-05-30 23:13\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "MIME-Version: 1.0\n"
@@ -578,7 +578,7 @@ msgstr "Abaixo estão algumas pessoas do item em questão."
 
 #: gojira/handlers/anime/view.py:640
 msgid "You need to specify an anime. Use /airing name or id"
-msgstr ""
+msgstr "Você precisa especificar um anime. Use /airing nome ou id"
 
 #: gojira/handlers/anime/view.py:708
 msgid "See below when the next episode of the anime in question will air.\n\n"
@@ -586,7 +586,7 @@ msgstr "Veja abaixo quando o próximo episódio do anime em questão será exibi
 
 #: gojira/handlers/anime/view.py:710 gojira/handlers/anime/view.py:721
 msgid "<b>Status:</b> <code>{status}</code>\n"
-msgstr ""
+msgstr "<b>Status:</b> <code>{status}</code>\n"
 
 #: gojira/handlers/anime/view.py:713
 msgid "<b>Episode:</b> <code>{episode}</code>\n"
@@ -598,7 +598,7 @@ msgstr "<b>Exibição em</b>: <code>{airing_time}</code>"
 
 #: gojira/handlers/anime/view.py:722
 msgid "<b>Episodes:</b> <code>{episode}</code>\n"
-msgstr ""
+msgstr "<b>Episódios:</b> <code>{episode}</code>\n"
 
 #: gojira/handlers/anime/view.py:835
 msgid "Below are some studios from the item in question."
@@ -768,7 +768,7 @@ msgstr "Obter informações de usuários da Anilist."
 
 #: gojira/utils/command_list.py:53
 msgid "Get anime airing informations."
-msgstr ""
+msgstr "Receba informações de publicação de animes."
 
 #: gojira/utils/command_list.py:57
 msgid "Change bot language."
@@ -785,3 +785,4 @@ msgstr "Inicia o bot."
 #: gojira/utils/command_list.py:72
 msgid "Get help."
 msgstr "Obtenha ajuda."
+
