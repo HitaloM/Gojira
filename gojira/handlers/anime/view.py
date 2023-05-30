@@ -644,6 +644,9 @@ async def anime_airing(callback: CallbackQuery, callback_data: AnimeAiringCallba
 
     text = _("See below when the next episode of the anime in question will air.\n\n")
     if anime["nextAiringEpisode"]:
+        text += _("<b>Status:</b> <code>{status}</code>\n").format(
+            status=anime["status"].capitalize()
+        )
         text += _("<b>Episode:</b> <code>{episode}</code>\n").format(
             episode=anime["nextAiringEpisode"]["episode"]
         )
@@ -652,8 +655,8 @@ async def anime_airing(callback: CallbackQuery, callback_data: AnimeAiringCallba
         )
     else:
         episodes = anime["episodes"] if anime["episodes"] else "N/A"
-        text += _("<b>Episode:</b> <code>{episode}</code>\n").format(episode=episodes)
-        text += _("<b>Airing:</b> <code>N/A</code>")
+        text += _("<b>Status:</b> <code>{status}</code>\n").format(status=anime["status"])
+        text += _("<b>Episodes:</b> <code>{episode}</code>\n").format(episode=episodes)
 
     buttons = []
     externalLinks = anime["externalLinks"]

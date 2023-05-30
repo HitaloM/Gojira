@@ -126,12 +126,13 @@ async def upgrade_callback(callback: CallbackQuery):
             await sent.edit_text(f"<code>{error}</code>")
             return
 
+    await sent.reply("Uploading logs...")
     document = io.BytesIO(stdout.encode())
     document.name = "update_log.txt"
     document = BufferedInputFile(document.getvalue(), filename=document.name)
     await sent.reply_document(document=document)
 
-    await sent.edit_text("Restarting...")
+    await sent.reply("Restarting...")
     os.execv(sys.executable, [sys.executable, "-m", "gojira"])
 
 

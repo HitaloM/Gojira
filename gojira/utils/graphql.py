@@ -370,6 +370,7 @@ query($id: Int, $media: MediaType) {
                 type
             }
             episodes
+            status
         }
     }
 }
