@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: gojira\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-05-28 13:19-0300\n"
-"PO-Revision-Date: 2023-05-28 17:20\n"
+"PO-Revision-Date: 2023-05-30 04:47\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "MIME-Version: 1.0\n"
@@ -751,7 +751,7 @@ msgstr "Obter informações de estúdio."
 
 #: gojira/utils/command_list.py:45
 msgid "Try to identify the source anime of a media"
-msgstr ""
+msgstr "Tenta identificar o anime de origem de uma mídia"
 
 #: gojira/utils/command_list.py:49
 msgid "Get AniList user informations."
@@ -772,3 +772,4 @@ msgstr "Inicia o bot."
 #: gojira/utils/command_list.py:68
 msgid "Get help."
 msgstr "Obtenha ajuda."
+
