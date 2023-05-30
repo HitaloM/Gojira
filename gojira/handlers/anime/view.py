@@ -750,7 +750,7 @@ async def anime_airing(
             reply_markup=keyboard.as_markup(),
         )
     else:
-        await message.reply_photo(
+        await message.answer_photo(
             photo=f"https://img.anili.st/media/{anime_id}",
             caption=text,
             reply_markup=keyboard.as_markup(),
