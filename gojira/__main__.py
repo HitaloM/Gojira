@@ -13,6 +13,7 @@ from gojira.handlers import (
     character,
     doas,
     error,
+    inline,
     language,
     manga,
     pm_menu,
@@ -60,6 +61,7 @@ async def main():
         *manga.setup_routers(),
         *staff.setup_routers(),
         *studio.setup_routers(),
+        inline.router,
     )
 
     await set_ui_commands(bot, i18n)
