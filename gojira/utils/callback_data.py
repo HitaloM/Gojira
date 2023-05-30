@@ -43,8 +43,9 @@ class AnimeStaffCallback(CallbackData, prefix="anime_staff"):
 
 
 class AnimeAiringCallback(CallbackData, prefix="anime_airing"):
-    anime_id: int
-    user_id: int
+    query: int | str
+    user_id: int | None = None
+    is_search: bool = False
 
 
 class AnimeStudioCallback(CallbackData, prefix="anime_studio"):

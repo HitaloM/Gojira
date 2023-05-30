@@ -298,7 +298,7 @@ async def anime_more(callback: CallbackQuery, callback_data: AnimeMoreCallback):
     )
     keyboard.button(
         text=_("📺 Airing"),
-        callback_data=AnimeAiringCallback(anime_id=anime_id, user_id=user_id),
+        callback_data=AnimeAiringCallback(query=anime_id, user_id=user_id),
     )
 
     if anime["trailer"]:
@@ -621,23 +621,86 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
     )
 
 
+@router.message(Command("airing"))
 @router.callback_query(AnimeAiringCallback.filter())
-async def anime_airing(callback: CallbackQuery, callback_data: AnimeAiringCallback):
-    message = callback.message
-    user = callback.from_user
-    if not message:
+async def anime_airing(
+    union: Message | CallbackQuery,
+    command: CommandObject | None = None,
+    callback_data: AnimeAiringCallback | None = None,
+):
+    is_callback = isinstance(union, CallbackQuery)
+    message = union.message if is_callback else union
+    user = union.from_user
+    if not message or not user:
         return
 
-    anime_id = callback_data.anime_id
-    user_id = callback_data.user_id
+    is_private: bool = message.chat.type == ChatType.PRIVATE
 
-    if user_id != user.id:
-        await callback.answer(
-            _("This button is not for you"),
-            show_alert=True,
-            cache_time=60,
-        )
+    if command and not command.args:
+        await message.reply(_("You need to specify an anime. Use /airing name or id"))
         return
+
+    query = str(
+        callback_data.query
+        if is_callback and callback_data is not None
+        else command.args
+        if command and command.args
+        else None
+    )
+
+    if is_callback and callback_data is not None:
+        user_id = callback_data.user_id
+        if user_id is not None:
+            user_id = int(user_id)
+
+            if user_id != user.id:
+                await union.answer(
+                    _("This button is not for you."),
+                    show_alert=True,
+                    cache_time=60,
+                )
+                return
+
+        is_search = callback_data.is_search
+        if is_search and not is_private:
+            await message.delete()
+
+    if not bool(query):
+        return
+
+    keyboard = InlineKeyboardBuilder()
+    if not query.isdecimal():
+        status, data = await AniList.search("anime", query)
+        if not data:
+            await message.reply(_("No results found."))
+            return
+
+        results = data["data"]["Page"]["media"]
+        if not results or len(results) == 0:
+            await message.reply(_("No results found."))
+            return
+
+        if len(results) == 1:
+            anime_id = int(results[0]["id"])
+        else:
+            for result in results:
+                keyboard.row(
+                    InlineKeyboardButton(
+                        text=result["title"]["romaji"],
+                        callback_data=AnimeAiringCallback(
+                            query=result["id"],
+                            user_id=user.id,
+                            is_search=True,
+                        ).pack(),
+                    )
+                )
+            await message.reply(
+                _("Search Results For: <b>{query}</b>").format(query=query),
+                reply_markup=keyboard.as_markup(),
+            )
+            return
+    else:
+        anime_id = int(query)
 
     status, data = await AniList.get_airing(anime_id=anime_id)
     anime = data["data"]["Page"]["media"][0]
@@ -670,20 +733,28 @@ async def anime_airing(callback: CallbackQuery, callback_data: AnimeAiringCallba
         keyboard.row(*buttons)
         keyboard.adjust(3)
 
-    keyboard.row(
-        InlineKeyboardButton(
-            text=_("🔙 Back"),
-            callback_data=AnimeMoreCallback(
-                anime_id=anime_id,
-                user_id=user_id,
-            ).pack(),
+    if is_callback:
+        keyboard.row(
+            InlineKeyboardButton(
+                text=_("🔙 Back"),
+                callback_data=AnimeMoreCallback(
+                    anime_id=anime_id,
+                    user_id=user.id,
+                ).pack(),
+            )
         )
-    )
 
-    await message.edit_caption(
-        caption=text,
-        reply_markup=keyboard.as_markup(),
-    )
+    if message.photo and is_callback:
+        await message.edit_caption(
+            caption=text,
+            reply_markup=keyboard.as_markup(),
+        )
+    else:
+        await message.reply_photo(
+            photo=f"https://img.anili.st/media/{anime_id}",
+            caption=text,
+            reply_markup=keyboard.as_markup(),
+        )
 
 
 @router.callback_query(AnimeStudioCallback.filter())
