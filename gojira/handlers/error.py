@@ -31,7 +31,8 @@ async def errors_handler(error: ErrorEvent):
     err_tlt = type(exception).__name__
     err_msg = str(exception)
 
-    if await cache.get(f"error:{chat_id}") == err_msg:
+    cached_error = await cache.get(f"error:{chat_id}")
+    if cached_error == err_msg:
         return
 
     conn_errors = (
@@ -50,5 +51,6 @@ async def errors_handler(error: ErrorEvent):
     text += (
         f"<code>{html.escape(err_tlt, quote=False)}: {html.escape(err_msg, quote=False)}</code>"
     )
-    await cache.set(f"error:{chat_id}", err_msg, "1h")
+    if not cached_error:
+        await cache.set(f"error:{chat_id}", err_msg, "1h")
     await bot.send_message(chat_id, text)

@@ -30,7 +30,7 @@ from gojira.utils.logging import log
 async def main():
     try:
         await cache.ping()
-    except CacheBackendInteractionError:
+    except (CacheBackendInteractionError, TimeoutError):
         sys.exit(log.critical("Can't connect to RedisDB! Exiting..."))
 
     if config.sentry_url:

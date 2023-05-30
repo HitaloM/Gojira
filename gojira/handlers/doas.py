@@ -95,7 +95,7 @@ async def bot_update(message: Message):
     commits = parse_commits(stdout)
     changelog = "<b>Changelog</b>:\n"
     for c_hash, commit in commits.items():
-        changelog += f"  - [<code>{c_hash[:7]}</code>] {commit['title']}\n"
+        changelog += f"  - [<code>{c_hash[:7]}</code>] {html.escape(commit['title'])}\n"
     changelog += f"\n<b>New commits count</b>: <code>{len(commits)}</code>."
 
     keyboard = InlineKeyboardBuilder()
@@ -112,11 +112,18 @@ async def upgrade_callback(callback: CallbackQuery):
     await message.edit_reply_markup()
     sent = await message.reply("Upgrading...")
 
-    try:
-        await shell_run("git reset --hard origin/main")
-    except ShellException as error:
-        await sent.edit_text(f"<code>{error}</code>")
-        return
+    commands = [
+        "git reset --hard origin/main",
+        "pybabel compile -d locales -D bot",
+        "pip install -U .",
+    ]
+
+    for command in commands:
+        try:
+            await shell_run(command)
+        except ShellException as error:
+            await sent.edit_text(f"<code>{error}</code>")
+            return
 
     await sent.edit_text("Restarting...")
     os.execv(sys.executable, [sys.executable, "-m", "gojira"])
@@ -141,7 +148,7 @@ async def bot_shell(message: Message, command: CommandObject):
             document = BufferedInputFile(document.getvalue(), filename=document.name)
             await message.reply_document(document=document)
         else:
-            output += f"<b>Output\n&gt;</b> <code>{stdout}</code>"
+            output += f"<b>Output\n&gt;</b> <code>{html.escape(stdout)}</code>"
 
     await sent.edit_text(output)
 
@@ -165,7 +172,7 @@ async def evaluate(message: Message, command: CommandObject):
         )
         return
 
-    output_message = f"<b>Expression:\n&gt;</b> <code>{query}</code>"
+    output_message = f"<b>Expression:\n&gt;</b> <code>{html.escape(str(query))}</code>"
 
     if stdout:
         lines = str(stdout).splitlines()
@@ -180,7 +187,7 @@ async def evaluate(message: Message, command: CommandObject):
                 document = BufferedInputFile(document.getvalue(), filename=document.name)
                 await message.reply_document(document=document)
             else:
-                output_message += f"\n\n<b>Result:\n&gt;</b> <code>{output}</code>"
+                output_message += f"\n\n<b>Result:\n&gt;</b> <code>{html.escape(output)}</code>"
 
     await sent.edit_text(output_message)
 

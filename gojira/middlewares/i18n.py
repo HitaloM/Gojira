@@ -12,8 +12,8 @@ from gojira.database import Chats, Users
 
 class MyI18nMiddleware(I18nMiddleware):
     async def get_locale(self, event: TelegramObject, data: dict[str, Any]) -> str:
-        user: User | None = data.get("event_from_user")
-        chat: Chat | None = data.get("event_chat")
+        user: User | None = data.get("event_from_user", None)
+        chat: Chat | None = data.get("event_chat", None)
 
         if not user or not chat:
             return self.i18n.default_locale
