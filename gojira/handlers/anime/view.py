@@ -4,7 +4,6 @@
 import math
 
 import humanize
-import numpy as np
 from aiogram import Router
 from aiogram.enums import ChatType
 from aiogram.filters import Command, CommandObject
@@ -469,10 +468,9 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
 {me.username}/?start=character_{character['id']}'>{character['name']['full']}</a> \
 (<i>{character['role']}</i>)"
 
-    # Separate staff_text into pages of 8 items
-    characters_text = np.array(characters_text.split("\n"))
-    characters_text = np.delete(characters_text, np.argwhere(characters_text == ""))
-    characters_text = np.split(characters_text, np.arange(8, len(characters_text), 8))
+    characters_text = characters_text.split("\n")
+    characters_text = [line for line in characters_text if line != ""]
+    characters_text = [characters_text[i : i + 8] for i in range(0, len(characters_text), 8)]
 
     pages = len(characters_text)
 
@@ -496,7 +494,7 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
             )
         )
 
-    characters_text = characters_text[page].tolist()
+    characters_text = characters_text[page]
     characters_text = "\n".join(characters_text)
 
     keyboard = InlineKeyboardBuilder()
@@ -569,10 +567,9 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
         staff_text += f"\n• <code>{person['id']}</code> - <a href='https://t.me/{me.username}/\
 ?start=staff_{person['id']}'>{person['name']['full']}</a> (<i>{person['role']}</i>)"
 
-    # Separate staff_text into pages of 8 items
-    staff_text = np.array(staff_text.split("\n"))
-    staff_text = np.delete(staff_text, np.argwhere(staff_text == ""))
-    staff_text = np.split(staff_text, np.arange(8, len(staff_text), 8))
+    staff_text = staff_text.split("\n")
+    staff_text = [line for line in staff_text if line != ""]
+    staff_text = [staff_text[i : i + 8] for i in range(0, len(staff_text), 8)]
 
     pages = len(staff_text)
 
@@ -596,7 +593,7 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
             )
         )
 
-    staff_text = staff_text[page].tolist()
+    staff_text = staff_text[page]
     staff_text = "\n".join(staff_text)
 
     keyboard = InlineKeyboardBuilder()
@@ -787,10 +784,9 @@ async def anime_studio(callback: CallbackQuery, callback_data: AnimeStudioCallba
 {me.username}/?start=studio_{studio['id']}'>{studio['name']}</a> \
 {'(producer)' if not studio['isAnimationStudio'] else ''}"
 
-    # Separate staff_text into pages of 8 items if more than 8 items
-    studio_text = np.array(studio_text.split("\n"))
-    studio_text = np.delete(studio_text, np.argwhere(studio_text == ""))
-    studio_text = np.split(studio_text, np.arange(8, len(studio_text), 8))
+    studio_text = studio_text.split("\n")
+    studio_text = [line for line in studio_text if line != ""]
+    studio_text = [studio_text[i : i + 8] for i in range(0, len(studio_text), 8)]
 
     pages = len(studio_text)
 
@@ -814,7 +810,7 @@ async def anime_studio(callback: CallbackQuery, callback_data: AnimeStudioCallba
             )
         )
 
-    studio_text = studio_text[page].tolist()
+    studio_text = studio_text[page]
     studio_text = "\n".join(studio_text)
 
     keyboard = InlineKeyboardBuilder()

@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
-import numpy as np
 from aiogram import Router
 from aiogram.enums import ChatType
 from aiogram.filters import Command, CommandObject
@@ -163,10 +162,9 @@ async def studio_media_view(callback: CallbackQuery, callback_data: StudioMediaC
         mid = media["id"]
         media_list += f"\n• <code>{mid}</code> - <a href='https://t.me/{me.username}/?start=anime_{mid}'>{title}</a>"
 
-    # Separate staff_text into pages of 8 items if more than 8 items
-    media_list = np.array(media_list.split("\n"))
-    media_list = np.delete(media_list, np.argwhere(media_list == ""))
-    media_list = np.split(media_list, np.arange(8, len(media_list), 8))
+    media_list = media_list.split("\n")
+    media_list = [line for line in media_list if line != ""]
+    media_list = [media_list[i : i + 8] for i in range(0, len(media_list), 8)]
 
     keyboard = InlineKeyboardBuilder()
 
@@ -195,7 +193,7 @@ async def studio_media_view(callback: CallbackQuery, callback_data: StudioMediaC
         )
     )
 
-    media_list = media_list[page].tolist()
+    media_list = media_list[page]
     media_list = "\n".join(media_list)
 
     text = _("Media that <b>{name}</b> has worked on:\n{list}").format(

@@ -3,7 +3,6 @@
 
 import math
 
-import numpy as np
 from aiogram import Router
 from aiogram.enums import ChatType
 from aiogram.filters import Command, CommandObject
@@ -430,10 +429,9 @@ async def manga_characters(callback: CallbackQuery, callback_data: MangaCharCall
 {me.username}/?start=character_{character['id']}'>{character['name']['full']}</a> \
 (<i>{character['role']}</i>)"
 
-    # Separate staff_text into pages of 8 items
-    characters_text = np.array(characters_text.split("\n"))
-    characters_text = np.delete(characters_text, np.argwhere(characters_text == ""))
-    characters_text = np.split(characters_text, np.arange(8, len(characters_text), 8))
+    characters_text = characters_text.split("\n")
+    characters_text = [line for line in characters_text if line != ""]
+    characters_text = [characters_text[i : i + 8] for i in range(0, len(characters_text), 8)]
 
     pages = len(characters_text)
 
@@ -457,7 +455,7 @@ async def manga_characters(callback: CallbackQuery, callback_data: MangaCharCall
             )
         )
 
-    characters_text = characters_text[page].tolist()
+    characters_text = characters_text[page]
     characters_text = "\n".join(characters_text)
 
     keyboard = InlineKeyboardBuilder()
@@ -530,10 +528,9 @@ async def manga_staff(callback: CallbackQuery, callback_data: MangaStaffCallback
         staff_text += f"\n• <code>{person['id']}</code> - <a href='https://t.me/{me.username}/\
 ?start=staff_{person['id']}'>{person['name']['full']}</a> (<i>{person['role']}</i>)"
 
-    # Separate staff_text into pages of 8 items
-    staff_text = np.array(staff_text.split("\n"))
-    staff_text = np.delete(staff_text, np.argwhere(staff_text == ""))
-    staff_text = np.split(staff_text, np.arange(8, len(staff_text), 8))
+    staff_text = staff_text.split("\n")
+    staff_text = [line for line in staff_text if line != ""]
+    staff_text = [staff_text[i : i + 8] for i in range(0, len(staff_text), 8)]
 
     pages = len(staff_text)
 
@@ -557,7 +554,7 @@ async def manga_staff(callback: CallbackQuery, callback_data: MangaStaffCallback
             )
         )
 
-    staff_text = staff_text[page].tolist()
+    staff_text = staff_text[page]
     staff_text = "\n".join(staff_text)
 
     keyboard = InlineKeyboardBuilder()
