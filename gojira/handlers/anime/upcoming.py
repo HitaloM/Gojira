@@ -31,7 +31,7 @@ async def anime_upcoming(callback: CallbackQuery, callback_data: AnimeUpcomingCa
     user_id = callback_data.user_id
 
     if user_id != callback.from_user.id:
-        await message.answer(
+        await callback.answer(
             _("This button is not for you."),
             show_alert=True,
             cache_time=60,
