@@ -21,13 +21,16 @@ router = Router(name="manga_start")
 async def manga_start(union: Message | CallbackQuery):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
-    if not message:
+    user = union.from_user
+    if not message or not user:
         return
 
     keyboard = InlineKeyboardBuilder()
     keyboard.button(text=_("📈 Popular"), callback_data=MangaPopuCallback(page=1))
     keyboard.button(text=_("🗂️ Categories"), callback_data=MangaCategCallback(page=1))
-    keyboard.button(text=_("🆕 Upcoming"), callback_data=MangaUpcomingCallback(page=1))
+    keyboard.button(
+        text=_("🆕 Upcoming"), callback_data=MangaUpcomingCallback(page=1, user_id=user.id)
+    )
     keyboard.button(text=_("🔍 Search"), switch_inline_query_current_chat="!m ")
     keyboard.adjust(2)
 
