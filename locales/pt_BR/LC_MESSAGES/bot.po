@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gojira\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-31 00:08-0300\n"
-"PO-Revision-Date: 2023-05-31 04:04\n"
+"POT-Creation-Date: 2023-05-31 01:39-0300\n"
+"PO-Revision-Date: 2023-05-31 05:25\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "MIME-Version: 1.0\n"
@@ -147,7 +147,7 @@ msgstr "Você precisa especificar um usuário. Use /user ou id"
 #: gojira/handlers/studio/view.py:101 gojira/handlers/studio/view.py:107
 #: gojira/handlers/user.py:67 gojira/handlers/user.py:72
 #: gojira/handlers/user.py:99 gojira/handlers/user.py:105
-#: gojira/handlers/user.py:162
+#: gojira/handlers/user.py:166
 msgid "No results found."
 msgstr "Nenhum resultado encontrado."
 
@@ -188,49 +188,49 @@ msgid "\n"
 msgstr "\n"
 "<b>Criado em</b>: <code>{date}</code>\n"
 
-#: gojira/handlers/user.py:123
+#: gojira/handlers/user.py:125
 msgid "<b>Updated At</b>: <code>{date}</code>"
 msgstr "<b>Atualizado em</b>: <code>{date}</code>"
 
-#: gojira/handlers/user.py:134
+#: gojira/handlers/user.py:138
 msgid "Anime Stats"
 msgstr "Estatísticas de Anime"
 
-#: gojira/handlers/user.py:138
+#: gojira/handlers/user.py:142
 msgid "Manga Stats"
 msgstr "Estatísticas de Mangá"
 
 #: gojira/handlers/anime/view.py:314 gojira/handlers/character/view.py:136
 #: gojira/handlers/manga/view.py:275 gojira/handlers/staff/view.py:128
-#: gojira/handlers/studio/view.py:127 gojira/handlers/user.py:141
+#: gojira/handlers/studio/view.py:127 gojira/handlers/user.py:145
 msgid "🐢 AniList"
 msgstr "🐢 AniList"
 
-#: gojira/handlers/user.py:173
+#: gojira/handlers/user.py:177
 msgid "Total Anime Watched: {count}\n"
 msgstr "Total de anime assistido: {count}\n"
 
-#: gojira/handlers/user.py:174
+#: gojira/handlers/user.py:178
 msgid "Total Episode Watched: {episodes}\n"
 msgstr "Total de episódios assistidos: {episodes}\n"
 
-#: gojira/handlers/user.py:176
+#: gojira/handlers/user.py:180
 msgid "Total Time Spent: {time}\n"
 msgstr "Total de Tempo Gasto: {time}\n"
 
-#: gojira/handlers/user.py:177 gojira/handlers/user.py:185
+#: gojira/handlers/user.py:181 gojira/handlers/user.py:189
 msgid "Average Score: {mean_score}"
 msgstr "Média de pontuação: {mean_score}"
 
-#: gojira/handlers/user.py:182
+#: gojira/handlers/user.py:186
 msgid "Total Manga Read: {count}\n"
 msgstr "Total de mangás lidos: {count}\n"
 
-#: gojira/handlers/user.py:183
+#: gojira/handlers/user.py:187
 msgid "Total Chapter Read: {chapters}\n"
 msgstr "Total de capítulos lidos: {chapters}\n"
 
-#: gojira/handlers/user.py:184
+#: gojira/handlers/user.py:188
 msgid "Total Volume Read: {volumes}\n"
 msgstr "Total de volumes lidos: {volumes}\n"
 
@@ -781,21 +781,22 @@ msgid "Get anime airing informations."
 msgstr "Receba informações de publicação de animes."
 
 #: gojira/utils/command_list.py:57
-msgid "Get upcoming media."
-msgstr ""
-
-#: gojira/utils/command_list.py:61
 msgid "Change bot language."
 msgstr "Alterar idioma do bot."
 
-#: gojira/utils/command_list.py:65
+#: gojira/utils/command_list.py:61
 msgid "About the bot."
 msgstr "Sobre o bot."
 
-#: gojira/utils/command_list.py:72
+#: gojira/utils/command_list.py:68
 msgid "Start the bot."
 msgstr "Inicia o bot."
 
-#: gojira/utils/command_list.py:76
+#: gojira/utils/command_list.py:72
 msgid "Get help."
 msgstr "Obtenha ajuda."
+
+#: gojira/utils/command_list.py:79
+msgid "Get upcoming media."
+msgstr ""
+
