@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gojira\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-30 20:03-0300\n"
-"PO-Revision-Date: 2023-05-30 23:13\n"
+"POT-Creation-Date: 2023-05-31 00:00-0300\n"
+"PO-Revision-Date: 2023-05-31 03:06\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "MIME-Version: 1.0\n"
@@ -42,21 +42,21 @@ msgstr "🌎 Contribua nas traduções!"
 
 #: gojira/handlers/anime/categories.py:64
 #: gojira/handlers/anime/categories.py:104 gojira/handlers/anime/popular.py:45
-#: gojira/handlers/anime/start.py:35 gojira/handlers/anime/upcoming.py:48
-#: gojira/handlers/anime/view.py:319 gojira/handlers/anime/view.py:404
-#: gojira/handlers/anime/view.py:508 gojira/handlers/anime/view.py:608
-#: gojira/handlers/anime/view.py:739 gojira/handlers/anime/view.py:827
-#: gojira/handlers/character/popular.py:44
+#: gojira/handlers/anime/start.py:35 gojira/handlers/anime/upcoming.py:64
+#: gojira/handlers/anime/upcoming.py:71 gojira/handlers/anime/view.py:319
+#: gojira/handlers/anime/view.py:404 gojira/handlers/anime/view.py:508
+#: gojira/handlers/anime/view.py:608 gojira/handlers/anime/view.py:739
+#: gojira/handlers/anime/view.py:827 gojira/handlers/character/popular.py:44
 #: gojira/handlers/character/start.py:28 gojira/handlers/language.py:65
 #: gojira/handlers/manga/categories.py:64
 #: gojira/handlers/manga/categories.py:103 gojira/handlers/manga/popular.py:44
-#: gojira/handlers/manga/start.py:36 gojira/handlers/manga/upcoming.py:48
-#: gojira/handlers/manga/view.py:280 gojira/handlers/manga/view.py:365
-#: gojira/handlers/manga/view.py:469 gojira/handlers/manga/view.py:569
-#: gojira/handlers/pm_menu.py:87 gojira/handlers/pm_menu.py:125
-#: gojira/handlers/staff/popular.py:44 gojira/handlers/staff/start.py:28
-#: gojira/handlers/studio/popular.py:44 gojira/handlers/studio/start.py:29
-#: gojira/handlers/studio/view.py:193
+#: gojira/handlers/manga/start.py:36 gojira/handlers/manga/upcoming.py:64
+#: gojira/handlers/manga/upcoming.py:71 gojira/handlers/manga/view.py:280
+#: gojira/handlers/manga/view.py:365 gojira/handlers/manga/view.py:469
+#: gojira/handlers/manga/view.py:569 gojira/handlers/pm_menu.py:87
+#: gojira/handlers/pm_menu.py:125 gojira/handlers/staff/popular.py:44
+#: gojira/handlers/staff/start.py:28 gojira/handlers/studio/popular.py:44
+#: gojira/handlers/studio/start.py:29 gojira/handlers/studio/view.py:193
 msgid "🔙 Back"
 msgstr "🔙 Voltar"
 
@@ -80,11 +80,11 @@ msgstr "👮‍♂️ Ajuda"
 msgid "Hello, <b>{user_name}</b>. I am <b>Gojira</b>, a Telegram bot that can help you with informations about anime and manga, such as genres, characters, studios, staff. And much more!"
 msgstr "Olá, <b>{user_name}</b>. Eu sou o <b>Gojira</b>, um bot do Telegram que pode ajudá-lo com informações sobre anime e mangá, como gêneros, personagens, estúdios, equipe. E muito mais!"
 
-#: gojira/handlers/pm_menu.py:77
+#: gojira/handlers/pm_menu.py:77 gojira/handlers/upcoming.py:40
 msgid "👸 Anime"
 msgstr "👸 Anime"
 
-#: gojira/handlers/pm_menu.py:78
+#: gojira/handlers/pm_menu.py:78 gojira/handlers/upcoming.py:43
 msgid "📖 Manga"
 msgstr "📖 Mangá"
 
@@ -116,6 +116,17 @@ msgstr "📦 GitHub"
 #: gojira/handlers/pm_menu.py:119
 msgid "📚 Channel"
 msgstr "📚 Canal"
+
+#: gojira/handlers/anime/upcoming.py:35 gojira/handlers/anime/view.py:69
+#: gojira/handlers/anime/view.py:658 gojira/handlers/character/view.py:56
+#: gojira/handlers/manga/upcoming.py:35 gojira/handlers/manga/view.py:66
+#: gojira/handlers/upcoming.py:32
+msgid "This button is not for you."
+msgstr "Este botão não é para você."
+
+#: gojira/handlers/upcoming.py:46
+msgid "Select which type of media upcoming you want to see."
+msgstr ""
 
 #: gojira/handlers/user.py:37
 msgid "You need to specify an user. Use /user name or id"
@@ -503,18 +514,13 @@ msgstr "🔍 Pesquisar"
 msgid "You are in the <b>anime</b> section, use the buttons below to do what you want."
 msgstr "Você está na seção <b>anime</b>, use os botões abaixo para fazer o que você quer."
 
-#: gojira/handlers/anime/upcoming.py:55 gojira/handlers/manga/upcoming.py:55
-msgid "Below are <b>50</b> items that have not yet been released."
-msgstr "Abaixo estão <b>50</b> itens que ainda não foram lançados."
+#: gojira/handlers/anime/upcoming.py:78
+msgid "Below are the <b>50</b> animes that have not yet been released."
+msgstr ""
 
 #: gojira/handlers/anime/view.py:51
 msgid "You need to specify an anime. Use /anime name or id"
 msgstr "Você precisa especificar um anime. Use /anime nome ou id"
-
-#: gojira/handlers/anime/view.py:69 gojira/handlers/anime/view.py:658
-#: gojira/handlers/character/view.py:56 gojira/handlers/manga/view.py:66
-msgid "This button is not for you."
-msgstr "Este botão não é para você."
 
 #: gojira/handlers/anime/view.py:224 gojira/handlers/manga/view.py:205
 msgid "➡️ Sequel"
@@ -652,6 +658,10 @@ msgstr "Abaixo estão os <b>50</b> mangas mais populares em ordem decrescente."
 msgid "You are in the <b>manga</b> section, use the buttons below to do what you want."
 msgstr "Você está na seção <b>manga</b>, use os botões abaixo para fazer o que quiser."
 
+#: gojira/handlers/manga/upcoming.py:78
+msgid "Below are the <b>50</b> mangas that have not yet been released."
+msgstr ""
+
 #: gojira/handlers/manga/view.py:46
 msgid "You need to specify an manga. Use /manga name or id"
 msgstr "Você precisa especificar um manga. Use /manga nome ou id"
@@ -771,17 +781,22 @@ msgid "Get anime airing informations."
 msgstr "Receba informações de publicação de animes."
 
 #: gojira/utils/command_list.py:57
+msgid "Get upcoming media."
+msgstr ""
+
+#: gojira/utils/command_list.py:61
 msgid "Change bot language."
 msgstr "Alterar idioma do bot."
 
-#: gojira/utils/command_list.py:61
+#: gojira/utils/command_list.py:65
 msgid "About the bot."
 msgstr "Sobre o bot."
 
-#: gojira/utils/command_list.py:68
+#: gojira/utils/command_list.py:72
 msgid "Start the bot."
 msgstr "Inicia o bot."
 
-#: gojira/utils/command_list.py:72
+#: gojira/utils/command_list.py:76
 msgid "Get help."
 msgstr "Obtenha ajuda."
+
