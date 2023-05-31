@@ -145,8 +145,8 @@ async def anime_scan(message: Message):
             if sent_video.chat.type != ChatType.PRIVATE:
                 keyboard.button(text=_("📹 Preview"), url=sent_video.get_url())
                 await bot.edit_message_reply_markup(
-                    chat_id=sent.chat.id,  # type: ignore
-                    message_id=sent.message_id,  # type: ignore
+                    chat_id=sent.chat.id,  # type: ignore[arg-type]
+                    message_id=sent.message_id,  # type: ignore[arg-type]
                     reply_markup=keyboard.as_markup(),
                 )
 

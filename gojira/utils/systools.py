@@ -35,6 +35,7 @@ async def shell_run(command: str) -> str:
     if process.returncode == 0:
         return stdout.decode("utf-8").strip()
 
-    raise ShellException(
+    msg = (
         f"Command '{command}' exited with {process.returncode}:\n{stderr.decode('utf-8').strip()}"
     )
+    raise ShellException(msg)

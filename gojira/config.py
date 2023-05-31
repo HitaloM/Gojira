@@ -15,4 +15,4 @@ class Settings(BaseSettings):
         env_file_encoding = "utf-8"
 
 
-config = Settings()  # type: ignore
+config = Settings()  # type: ignore[arg-type]

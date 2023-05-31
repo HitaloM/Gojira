@@ -44,7 +44,7 @@ Instructions
 
 2. Install dependencies from the pyproject.toml with ``python3 -m pip install . -U``.
 3. Go to https://my.telegram.org/apps and create a new app.
-4. Create a new ``config.env`` in ``data/``, there is a ``config.example.emv`` file for you to use as a template.
+4. Create a new ``config.env`` in ``data/``, there is a ``config.example.env`` file for you to use as a template.
 5. After completing the ``config.env`` file, run ``python3 -m gojira`` to start the bot.
 
 Tools

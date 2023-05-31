@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
+import datetime
 import time
-from datetime import datetime
 
 import humanize
 from aiogram import Router
@@ -118,10 +118,14 @@ async def user_view(
         text += _("<b>About</b>: <code>{about}</code>\n").format(about=auser["about"])
 
     text += _("\n<b>Created At</b>: <code>{date}</code>\n").format(
-        date=datetime.fromtimestamp(auser["createdAt"]).strftime("%d/%m/%Y")
+        date=datetime.datetime.fromtimestamp(auser["createdAt"], tz=datetime.UTC).strftime(
+            "%d/%m/%Y"
+        )
     )
     text += _("<b>Updated At</b>: <code>{date}</code>").format(
-        date=datetime.fromtimestamp(auser["updatedAt"]).strftime("%d/%m/%Y")
+        date=datetime.datetime.fromtimestamp(auser["updatedAt"], tz=datetime.UTC).strftime(
+            "%d/%m/%Y"
+        )
     )
 
     cached_photo = await cache.get(f"anilist_user_{auser['id']}")

@@ -7,6 +7,7 @@ import io
 import os
 import sys
 import traceback
+from pathlib import Path
 from signal import SIGINT
 
 import aiofiles
@@ -38,9 +39,9 @@ async def error_test(message: Message):
 
 @router.message(Command("purgecache"))
 async def purge_cache(message: Message):
-    start = datetime.datetime.utcnow()
+    start = datetime.datetime.now(tz=datetime.UTC)
     await cache.clear()
-    delta = (datetime.datetime.utcnow() - start).total_seconds() * 1000
+    delta = (datetime.datetime.now(tz=datetime.UTC) - start).total_seconds() * 1000
     await message.reply(f"Cache purged in <code>{delta:.2f}ms</code>.")
 
 
@@ -52,17 +53,17 @@ async def json_dump(message: Message):
 
 @router.message(Command(commands=["doc", "upload"]))
 async def upload_document(message: Message, command: CommandObject):
-    path = str(command.args)
-    if not os.path.exists(path):
+    path = Path(str(command.args))
+    if not Path.exists(path):
         await message.reply("File not found.")
         return
 
     await message.reply("Processing...")
 
-    caption = f"<b>File:</b> <code>{os.path.basename(path)}</code>"
+    caption = f"<b>File:</b> <code>{path.name}</code>"
     async with aiofiles.open(path, "rb") as file:
         file = await file.read()
-        file = BufferedInputFile(file, filename=os.path.basename(path))
+        file = BufferedInputFile(file, filename=path.name)
         await message.reply_document(file, caption=caption)
 
 
@@ -170,7 +171,7 @@ async def evaluate(message: Message, command: CommandObject):
     except BaseException:
         exc = sys.exc_info()
         exc = "".join(
-            traceback.format_exception(exc[0], exc[1], exc[2].tb_next.tb_next.tb_next)  # type: ignore  # noqa: E501
+            traceback.format_exception(exc[0], exc[1], exc[2].tb_next.tb_next.tb_next)  # type: ignore[misc]  # noqa: F821, E501
         )
         error_txt = "<b>Failed to execute the expression:\n&gt;</b> <code>{eval}</code>"
         error_txt += "\n\n<b>Error:\n&gt;</b> <code>{exc}</code>"
@@ -201,7 +202,7 @@ async def evaluate(message: Message, command: CommandObject):
 
 @router.message(Command("ping"))
 async def ping(message: Message):
-    start = datetime.datetime.utcnow()
+    start = datetime.datetime.now(tz=datetime.UTC)
     sent = await message.reply("<b>Pong!</b>")
-    delta = (datetime.datetime.utcnow() - start).total_seconds() * 1000
+    delta = (datetime.datetime.now(tz=datetime.UTC) - start).total_seconds() * 1000
     await sent.edit_text(f"<b>Pong!</b> <code>{delta:.2f}ms</code>")

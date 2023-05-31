@@ -53,10 +53,6 @@ async def set_ui_commands(bot: Bot, i18n: I18n):
                     description=_("Get anime airing informations.", locale=lang),
                 ),
                 BotCommand(
-                    command="upcoming",
-                    description=_("Get upcoming media.", locale=lang),
-                ),
-                BotCommand(
                     command="language",
                     description=_("Change bot language.", locale=lang),
                 ),
@@ -77,9 +73,12 @@ async def set_ui_commands(bot: Bot, i18n: I18n):
                 ),
             ] + all_chats_commands
 
-            group_commands: list[
-                BotCommand
-            ] = all_chats_commands  # this will be changed in the future with new commands
+            group_commands: list[BotCommand] = [
+                BotCommand(
+                    command="upcoming",
+                    description=_("Get upcoming media.", locale=lang),
+                ),
+            ] + all_chats_commands  # this will be changed in the future with new commands
 
             await bot.set_my_commands(
                 user_commands,

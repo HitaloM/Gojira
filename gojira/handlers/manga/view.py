@@ -432,7 +432,7 @@ async def manga_characters(callback: CallbackQuery, callback_data: MangaCharCall
 
     # Separate staff_text into pages of 8 items
     characters_text = np.array(characters_text.split("\n"))
-    characters_text = np.delete(characters_text, np.argwhere(characters_text == ""))
+    characters_text = np.delete(characters_text, np.argwhere(not characters_text))
     characters_text = np.split(characters_text, np.arange(8, len(characters_text), 8))
 
     pages = len(characters_text)
@@ -532,7 +532,7 @@ async def manga_staff(callback: CallbackQuery, callback_data: MangaStaffCallback
 
     # Separate staff_text into pages of 8 items
     staff_text = np.array(staff_text.split("\n"))
-    staff_text = np.delete(staff_text, np.argwhere(staff_text == ""))
+    staff_text = np.delete(staff_text, np.argwhere(not staff_text))
     staff_text = np.split(staff_text, np.arange(8, len(staff_text), 8))
 
     pages = len(staff_text)
