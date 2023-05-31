@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gojira\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-31 00:00-0300\n"
-"PO-Revision-Date: 2023-05-31 03:06\n"
+"POT-Creation-Date: 2023-05-31 00:08-0300\n"
+"PO-Revision-Date: 2023-05-31 04:04\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,7 @@ msgstr "🌎 Contribua nas traduções!"
 
 #: gojira/handlers/anime/categories.py:64
 #: gojira/handlers/anime/categories.py:104 gojira/handlers/anime/popular.py:45
-#: gojira/handlers/anime/start.py:35 gojira/handlers/anime/upcoming.py:64
+#: gojira/handlers/anime/start.py:38 gojira/handlers/anime/upcoming.py:64
 #: gojira/handlers/anime/upcoming.py:71 gojira/handlers/anime/view.py:319
 #: gojira/handlers/anime/view.py:404 gojira/handlers/anime/view.py:508
 #: gojira/handlers/anime/view.py:608 gojira/handlers/anime/view.py:739
@@ -50,7 +50,7 @@ msgstr "🌎 Contribua nas traduções!"
 #: gojira/handlers/character/start.py:28 gojira/handlers/language.py:65
 #: gojira/handlers/manga/categories.py:64
 #: gojira/handlers/manga/categories.py:103 gojira/handlers/manga/popular.py:44
-#: gojira/handlers/manga/start.py:36 gojira/handlers/manga/upcoming.py:64
+#: gojira/handlers/manga/start.py:39 gojira/handlers/manga/upcoming.py:64
 #: gojira/handlers/manga/upcoming.py:71 gojira/handlers/manga/view.py:280
 #: gojira/handlers/manga/view.py:365 gojira/handlers/manga/view.py:469
 #: gojira/handlers/manga/view.py:569 gojira/handlers/pm_menu.py:87
@@ -491,26 +491,26 @@ msgstr "👓 Ver Mais"
 msgid "📹 Preview"
 msgstr "📹 Prévia"
 
-#: gojira/handlers/anime/start.py:27 gojira/handlers/character/start.py:22
-#: gojira/handlers/manga/start.py:28 gojira/handlers/staff/start.py:22
+#: gojira/handlers/anime/start.py:28 gojira/handlers/character/start.py:22
+#: gojira/handlers/manga/start.py:29 gojira/handlers/staff/start.py:22
 #: gojira/handlers/studio/start.py:23
 msgid "📈 Popular"
 msgstr "📈 Populares"
 
-#: gojira/handlers/anime/start.py:28 gojira/handlers/manga/start.py:29
+#: gojira/handlers/anime/start.py:29 gojira/handlers/manga/start.py:30
 msgid "🗂️ Categories"
 msgstr "🗂️ Categorias"
 
-#: gojira/handlers/anime/start.py:29 gojira/handlers/manga/start.py:30
+#: gojira/handlers/anime/start.py:31 gojira/handlers/manga/start.py:32
 msgid "🆕 Upcoming"
 msgstr "🆕 Em breve"
 
-#: gojira/handlers/anime/start.py:30 gojira/handlers/character/start.py:23
-#: gojira/handlers/manga/start.py:31 gojira/handlers/staff/start.py:23
+#: gojira/handlers/anime/start.py:33 gojira/handlers/character/start.py:23
+#: gojira/handlers/manga/start.py:34 gojira/handlers/staff/start.py:23
 msgid "🔍 Search"
 msgstr "🔍 Pesquisar"
 
-#: gojira/handlers/anime/start.py:40
+#: gojira/handlers/anime/start.py:43
 msgid "You are in the <b>anime</b> section, use the buttons below to do what you want."
 msgstr "Você está na seção <b>anime</b>, use os botões abaixo para fazer o que você quer."
 
@@ -654,7 +654,7 @@ msgstr "\n"
 msgid "Below are the <b>50</b> most popular mangas in descending order."
 msgstr "Abaixo estão os <b>50</b> mangas mais populares em ordem decrescente."
 
-#: gojira/handlers/manga/start.py:41
+#: gojira/handlers/manga/start.py:44
 msgid "You are in the <b>manga</b> section, use the buttons below to do what you want."
 msgstr "Você está na seção <b>manga</b>, use os botões abaixo para fazer o que quiser."
 
@@ -799,3 +799,4 @@ msgstr "Inicia o bot."
 #: gojira/utils/command_list.py:76
 msgid "Get help."
 msgstr "Obtenha ajuda."
+
