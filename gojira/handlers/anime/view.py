@@ -733,7 +733,7 @@ async def anime_airing(
         keyboard.row(*buttons)
         keyboard.adjust(3)
 
-    if is_callback:
+    if is_callback and callback_data and not callback_data.is_search:
         keyboard.row(
             InlineKeyboardButton(
                 text=_("🔙 Back"),

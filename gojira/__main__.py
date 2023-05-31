@@ -19,6 +19,7 @@ from gojira.handlers import (
     pm_menu,
     staff,
     studio,
+    upcoming,
     user,
     view,
 )
@@ -56,6 +57,7 @@ async def main():
         language.router,
         doas.router,
         user.router,
+        upcoming.router,
         *anime.setup_routers(),
         *character.setup_routers(),
         *manga.setup_routers(),

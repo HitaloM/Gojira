@@ -55,6 +55,7 @@ class AnimeStudioCallback(CallbackData, prefix="anime_studio"):
 
 
 class AnimeUpcomingCallback(CallbackData, prefix="anime_upcoming"):
+    user_id: int
     page: int
 
 
@@ -101,6 +102,7 @@ class MangaStaffCallback(CallbackData, prefix="manga_staff"):
 
 
 class MangaUpcomingCallback(CallbackData, prefix="manga_upcoming"):
+    user_id: int
     page: int
 
 
@@ -163,3 +165,7 @@ class UserCallback(CallbackData, prefix="user"):
 class UserStatsCallback(CallbackData, prefix="user_stats"):
     user_id: int
     stat_type: str
+
+
+class UpcomingCallback(CallbackData, prefix="upcoming"):
+    user_id: int
