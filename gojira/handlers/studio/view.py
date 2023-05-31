@@ -165,7 +165,7 @@ async def studio_media_view(callback: CallbackQuery, callback_data: StudioMediaC
 
     # Separate staff_text into pages of 8 items if more than 8 items
     media_list = np.array(media_list.split("\n"))
-    media_list = np.delete(media_list, np.argwhere(not media_list))
+    media_list = np.delete(media_list, np.argwhere(media_list == ""))
     media_list = np.split(media_list, np.arange(8, len(media_list), 8))
 
     keyboard = InlineKeyboardBuilder()
