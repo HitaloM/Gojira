@@ -799,4 +799,3 @@ msgstr "Obtenha ajuda."
 #: gojira/utils/command_list.py:79
 msgid "Get upcoming media."
 msgstr "Obtenha a próxima mídia."
-
