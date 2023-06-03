@@ -210,7 +210,7 @@ async def anime_view(
         InlineKeyboardButton(
             text=_("👓 View More"),
             callback_data=AnimeMoreCallback(
-                anime_id=anime_id,
+                anime_id=anime["id"],
                 user_id=user.id,
             ).pack(),
         )
