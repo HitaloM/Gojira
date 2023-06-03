@@ -9,7 +9,7 @@ from aiogram.utils.i18n import I18n
 from cashews import cache
 
 from gojira.config import config
-from gojira.utils.aiohttp import AniListClient, TraceMoeClient
+from gojira.utils.aiohttp import AniListClient, JikanClient, TraceMoeClient
 from gojira.utils.logging import log
 
 __version__ = "1.0.0"
@@ -24,6 +24,7 @@ cache.setup(f"redis://{config.redis_host}", client_side=True)
 # Aiohttp Clients
 AniList = AniListClient()
 TraceMoe = TraceMoeClient()
+Jikan = JikanClient()
 
 bot = Bot(token=config.bot_token.get_secret_value(), parse_mode=ParseMode.HTML)
 dp = Dispatcher()

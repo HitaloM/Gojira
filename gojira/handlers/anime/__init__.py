@@ -3,7 +3,7 @@
 
 from aiogram import Router
 
-from . import categories, inline, popular, scan, start, upcoming, view
+from . import categories, inline, popular, scan, schedule, start, upcoming, view
 
 
 def setup_routers() -> list[Router]:
@@ -11,6 +11,7 @@ def setup_routers() -> list[Router]:
         start.router,
         view.router,
         scan.router,
+        schedule.router,
         inline.router,
         popular.router,
         upcoming.router,

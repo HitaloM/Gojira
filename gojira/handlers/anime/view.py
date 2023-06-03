@@ -34,6 +34,7 @@ async def anime_view(
     command: CommandObject | None = None,
     callback_data: AnimeCallback | None = None,
     anime_id: int | None = None,
+    mal: bool = False,
 ):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
@@ -112,7 +113,7 @@ async def anime_view(
     else:
         anime_id = int(query)
 
-    status, data = await AniList.get("anime", anime_id)
+    status, data = await AniList.get("anime", anime_id, mal=mal)
     if not data:
         await message.reply(_("No results found."))
         return
@@ -131,7 +132,7 @@ async def anime_view(
         )
         return
 
-    photo = f"https://img.anili.st/media/{anime_id}"
+    photo = f"https://img.anili.st/media/{anime['id']}"
 
     studios = []
     producers = []
@@ -167,7 +168,7 @@ async def anime_view(
     text = f"<b>{anime['title']['romaji']}</b>"
     if anime["title"]["native"]:
         text += f" (<code>{anime['title']['native']}</code>)"
-    text += _("\n\n<b>ID</b>: <code>{id}</code>").format(id=anime_id)
+    text += _("\n\n<b>ID</b>: <code>{id}</code>").format(id=anime["id"])
     if anime["format"]:
         text += _("\n<b>Format</b>: <code>{format}</code>").format(format=anime["format"])
     if anime["format"] != "MOVIE" and anime["episodes"]:

@@ -115,10 +115,11 @@ query($search: String, $page: Int = 1, $per_page: Int = 10) {
 
 
 ANIME_GET: str = """
-query($id: Int) {
+query($id: Int, $idMal: Int) {
     Page(page: 1, perPage: 1) {
-        media(id: $id, type: ANIME) {
+        media(id: $id, idMal: $idMal, type: ANIME) {
             id
+            idMal
             title {
                 romaji
                 english
@@ -175,6 +176,7 @@ query($id: Int) {
     Page(page: 1, perPage: 1) {
         media(id: $id, type: MANGA) {
             id
+            idMal
             title {
                 romaji
                 english

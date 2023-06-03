@@ -169,3 +169,8 @@ class UserStatsCallback(CallbackData, prefix="user_stats"):
 
 class UpcomingCallback(CallbackData, prefix="upcoming"):
     user_id: int
+
+
+class ScheduleCallback(CallbackData, prefix="schedule"):
+    user_id: int
+    day: int

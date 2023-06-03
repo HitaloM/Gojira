@@ -53,6 +53,10 @@ async def set_ui_commands(bot: Bot, i18n: I18n):
                     description=_("Get anime airing informations.", locale=lang),
                 ),
                 BotCommand(
+                    command="schedule",
+                    description=_("Get anime schedules.", locale=lang),
+                ),
+                BotCommand(
                     command="language",
                     description=_("Change bot language.", locale=lang),
                 ),

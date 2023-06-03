@@ -115,7 +115,9 @@ class AniListClient(AiohttpBaseClient):
         return None, None
 
     @cache(ttl="1h")
-    async def get(self, media: str, id: int) -> tuple[int, dict[str, Any]] | tuple[None, None]:
+    async def get(
+        self, media: str, id: int, mal: bool = False
+    ) -> tuple[int, dict[str, Any]] | tuple[None, None]:
         if media.lower() == "character":
             return await self._make_request(
                 "POST",
@@ -128,13 +130,14 @@ class AniListClient(AiohttpBaseClient):
                 },
             )
         if media.lower() == "anime":
+            var = "id" if not mal else "idMal"
             return await self._make_request(
                 "POST",
                 url="/",
                 json={
                     "query": ANIME_GET,
                     "variables": {
-                        "id": id,
+                        var: id,
                     },
                 },
             )
