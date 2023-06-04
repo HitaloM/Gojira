@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: gojira\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-06-03 17:19-0300\n"
-"PO-Revision-Date: 2023-06-03 20:25\n"
+"PO-Revision-Date: 2023-06-04 02:03\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "MIME-Version: 1.0\n"
@@ -493,40 +493,41 @@ msgstr "📹 Prévia"
 
 #: gojira/handlers/anime/schedule.py:44
 msgid "Monday"
-msgstr ""
+msgstr "Segunda-Feira"
 
 #: gojira/handlers/anime/schedule.py:45
 msgid "Tuesday"
-msgstr ""
+msgstr "Terça-Feira"
 
 #: gojira/handlers/anime/schedule.py:46
 msgid "Wednesday"
-msgstr ""
+msgstr "Quarta-Feira"
 
 #: gojira/handlers/anime/schedule.py:47
 msgid "Thursday"
-msgstr ""
+msgstr "Quinta-Feira"
 
 #: gojira/handlers/anime/schedule.py:48
 msgid "Friday"
-msgstr ""
+msgstr "Sexta-Feira"
 
 #: gojira/handlers/anime/schedule.py:49
 msgid "Saturday"
-msgstr ""
+msgstr "Sábado"
 
 #: gojira/handlers/anime/schedule.py:50
 msgid "Sunday"
-msgstr ""
+msgstr "Domingo"
 
 #: gojira/handlers/anime/schedule.py:57
 msgid "Below is the schedule for <b>{day}</b>:\n\n"
-msgstr ""
+msgstr "Abaixo está a programação para <b>{day}</b>:\n\n"
 
 #: gojira/handlers/anime/schedule.py:64
 msgid "\n"
 "<b>Note:</b> <i>The schedule is taken from MyAnimeList, some animes info may not be available on AniList, that's why the bot will not be able to show the anime info.</i>"
-msgstr ""
+msgstr "\n"
+"<b>Nota:</b> <i>O agendamento é tirado do MyAnimeList, algumas informações de animes podem não estar disponíveis no AniList, é por isso que o bot não será capaz de mostrar a informação do anime.</i>"
 
 #: gojira/handlers/anime/start.py:28 gojira/handlers/character/start.py:22
 #: gojira/handlers/manga/start.py:29 gojira/handlers/staff/start.py:22
@@ -819,7 +820,7 @@ msgstr "Receba informações de publicação de animes."
 
 #: gojira/utils/command_list.py:57
 msgid "Get anime schedules."
-msgstr ""
+msgstr "Obtenha animes agendados."
 
 #: gojira/utils/command_list.py:61
 msgid "Change bot language."
@@ -840,3 +841,4 @@ msgstr "Obtenha ajuda."
 #: gojira/utils/command_list.py:83
 msgid "Get upcoming media."
 msgstr "Obtenha a próxima mídia."
+
