@@ -23,6 +23,7 @@ from gojira.utils.callback_data import (
     AnimeStaffCallback,
     AnimeStudioCallback,
 )
+from gojira.utils.language import i18n_anilist_status
 
 router = Router(name="anime_view")
 
@@ -177,10 +178,12 @@ async def anime_view(
         text += _("\n<b>Episode Duration</b>: <code>{duration} mins</code>").format(
             duration=anime["duration"]
         )
-    text += _("\n<b>Status</b>: <code>{status}</code>").format(status=anime["status"].capitalize())
+    text += _("\n<b>Status</b>: <code>{status}</code>").format(
+        status=await i18n_anilist_status(anime["status"])
+    )
     if anime["status"] != "NOT_YET_RELEASED":
         text += _("\n<b>Start Date</b>: <code>{date}</code>").format(date=start_date)
-    if anime["status"] not in ["NOT_YET_RELEASED", "RELEASING"]:
+    if anime["status"] not in ("NOT_YET_RELEASED", "RELEASING"):
         text += _("\n<b>End Date</b>: <code>{date}</code>").format(date=end_date)
     if anime["season"]:
         season = f"{anime['season'].capitalize()} {anime['seasonYear']}"
@@ -706,7 +709,7 @@ async def anime_airing(
     text = _("See below when the next episode of the anime in question will air.\n\n")
     if anime["nextAiringEpisode"]:
         text += _("<b>Status:</b> <code>{status}</code>\n").format(
-            status=anime["status"].capitalize()
+            status=await i18n_anilist_status(anime["status"])
         )
         text += _("<b>Episode:</b> <code>{episode}</code>\n").format(
             episode=anime["nextAiringEpisode"]["episode"]
@@ -716,7 +719,9 @@ async def anime_airing(
         )
     else:
         episodes = anime["episodes"] if anime["episodes"] else "N/A"
-        text += _("<b>Status:</b> <code>{status}</code>\n").format(status=anime["status"])
+        text += _("<b>Status:</b> <code>{status}</code>\n").format(
+            status=await i18n_anilist_status(anime["status"])
+        )
         text += _("<b>Episodes:</b> <code>{episode}</code>\n").format(episode=episodes)
 
     buttons = []

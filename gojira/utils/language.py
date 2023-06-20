@@ -3,6 +3,7 @@
 
 from aiogram.enums import ChatType
 from aiogram.types import CallbackQuery, Message
+from aiogram.utils.i18n import gettext as _
 
 from gojira.database import Chats, Users
 
@@ -29,3 +30,14 @@ async def get_chat_language(
         language_code = await Chats.get_language(chat=chat)
 
     return message.chat.type, language_code
+
+
+async def i18n_anilist_status(status: str) -> str:
+    status_dict = {
+        "FINISHED": _("Finished"),
+        "RELEASING": _("Releasing"),
+        "NOT_YET_RELEASED": _("Not yet released"),
+        "CANCELLED": _("Cancelled"),
+        "HIATUS": _("Hiatus"),
+    }
+    return status_dict.get(status, "")

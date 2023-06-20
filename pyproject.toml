@@ -41,6 +41,7 @@ src = ["gojira"]
 target-version = "py311"
 select = [
   "E",   # pycodestyle
+  "W",   # pycodestyle
   "F",   # pyflakes
   "I",   # isort
   "UP",  # pyupgrade
