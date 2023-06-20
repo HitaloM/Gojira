@@ -949,4 +949,3 @@ msgstr "ONA"
 #: gojira/utils/language.py:78
 msgid "One Shot"
 msgstr "One Shot"
-
