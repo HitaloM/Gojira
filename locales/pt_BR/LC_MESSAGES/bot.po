@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: gojira\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-06-19 22:50-0300\n"
-"PO-Revision-Date: 2023-06-20 01:54\n"
+"PO-Revision-Date: 2023-06-20 01:59\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "MIME-Version: 1.0\n"
@@ -844,108 +844,109 @@ msgstr "Obtenha a próxima mídia."
 
 #: gojira/utils/language.py:37
 msgid "Finished"
-msgstr ""
+msgstr "Finalizado"
 
 #: gojira/utils/language.py:38
 msgid "Releasing"
-msgstr ""
+msgstr "Lançando"
 
 #: gojira/utils/language.py:39
 msgid "Not yet released"
-msgstr ""
+msgstr "Ainda não lançado"
 
 #: gojira/utils/language.py:40
 msgid "Cancelled"
-msgstr ""
+msgstr "Cancelado"
 
 #: gojira/utils/language.py:41
 msgid "Hiatus"
-msgstr ""
+msgstr "Hiato"
 
 #: gojira/utils/language.py:48
 msgid "Original"
-msgstr ""
+msgstr "Original"
 
 #: gojira/utils/language.py:49 gojira/utils/language.py:76
 msgid "Manga"
-msgstr ""
+msgstr "Mangá"
 
 #: gojira/utils/language.py:50
 msgid "Light Novel"
-msgstr ""
+msgstr "Light Novel"
 
 #: gojira/utils/language.py:51
 msgid "Visual Novel"
-msgstr ""
+msgstr "Visual Novel"
 
 #: gojira/utils/language.py:52
 msgid "Video Game"
-msgstr ""
+msgstr "Vídeo Game"
 
 #: gojira/utils/language.py:53
 msgid "Other"
-msgstr ""
+msgstr "Outros"
 
 #: gojira/utils/language.py:54 gojira/utils/language.py:77
 msgid "Novel"
-msgstr ""
+msgstr "Novel"
 
 #: gojira/utils/language.py:55
 msgid "Doujinshi"
-msgstr ""
+msgstr "Doujinshi"
 
 #: gojira/utils/language.py:56
 msgid "Anime"
-msgstr ""
+msgstr "Anime"
 
 #: gojira/utils/language.py:57
 msgid "Web Novel"
-msgstr ""
+msgstr "Web Novel"
 
 #: gojira/utils/language.py:58
 msgid "Live Action"
-msgstr ""
+msgstr "Live Action"
 
 #: gojira/utils/language.py:59
 msgid "Game"
-msgstr ""
+msgstr "Jogo"
 
 #: gojira/utils/language.py:60
 msgid "Comic"
-msgstr ""
+msgstr "Quadrinhos"
 
 #: gojira/utils/language.py:61
 msgid "Multimedia Project"
-msgstr ""
+msgstr "Projeto multimídia"
 
 #: gojira/utils/language.py:62
 msgid "Picture Book"
-msgstr ""
+msgstr "Livro ilustrado"
 
 #: gojira/utils/language.py:69
 msgid "TV"
-msgstr ""
+msgstr "TV"
 
 #: gojira/utils/language.py:70
 msgid "TV Short"
-msgstr ""
+msgstr "Curta para TV"
 
 #: gojira/utils/language.py:71
 msgid "Movie"
-msgstr ""
+msgstr "Filme"
 
 #: gojira/utils/language.py:72
 msgid "Special"
-msgstr ""
+msgstr "Especial"
 
 #: gojira/utils/language.py:73
 msgid "OVA"
-msgstr ""
+msgstr "OVA"
 
 #: gojira/utils/language.py:74
 msgid "ONA"
-msgstr ""
+msgstr "ONA"
 
 #: gojira/utils/language.py:78
 msgid "One Shot"
-msgstr ""
+msgstr "One Shot"
+
