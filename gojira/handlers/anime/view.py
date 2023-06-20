@@ -23,7 +23,7 @@ from gojira.utils.callback_data import (
     AnimeStaffCallback,
     AnimeStudioCallback,
 )
-from gojira.utils.language import i18n_anilist_status
+from gojira.utils.language import i18n_anilist_format, i18n_anilist_source, i18n_anilist_status
 
 router = Router(name="anime_view")
 
@@ -171,7 +171,9 @@ async def anime_view(
         text += f" (<code>{anime['title']['native']}</code>)"
     text += _("\n\n<b>ID</b>: <code>{id}</code>").format(id=anime["id"])
     if anime["format"]:
-        text += _("\n<b>Format</b>: <code>{format}</code>").format(format=anime["format"])
+        text += _("\n<b>Format</b>: <code>{format}</code>").format(
+            format=await i18n_anilist_format(anime["format"])
+        )
     if anime["format"] != "MOVIE" and anime["episodes"]:
         text += _("\n<b>Episodes</b>: <code>{episodes}</code>").format(episodes=anime["episodes"])
     if anime["duration"]:
@@ -200,7 +202,7 @@ async def anime_view(
         )
     if anime["source"]:
         text += _("\n<b>Source</b>: <code>{source}</code>").format(
-            source=anime["source"].capitalize()
+            source=await i18n_anilist_source(anime["source"])
         )
     if anime["genres"]:
         text += _("\n<b>Genres</b>: <code>{genres}</code>").format(

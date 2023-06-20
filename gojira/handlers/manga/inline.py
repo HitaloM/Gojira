@@ -12,6 +12,7 @@ from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from gojira import AniList, bot
+from gojira.utils.language import i18n_anilist_format, i18n_anilist_source, i18n_anilist_status
 
 router = Router(name="manga_inline")
 
@@ -86,8 +87,10 @@ async def manga_inline(inline: InlineQuery, match: re.Match[str]):
         if manga["title"]["native"]:
             text += f" (<code>{manga['title']['native']}</code>)"
         text += _("\n\n<b>ID</b>: <code>{id}</code>").format(id=manga["id"]) + " (<b>MANGA</b>)"
-        if manga["format"]:
-            text += _("\n<b>Format</b>: <code>{format}</code>").format(format=manga["format"])
+        if await i18n_anilist_format(manga["format"]):
+            text += _("\n<b>Format</b>: <code>{format}</code>").format(
+                format=await i18n_anilist_format(manga["format"])
+            )
         if manga["volumes"]:
             text += _("\n<b>Volumes</b>: <code>{volumes}</code>").format(volumes=manga["volumes"])
         if manga["chapters"]:
@@ -96,7 +99,7 @@ async def manga_inline(inline: InlineQuery, match: re.Match[str]):
             )
         if manga["status"]:
             text += _("\n<b>Status</b>: <code>{status}</code>").format(
-                status=manga["status"].capitalize()
+                status=await i18n_anilist_status(manga["status"])
             )
         if manga["status"] != "NOT_YET_RELEASED":
             text += _("\n<b>Start Date</b>: <code>{date}</code>").format(date=start_date)
@@ -108,7 +111,7 @@ async def manga_inline(inline: InlineQuery, match: re.Match[str]):
             )
         if manga["source"]:
             text += _("\n<b>Source</b>: <code>{source}</code>").format(
-                source=manga["source"].capitalize()
+                source=await i18n_anilist_source(manga["source"])
             )
         if manga["genres"]:
             text += _("\n<b>Genres</b>: <code>{genres}</code>").format(
