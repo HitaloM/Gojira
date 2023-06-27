@@ -67,8 +67,7 @@ class SqliteConnection:
                 log.error(e)
             else:
                 if fetch:
-                    result = await cursor.fetchall() if mult else await cursor.fetchone()
-                    return result
+                    return await cursor.fetchall() if mult else await cursor.fetchone()
                 await conn.commit()
 
     @staticmethod
