@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-19 22:50-0300\n"
+"POT-Creation-Date: 2023-06-30 23:36-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,10 +45,10 @@ msgstr ""
 #: gojira/handlers/anime/categories.py:64
 #: gojira/handlers/anime/categories.py:104 gojira/handlers/anime/popular.py:45
 #: gojira/handlers/anime/start.py:38 gojira/handlers/anime/upcoming.py:64
-#: gojira/handlers/anime/upcoming.py:71 gojira/handlers/anime/view.py:324
-#: gojira/handlers/anime/view.py:409 gojira/handlers/anime/view.py:512
-#: gojira/handlers/anime/view.py:611 gojira/handlers/anime/view.py:744
-#: gojira/handlers/anime/view.py:831 gojira/handlers/character/popular.py:44
+#: gojira/handlers/anime/upcoming.py:71 gojira/handlers/anime/view.py:329
+#: gojira/handlers/anime/view.py:414 gojira/handlers/anime/view.py:517
+#: gojira/handlers/anime/view.py:616 gojira/handlers/anime/view.py:749
+#: gojira/handlers/anime/view.py:836 gojira/handlers/character/popular.py:44
 #: gojira/handlers/character/start.py:28 gojira/handlers/language.py:65
 #: gojira/handlers/manga/categories.py:64
 #: gojira/handlers/manga/categories.py:103 gojira/handlers/manga/popular.py:44
@@ -97,7 +97,7 @@ msgstr ""
 msgid "👤 Character"
 msgstr ""
 
-#: gojira/handlers/anime/view.py:297 gojira/handlers/manga/view.py:273
+#: gojira/handlers/anime/view.py:302 gojira/handlers/manga/view.py:273
 #: gojira/handlers/pm_menu.py:82
 msgid "👨‍💻 Staff"
 msgstr ""
@@ -129,7 +129,7 @@ msgid "📚 Channel"
 msgstr ""
 
 #: gojira/handlers/anime/schedule.py:36 gojira/handlers/anime/upcoming.py:35
-#: gojira/handlers/anime/view.py:70 gojira/handlers/anime/view.py:661
+#: gojira/handlers/anime/view.py:75 gojira/handlers/anime/view.py:666
 #: gojira/handlers/character/view.py:56 gojira/handlers/manga/upcoming.py:35
 #: gojira/handlers/manga/view.py:66 gojira/handlers/upcoming.py:32
 msgid "This button is not for you."
@@ -143,10 +143,10 @@ msgstr ""
 msgid "You need to specify an user. Use /user name or id"
 msgstr ""
 
-#: gojira/handlers/anime/scan.py:90 gojira/handlers/anime/view.py:87
-#: gojira/handlers/anime/view.py:92 gojira/handlers/anime/view.py:119
-#: gojira/handlers/anime/view.py:123 gojira/handlers/anime/view.py:130
-#: gojira/handlers/anime/view.py:678 gojira/handlers/anime/view.py:683
+#: gojira/handlers/anime/scan.py:90 gojira/handlers/anime/view.py:92
+#: gojira/handlers/anime/view.py:97 gojira/handlers/anime/view.py:124
+#: gojira/handlers/anime/view.py:128 gojira/handlers/anime/view.py:135
+#: gojira/handlers/anime/view.py:683 gojira/handlers/anime/view.py:688
 #: gojira/handlers/character/view.py:73 gojira/handlers/character/view.py:78
 #: gojira/handlers/character/view.py:105 gojira/handlers/character/view.py:109
 #: gojira/handlers/character/view.py:116 gojira/handlers/manga/view.py:83
@@ -162,7 +162,7 @@ msgstr ""
 msgid "No results found."
 msgstr ""
 
-#: gojira/handlers/anime/view.py:110 gojira/handlers/anime/view.py:701
+#: gojira/handlers/anime/view.py:115 gojira/handlers/anime/view.py:706
 #: gojira/handlers/character/view.py:96 gojira/handlers/manga/view.py:106
 #: gojira/handlers/staff/view.py:91 gojira/handlers/studio/view.py:91
 #: gojira/handlers/user.py:90
@@ -211,7 +211,7 @@ msgstr ""
 msgid "Manga Stats"
 msgstr ""
 
-#: gojira/handlers/anime/view.py:319 gojira/handlers/character/view.py:136
+#: gojira/handlers/anime/view.py:324 gojira/handlers/character/view.py:136
 #: gojira/handlers/manga/view.py:277 gojira/handlers/staff/view.py:128
 #: gojira/handlers/studio/view.py:126 gojira/handlers/user.py:145
 msgid "🐢 AniList"
@@ -344,7 +344,7 @@ msgstr ""
 msgid "Below are up to <b>50</b> results from the <b>{genre}</b> category."
 msgstr ""
 
-#: gojira/handlers/anime/inline.py:97 gojira/handlers/anime/view.py:172
+#: gojira/handlers/anime/inline.py:102 gojira/handlers/anime/view.py:177
 #: gojira/handlers/manga/inline.py:89 gojira/handlers/manga/view.py:160
 msgid ""
 "\n"
@@ -352,93 +352,93 @@ msgid ""
 "<b>ID</b>: <code>{id}</code>"
 msgstr ""
 
-#: gojira/handlers/anime/inline.py:99 gojira/handlers/anime/view.py:174
+#: gojira/handlers/anime/inline.py:104 gojira/handlers/anime/view.py:179
 #: gojira/handlers/manga/inline.py:91 gojira/handlers/manga/view.py:162
 msgid ""
 "\n"
 "<b>Format</b>: <code>{format}</code>"
 msgstr ""
 
-#: gojira/handlers/anime/inline.py:103 gojira/handlers/anime/view.py:178
+#: gojira/handlers/anime/inline.py:108 gojira/handlers/anime/view.py:183
 msgid ""
 "\n"
 "<b>Episodes</b>: <code>{episodes}</code>"
 msgstr ""
 
-#: gojira/handlers/anime/inline.py:107 gojira/handlers/anime/view.py:180
+#: gojira/handlers/anime/inline.py:112 gojira/handlers/anime/view.py:185
 msgid ""
 "\n"
 "<b>Episode Duration</b>: <code>{duration} mins</code>"
 msgstr ""
 
-#: gojira/handlers/anime/inline.py:110 gojira/handlers/anime/view.py:183
+#: gojira/handlers/anime/inline.py:115 gojira/handlers/anime/view.py:188
 #: gojira/handlers/manga/inline.py:101 gojira/handlers/manga/view.py:170
 msgid ""
 "\n"
 "<b>Status</b>: <code>{status}</code>"
 msgstr ""
 
-#: gojira/handlers/anime/inline.py:114 gojira/handlers/anime/view.py:187
+#: gojira/handlers/anime/inline.py:119 gojira/handlers/anime/view.py:192
 #: gojira/handlers/manga/inline.py:105 gojira/handlers/manga/view.py:174
 msgid ""
 "\n"
 "<b>Start Date</b>: <code>{date}</code>"
 msgstr ""
 
-#: gojira/handlers/anime/inline.py:116 gojira/handlers/anime/view.py:189
+#: gojira/handlers/anime/inline.py:121 gojira/handlers/anime/view.py:194
 #: gojira/handlers/manga/inline.py:107 gojira/handlers/manga/view.py:176
 msgid ""
 "\n"
 "<b>End Date</b>: <code>{date}</code>"
 msgstr ""
 
-#: gojira/handlers/anime/inline.py:119 gojira/handlers/anime/view.py:192
+#: gojira/handlers/anime/inline.py:124 gojira/handlers/anime/view.py:197
 msgid ""
 "\n"
 "<b>Season</b>: <code>{season}</code>"
 msgstr ""
 
-#: gojira/handlers/anime/inline.py:121 gojira/handlers/anime/view.py:194
+#: gojira/handlers/anime/inline.py:126 gojira/handlers/anime/view.py:199
 #: gojira/handlers/manga/inline.py:109 gojira/handlers/manga/view.py:178
 msgid ""
 "\n"
 "<b>Average Score</b>: <code>{score}</code>"
 msgstr ""
 
-#: gojira/handlers/anime/inline.py:125 gojira/handlers/anime/view.py:198
+#: gojira/handlers/anime/inline.py:130 gojira/handlers/anime/view.py:203
 msgid ""
 "\n"
 "<b>Studios</b>: <code>{studios}</code>"
 msgstr ""
 
-#: gojira/handlers/anime/inline.py:129 gojira/handlers/anime/view.py:200
+#: gojira/handlers/anime/inline.py:134 gojira/handlers/anime/view.py:205
 msgid ""
 "\n"
 "<b>Producers</b>: <code>{producers}</code>"
 msgstr ""
 
-#: gojira/handlers/anime/inline.py:133 gojira/handlers/anime/view.py:204
+#: gojira/handlers/anime/inline.py:138 gojira/handlers/anime/view.py:209
 #: gojira/handlers/manga/inline.py:113 gojira/handlers/manga/view.py:182
 msgid ""
 "\n"
 "<b>Source</b>: <code>{source}</code>"
 msgstr ""
 
-#: gojira/handlers/anime/inline.py:137 gojira/handlers/anime/view.py:208
+#: gojira/handlers/anime/inline.py:142 gojira/handlers/anime/view.py:213
 #: gojira/handlers/manga/inline.py:117 gojira/handlers/manga/view.py:186
 msgid ""
 "\n"
 "<b>Genres</b>: <code>{genres}</code>"
 msgstr ""
 
-#: gojira/handlers/anime/inline.py:141 gojira/handlers/manga/inline.py:121
+#: gojira/handlers/anime/inline.py:146 gojira/handlers/manga/inline.py:121
 msgid ""
 "\n"
 "\n"
 "<b>Short Description</b>: <i>{description}</i>"
 msgstr ""
 
-#: gojira/handlers/anime/inline.py:150 gojira/handlers/anime/view.py:216
+#: gojira/handlers/anime/inline.py:155 gojira/handlers/anime/view.py:221
 #: gojira/handlers/character/inline.py:71 gojira/handlers/manga/inline.py:130
 #: gojira/handlers/manga/view.py:194 gojira/handlers/staff/inline.py:74
 msgid "👓 View More"
@@ -576,99 +576,99 @@ msgstr ""
 msgid "Below are the <b>50</b> animes that have not yet been released."
 msgstr ""
 
-#: gojira/handlers/anime/view.py:52
+#: gojira/handlers/anime/view.py:57
 msgid "You need to specify an anime. Use /anime name or id"
 msgstr ""
 
-#: gojira/handlers/anime/view.py:229 gojira/handlers/manga/view.py:207
+#: gojira/handlers/anime/view.py:234 gojira/handlers/manga/view.py:207
 msgid "➡️ Sequel"
 msgstr ""
 
-#: gojira/handlers/anime/view.py:229 gojira/handlers/manga/view.py:207
+#: gojira/handlers/anime/view.py:234 gojira/handlers/manga/view.py:207
 msgid "⬅️ Prequel"
 msgstr ""
 
-#: gojira/handlers/anime/view.py:277 gojira/handlers/anime/view.py:356
-#: gojira/handlers/anime/view.py:441 gojira/handlers/anime/view.py:541
-#: gojira/handlers/anime/view.py:778 gojira/handlers/manga/view.py:256
+#: gojira/handlers/anime/view.py:282 gojira/handlers/anime/view.py:361
+#: gojira/handlers/anime/view.py:446 gojira/handlers/anime/view.py:546
+#: gojira/handlers/anime/view.py:783 gojira/handlers/manga/view.py:256
 #: gojira/handlers/manga/view.py:314 gojira/handlers/manga/view.py:399
 #: gojira/handlers/manga/view.py:499 gojira/handlers/studio/view.py:149
 msgid "This button is not for you"
 msgstr ""
 
-#: gojira/handlers/anime/view.py:289 gojira/handlers/manga/view.py:265
+#: gojira/handlers/anime/view.py:294 gojira/handlers/manga/view.py:265
 msgid "📜 Description"
 msgstr ""
 
-#: gojira/handlers/anime/view.py:293 gojira/handlers/manga/view.py:269
-msgid "🧑‍🤝‍🧑 Characters"
+#: gojira/handlers/anime/view.py:298 gojira/handlers/manga/view.py:269
+msgid "👨‍👩‍👧‍👦 Characters"
 msgstr ""
 
-#: gojira/handlers/anime/view.py:301
+#: gojira/handlers/anime/view.py:306
 msgid "🌆 Studios"
 msgstr ""
 
-#: gojira/handlers/anime/view.py:305
+#: gojira/handlers/anime/view.py:310
 msgid "📺 Airing"
 msgstr ""
 
-#: gojira/handlers/anime/view.py:317
+#: gojira/handlers/anime/view.py:322
 msgid "🎦 Trailer"
 msgstr ""
 
-#: gojira/handlers/anime/view.py:332
+#: gojira/handlers/anime/view.py:337
 msgid ""
 "Here you will be able to see the description, characters, staff and some "
 "other things, make good use of it. 🙃"
 msgstr ""
 
-#: gojira/handlers/anime/view.py:367
+#: gojira/handlers/anime/view.py:372
 msgid "This anime does not have a description."
 msgstr ""
 
-#: gojira/handlers/anime/view.py:452
+#: gojira/handlers/anime/view.py:457
 msgid "This anime does not have characters."
 msgstr ""
 
-#: gojira/handlers/anime/view.py:520 gojira/handlers/manga/view.py:478
+#: gojira/handlers/anime/view.py:525 gojira/handlers/manga/view.py:478
 msgid "Below are some characters from the item in question."
 msgstr ""
 
-#: gojira/handlers/anime/view.py:552 gojira/handlers/manga/view.py:510
+#: gojira/handlers/anime/view.py:557 gojira/handlers/manga/view.py:510
 msgid "This anime does not have staff."
 msgstr ""
 
-#: gojira/handlers/anime/view.py:619 gojira/handlers/manga/view.py:577
+#: gojira/handlers/anime/view.py:624 gojira/handlers/manga/view.py:577
 msgid "Below are some persons from the item in question."
 msgstr ""
 
-#: gojira/handlers/anime/view.py:643
+#: gojira/handlers/anime/view.py:648
 msgid "You need to specify an anime. Use /airing name or id"
 msgstr ""
 
-#: gojira/handlers/anime/view.py:711
+#: gojira/handlers/anime/view.py:716
 msgid ""
 "See below when the next episode of the anime in question will air.\n"
 "\n"
 msgstr ""
 
-#: gojira/handlers/anime/view.py:713 gojira/handlers/anime/view.py:724
+#: gojira/handlers/anime/view.py:718 gojira/handlers/anime/view.py:729
 msgid "<b>Status:</b> <code>{status}</code>\n"
 msgstr ""
 
-#: gojira/handlers/anime/view.py:716
+#: gojira/handlers/anime/view.py:721
 msgid "<b>Episode:</b> <code>{episode}</code>\n"
 msgstr ""
 
-#: gojira/handlers/anime/view.py:719
+#: gojira/handlers/anime/view.py:724
 msgid "<b>Airing:</b> <code>{airing_time}</code>"
 msgstr ""
 
-#: gojira/handlers/anime/view.py:727
+#: gojira/handlers/anime/view.py:732
 msgid "<b>Episodes:</b> <code>{episode}</code>\n"
 msgstr ""
 
-#: gojira/handlers/anime/view.py:839
+#: gojira/handlers/anime/view.py:844
 msgid "Below are some studios from the item in question."
 msgstr ""
 
@@ -982,4 +982,20 @@ msgstr ""
 
 #: gojira/utils/language.py:78
 msgid "One Shot"
+msgstr ""
+
+#: gojira/utils/language.py:85
+msgid "Winter"
+msgstr ""
+
+#: gojira/utils/language.py:86
+msgid "Spring"
+msgstr ""
+
+#: gojira/utils/language.py:87
+msgid "Summer"
+msgstr ""
+
+#: gojira/utils/language.py:88
+msgid "Fall"
 msgstr ""

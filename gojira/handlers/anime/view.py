@@ -23,7 +23,12 @@ from gojira.utils.callback_data import (
     AnimeStaffCallback,
     AnimeStudioCallback,
 )
-from gojira.utils.language import i18n_anilist_format, i18n_anilist_source, i18n_anilist_status
+from gojira.utils.language import (
+    i18n_anilist_format,
+    i18n_anilist_season,
+    i18n_anilist_source,
+    i18n_anilist_status,
+)
 
 router = Router(name="anime_view")
 
@@ -188,7 +193,7 @@ async def anime_view(
     if anime["status"] not in ("NOT_YET_RELEASED", "RELEASING"):
         text += _("\n<b>End Date</b>: <code>{date}</code>").format(date=end_date)
     if anime["season"]:
-        season = f"{anime['season'].capitalize()} {anime['seasonYear']}"
+        season = f"{await i18n_anilist_season(anime['season'])} {anime['seasonYear']}"
         text += _("\n<b>Season</b>: <code>{season}</code>").format(season=season)
     if anime["averageScore"]:
         text += _("\n<b>Average Score</b>: <code>{score}</code>").format(
@@ -290,7 +295,7 @@ async def anime_more(callback: CallbackQuery, callback_data: AnimeMoreCallback):
         callback_data=AnimeDescCallback(anime_id=anime_id, user_id=user_id),
     )
     keyboard.button(
-        text=_("🧑‍🤝‍🧑 Characters"),
+        text=_("👨‍👩‍👧‍👦 Characters"),
         callback_data=AnimeCharCallback(anime_id=anime_id, user_id=user_id),
     )
     keyboard.button(

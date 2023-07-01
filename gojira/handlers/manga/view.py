@@ -266,7 +266,7 @@ async def manga_more(callback: CallbackQuery, callback_data: MangaMoreCallback):
         callback_data=MangaDescCallback(manga_id=manga_id, user_id=user_id),
     )
     keyboard.button(
-        text=_("🧑‍🤝‍🧑 Characters"),
+        text=_("👨‍👩‍👧‍👦 Characters"),
         callback_data=MangaCharCallback(manga_id=manga_id, user_id=user_id),
     )
     keyboard.button(

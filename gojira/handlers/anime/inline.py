@@ -12,7 +12,12 @@ from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from gojira import AniList, bot
-from gojira.utils.language import i18n_anilist_format, i18n_anilist_source, i18n_anilist_status
+from gojira.utils.language import (
+    i18n_anilist_format,
+    i18n_anilist_season,
+    i18n_anilist_source,
+    i18n_anilist_status,
+)
 
 router = Router(name="anime_inline")
 
@@ -115,7 +120,7 @@ async def anime_inline(inline: InlineQuery, match: re.Match[str]):
         if anime["status"] not in ("NOT_YET_RELEASED", "RELEASING"):
             text += _("\n<b>End Date</b>: <code>{date}</code>").format(date=end_date)
         if anime["season"]:
-            season = f"{anime['season'].capitalize()} {anime['seasonYear']}"
+            season = f"{await i18n_anilist_season(anime['season'])} {anime['seasonYear']}"
             text += _("\n<b>Season</b>: <code>{season}</code>").format(season=season)
         if anime["averageScore"]:
             text += _("\n<b>Average Score</b>: <code>{score}</code>").format(

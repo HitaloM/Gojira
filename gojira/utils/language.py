@@ -78,3 +78,13 @@ async def i18n_anilist_format(format: str) -> str:
         "ONE_SHOT": _("One Shot"),
     }
     return format_dict.get(format, "")
+
+
+async def i18n_anilist_season(season: str) -> str:
+    season_dict = {
+        "WINTER": _("Winter"),
+        "SPRING": _("Spring"),
+        "SUMMER": _("Summer"),
+        "FALL": _("Fall"),
+    }
+    return season_dict.get(season, "")
