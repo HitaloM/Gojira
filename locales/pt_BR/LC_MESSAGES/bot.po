@@ -965,4 +965,3 @@ msgstr "Verão"
 #: gojira/utils/language.py:88
 msgid "Fall"
 msgstr "Outono"
-
