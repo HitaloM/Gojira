@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: gojira\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-06-30 23:36-0300\n"
-"PO-Revision-Date: 2023-07-01 03:02\n"
+"PO-Revision-Date: 2023-07-01 03:04\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "MIME-Version: 1.0\n"
@@ -582,7 +582,7 @@ msgstr "📜 Descrição"
 
 #: gojira/handlers/anime/view.py:298 gojira/handlers/manga/view.py:269
 msgid "👨‍👩‍👧‍👦 Characters"
-msgstr ""
+msgstr "👨‍👩‍👧‍👦 Personagens"
 
 #: gojira/handlers/anime/view.py:306
 msgid "🌆 Studios"
@@ -952,16 +952,17 @@ msgstr "One Shot"
 
 #: gojira/utils/language.py:85
 msgid "Winter"
-msgstr ""
+msgstr "Inverno"
 
 #: gojira/utils/language.py:86
 msgid "Spring"
-msgstr ""
+msgstr "Primavera"
 
 #: gojira/utils/language.py:87
 msgid "Summer"
-msgstr ""
+msgstr "Verão"
 
 #: gojira/utils/language.py:88
 msgid "Fall"
-msgstr ""
+msgstr "Outono"
+
