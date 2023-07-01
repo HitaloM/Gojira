@@ -11,11 +11,11 @@ from gojira import app_dir
 from gojira.utils.logging import log
 
 T = TypeVar("T")
-db_path: Path = app_dir / "gojira/database/db.sqlite3"
+DB_PATH: Path = app_dir / "gojira/database/db.sqlite3"
 
 
 class SqliteDBConn:
-    def __init__(self, db_name: Path = db_path) -> None:
+    def __init__(self, db_name: Path = DB_PATH) -> None:
         self.db_name = db_name
 
     async def __aenter__(self) -> aiosqlite.Connection:
@@ -56,7 +56,7 @@ class SqliteConnection:
         fetch: bool = False,
         mult: bool = False,
     ) -> Any:
-        async with SqliteDBConn(db_path) as conn:
+        async with SqliteDBConn(DB_PATH) as conn:
             try:
                 cursor = (
                     await conn.executemany(sql, params)
@@ -80,7 +80,7 @@ class SqliteConnection:
         params: tuple = (),
         fetch: bool = False,
         mult: bool = False,
-        model_type: type[T] = None,
+        model_type: type[T] | None = None,
     ) -> T | list[T] | str | None:
         raw = await SqliteConnection.__make_request(sql, params, fetch, mult)
         if raw is None:

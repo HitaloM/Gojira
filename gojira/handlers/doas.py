@@ -5,12 +5,14 @@ import datetime
 import html
 import io
 import os
+import shutil
 import sys
 import traceback
 from pathlib import Path
 from signal import SIGINT
 
 import aiofiles
+import humanize
 import msgspec
 from aiogram import F, Router
 from aiogram.filters import Command, CommandObject
@@ -18,7 +20,8 @@ from aiogram.types import BufferedInputFile, CallbackQuery, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from meval import meval
 
-from gojira import cache
+from gojira import cache, i18n
+from gojira.database import DB_PATH, Chats, Users
 from gojira.filters.user_status import IsSudo
 from gojira.utils.callback_data import StartCallback
 from gojira.utils.systools import ShellException, parse_commits, shell_run
@@ -206,3 +209,23 @@ async def ping(message: Message):
     sent = await message.reply("<b>Pong!</b>")
     delta = (datetime.datetime.now(tz=datetime.UTC) - start).total_seconds() * 1000
     await sent.edit_text(f"<b>Pong!</b> <code>{delta:.2f}ms</code>")
+
+
+@router.message(Command("stats"))
+async def bot_stats(message: Message):
+    db_size = humanize.naturalsize(os.stat(DB_PATH).st_size, binary=True)
+    text = f"\n<b>Database Size</b>: <code>{db_size}</code>"
+    disk = shutil.disk_usage("/")
+    text += f"\n<b>Free Storage</b>: <code>{humanize.naturalsize(disk[2], binary=True)}</code>"
+
+    text += f"\n\n<b>Total Users</b>: <code>{await Users.get_users_count()}</code>"
+    for language in (*i18n.available_locales, i18n.default_locale):
+        users = await Users.get_users_count(language_code=language)
+        text += f"\n<b>{language}</b>: <code>{users}</code>"
+
+    text += f"\n\n<b>Total Groups</b>: <code>{await Chats.get_chats_count()}</code>"
+    for language in (*i18n.available_locales, i18n.default_locale):
+        groups = await Chats.get_chats_count(language_code=language)
+        text += f"\n<b>{language}</b>: <code>{groups}</code>"
+
+    await message.reply(text)
