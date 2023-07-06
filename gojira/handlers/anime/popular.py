@@ -26,10 +26,7 @@ async def anime_popular(callback: CallbackQuery, callback_data: AnimePopuCallbac
     status, data = await AniList.popular("anime")
     if data["data"]:
         items = data["data"]["Page"]["media"]
-
-        results = []
-        for item in items:
-            results.append(item)
+        results = [item.copy() for item in items]
 
         layout = Pagination(
             results,

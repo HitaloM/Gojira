@@ -41,14 +41,16 @@ line-length = 99
 src = ["gojira"]
 target-version = "py311"
 select = [
-  "E",   # pycodestyle
-  "W",   # pycodestyle
-  "F",   # pyflakes
-  "I",   # isort
-  "UP",  # pyupgrade
-  "SIM", # flake8-simplify
-  "RET", # flake8-return
-  "C4",  # flake8-comprehensions
+  "I",    # isort
+  "E",    # pycodestyle
+  "W",    # pycodestyle
+  "UP",   # pyupgrade
+  "F",    # pyflakes
+  "SIM",  # flake8-simplify
+  "RET",  # flake8-return
+  "C4",   # flake8-comprehensions
+  "PTH",  # flake8-use-pathlib
+  "PERF", # perflint
 ]
 
 [tool.ruff.isort]

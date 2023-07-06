@@ -43,9 +43,7 @@ async def manga_upcoming(callback: CallbackQuery, callback_data: MangaUpcomingCa
     status, data = await AniList.upcoming("manga")
     if data["data"]:
         items = data["data"]["Page"]["media"]
-        suggestions = []
-        for item in items:
-            suggestions.append(item)
+        suggestions = [item.copy() for item in items]
 
         layout = Pagination(
             suggestions,

@@ -26,9 +26,7 @@ async def character_popular(callback: CallbackQuery, callback_data: CharacterPop
     status, data = await AniList.popular("character")
     if data["data"]:
         items = data["data"]["Page"]["characters"]
-        results = []
-        for item in items:
-            results.append(item)
+        results = [item.copy() for item in items]
 
         layout = Pagination(
             results,

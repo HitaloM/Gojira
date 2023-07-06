@@ -26,9 +26,7 @@ async def staff_popular(callback: CallbackQuery, callback_data: StaffPopuCallbac
     status, data = await AniList.popular("staff")
     if data["data"]:
         items = data["data"]["Page"]["staff"]
-        results = []
-        for item in items:
-            results.append(item)
+        results = [item.copy() for item in items]
 
         layout = Pagination(
             results,

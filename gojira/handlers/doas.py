@@ -213,7 +213,7 @@ async def ping(message: Message):
 
 @router.message(Command("stats"))
 async def bot_stats(message: Message):
-    db_size = humanize.naturalsize(os.stat(DB_PATH).st_size, binary=True)
+    db_size = humanize.naturalsize(Path.stat(DB_PATH).st_size, binary=True)
     text = f"\n<b>Database Size</b>: <code>{db_size}</code>"
     disk = shutil.disk_usage("/")
     text += f"\n<b>Free Storage</b>: <code>{humanize.naturalsize(disk[2], binary=True)}</code>"
