@@ -1,8 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
-from pydantic import AnyHttpUrl, SecretStr
-from pydantic_settings import BaseSettings
+from pydantic import AnyHttpUrl, BaseSettings, SecretStr
 
 
 class Settings(BaseSettings):

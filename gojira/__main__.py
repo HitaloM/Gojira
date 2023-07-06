@@ -7,7 +7,7 @@ import sys
 import sentry_sdk
 from cashews.exceptions import CacheBackendInteractionError
 
-from gojira import AniList, bot, cache, config, dp, i18n
+from gojira import AniList, Jikan, TraceMoe, bot, cache, config, dp, i18n
 from gojira.handlers import (
     anime,
     character,
@@ -72,6 +72,8 @@ async def main():
     await dp.start_polling(bot, allowed_updates=useful_updates)
 
     await AniList.close()
+    await Jikan.close()
+    await TraceMoe.close()
     await cache.clear()
 
 
