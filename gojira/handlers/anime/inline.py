@@ -6,6 +6,7 @@ import re
 from contextlib import suppress
 
 from aiogram import F, Router
+from aiogram.enums import InlineQueryResultType
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import InlineQuery, InlineQueryResult, InlineQueryResultPhoto
 from aiogram.utils.i18n import gettext as _
@@ -162,10 +163,10 @@ async def anime_inline(inline: InlineQuery, match: re.Match[str]):
 
         results.append(
             InlineQueryResultPhoto(
-                type="photo",
+                type=InlineQueryResultType.PHOTO,
                 id=str(random.getrandbits(64)),
                 photo_url=photo,
-                thumb_url=photo,
+                thumbnail_url=photo,
                 title=f"{anime['title']['romaji']} {anime_format}",
                 description=description,
                 caption=text,

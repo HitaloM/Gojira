@@ -39,7 +39,7 @@ async def main():
         log.info("Starting sentry.io integraion...")
 
         sentry_sdk.init(
-            config.sentry_url,
+            str(config.sentry_url),
             traces_sample_rate=1.0,
         )
 

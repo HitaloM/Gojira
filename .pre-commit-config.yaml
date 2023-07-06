@@ -1,28 +1,28 @@
 ci:
-    autofix_commit_msg: "CI: Automatic fixes from pre-commit hooks"
-    autofix_prs: true
-    autoupdate_commit_msg: "CI: Updates pre-commit hooks"
+  autofix_commit_msg: "CI: Automatic fixes from pre-commit hooks"
+  autofix_prs: true
+  autoupdate_commit_msg: "CI: Updates pre-commit hooks"
 
 repos:
-    - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v4.4.0
-      hooks:
-          - id: check-merge-conflict
-          - id: detect-private-key
-          - id: end-of-file-fixer
-          - id: trailing-whitespace
-          - id: mixed-line-ending
-          - id: check-toml
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+      - id: check-toml
 
-    - repo: https://github.com/charliermarsh/ruff-pre-commit
-      rev: v0.0.275
-      hooks:
-          - id: ruff
-            files: gojira
-            args: [--fix, --exit-non-zero-on-fix]
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.0.277
+    hooks:
+      - id: ruff
+        files: gojira
+        args: [--fix, --exit-non-zero-on-fix]
 
-    - repo: https://github.com/psf/black
-      rev: 23.3.0
-      hooks:
-          - id: black
-            files: gojira
+  - repo: https://github.com/psf/black
+    rev: 23.3.0
+    hooks:
+      - id: black
+        files: gojira

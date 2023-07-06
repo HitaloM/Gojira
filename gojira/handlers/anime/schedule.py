@@ -29,7 +29,7 @@ async def anime_schedule(
     if not message or not user:
         return
 
-    if is_callback:
+    if is_callback and callback_data:
         user_id = callback_data.user_id
         if user_id != user.id:
             await union.answer(
@@ -49,7 +49,7 @@ async def anime_schedule(
         5: ["Saturday", _("Saturday")],
         6: ["Sunday", _("Sunday")],
     }
-    day_name = day_map.get(day, "Invalid day")
+    day_name = day_map.get(day, "None")
     status, data = await Jikan.schedules(day=day_name[0].lower())
     animes = data["data"]
 
@@ -69,12 +69,12 @@ available on AniList, that's why the bot will not be able to show the anime info
     keyboard = InlineKeyboardBuilder()
     if day > 0:
         keyboard.button(
-            text=f"⬅️ {day_map.get(day - 1)[1]}",
+            text=f"⬅️ {day_map.get(day - 1, ['None', 'None'])[1]}",
             callback_data=ScheduleCallback(user_id=user.id, day=day - 1),
         )
     if day < 6:
         keyboard.button(
-            text=f"➡️ {day_map.get(day + 1)[1]}",
+            text=f"➡️ {day_map.get(day + 1, ['None', 'None'])[1]}",
             callback_data=ScheduleCallback(user_id=user.id, day=day + 1),
         )
 

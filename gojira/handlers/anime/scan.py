@@ -5,7 +5,7 @@ from contextlib import suppress
 from datetime import timedelta
 
 from aiogram import Router
-from aiogram.enums import ChatType
+from aiogram.enums import ChatType, InputMediaType
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command
 from aiogram.types import Document, InputMediaPhoto, Message, Video
@@ -53,8 +53,8 @@ async def anime_scan(message: Message):
         return
 
     if isinstance(media, Document | Video):
-        if media.thumb:
-            media = media.thumb
+        if media.thumbnail:
+            media = media.thumbnail
         else:
             return
 
@@ -119,7 +119,7 @@ async def anime_scan(message: Message):
     keyboard.button(text=_("👓 View more"), callback_data=AnimeCallback(query=anilist_id))
     sent = await sent.edit_media(
         InputMediaPhoto(
-            type="photo",
+            type=InputMediaType.PHOTO,
             media=f"https://img.anili.st/media/{anilist_id}",
             caption=text,
         ),

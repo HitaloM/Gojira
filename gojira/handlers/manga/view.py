@@ -4,7 +4,7 @@
 import math
 
 from aiogram import Router
-from aiogram.enums import ChatType
+from aiogram.enums import ChatType, InputMediaType
 from aiogram.filters import Command, CommandObject
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InputMediaPhoto, Message
 from aiogram.utils.i18n import gettext as _
@@ -222,7 +222,7 @@ async def manga_view(
 
     if bool(message.photo) and is_callback:
         await message.edit_media(
-            InputMediaPhoto(type="photo", media=photo, caption=text),
+            InputMediaPhoto(type=InputMediaType.PHOTO, media=photo, caption=text),
             reply_markup=keyboard.as_markup(),
         )
         return

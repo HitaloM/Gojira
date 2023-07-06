@@ -5,7 +5,7 @@ import random
 from contextlib import suppress
 
 from aiogram import Router
-from aiogram.enums import ParseMode
+from aiogram.enums import InlineQueryResultType, ParseMode
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import (
     InlineKeyboardButton,
@@ -23,7 +23,7 @@ router = Router(name="inline")
 async def inline_help(inline: InlineQuery):
     results: list[InlineQueryResult] = [
         InlineQueryResultArticle(
-            type="article",
+            type=InlineQueryResultType.ARTICLE,
             id=str(random.getrandbits(64)),
             title="!a <anime>",
             input_message_content=InputTextMessageContent(
@@ -44,7 +44,7 @@ used in PM to get complete anime information just like `/anime`. command",
             description="Search for anime.",
         ),
         InlineQueryResultArticle(
-            type="article",
+            type=InlineQueryResultType.ARTICLE,
             id=str(random.getrandbits(64)),
             title="!m <manga>",
             input_message_content=InputTextMessageContent(
@@ -65,7 +65,7 @@ used in PM to get complete manga information just like `/manga` command.",
             description="Search for manga.",
         ),
         InlineQueryResultArticle(
-            type="article",
+            type=InlineQueryResultType.ARTICLE,
             id=str(random.getrandbits(64)),
             title="!c <character>",
             input_message_content=InputTextMessageContent(
@@ -86,7 +86,7 @@ also be used in PM to get complete character information just like `/character` 
             description="Search for character.",
         ),
         InlineQueryResultArticle(
-            type="article",
+            type=InlineQueryResultType.ARTICLE,
             id=str(random.getrandbits(64)),
             title="!s <staff>",
             input_message_content=InputTextMessageContent(
