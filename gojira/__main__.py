@@ -3,11 +3,16 @@
 
 import asyncio
 import sys
+from contextlib import suppress
 
 import sentry_sdk
+from aiogram import __version__ as aiogram_version
+from aiogram.exceptions import TelegramForbiddenError
+from aiosqlite import __version__ as aiosqlite_version
 from cashews.exceptions import CacheBackendInteractionError
 
 from gojira import AniList, Jikan, TraceMoe, bot, cache, config, dp, i18n
+from gojira import __version__ as gojira_version
 from gojira.handlers import (
     anime,
     character,
@@ -68,12 +73,29 @@ async def main():
 
     await set_ui_commands(bot, i18n)
 
+    # resolve used update types
     useful_updates = dp.resolve_used_update_types()
     await dp.start_polling(bot, allowed_updates=useful_updates)
 
+    with suppress(TelegramForbiddenError):
+        if config.logs_channel:
+            log.info("Sending startup notification...")
+            await bot.send_message(
+                config.logs_channel,
+                text=(
+                    "<b>Gojira is up and running!</b>\n\n"
+                    f"<b>Version:</b> <code>{gojira_version}</code>\n"
+                    f"<b>AIOGram version:</b> <code>{aiogram_version}</code>\n"
+                    f"<b>AIOSQLite version:</b> <code>{aiosqlite_version}</code>"
+                ),
+            )
+
+    # close aiohttp connections
     await AniList.close()
     await Jikan.close()
     await TraceMoe.close()
+
+    # clear cashews cache
     await cache.clear()
 
 

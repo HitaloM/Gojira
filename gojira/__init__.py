@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
+import asyncio
 from pathlib import Path
 
 from aiogram import Bot, Dispatcher
@@ -11,8 +12,11 @@ from cashews import cache
 from gojira.config import config
 from gojira.utils.aiohttp import AniListClient, JikanClient, TraceMoeClient
 from gojira.utils.logging import log
+from gojira.utils.systools import shell_run
 
-__version__ = "1.0.0"
+commit_count = asyncio.run(shell_run("git rev-list --count HEAD")) or "None"
+commit_hash = asyncio.run(shell_run("git rev-parse --short HEAD")) or "None"
+__version__ = f"{commit_hash} ({commit_count})"
 
 log.info("Starting Gojira... | Version: %s", __version__)
 

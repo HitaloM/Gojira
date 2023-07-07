@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     redis_host: str = "localhost"
     sentry_url: AnyHttpUrl | None = None
     sudoers: list[int] = [918317361]
+    logs_channel: int | None = None
 
     class Config:
         env_file = "data/config.env"
