@@ -8,9 +8,15 @@ from contextlib import suppress
 from aiogram import F, Router
 from aiogram.enums import InlineQueryResultType
 from aiogram.exceptions import TelegramBadRequest
-from aiogram.types import InlineQuery, InlineQueryResult, InlineQueryResultPhoto
+from aiogram.types import (
+    InlineQuery,
+    InlineQueryResult,
+    InlineQueryResultArticle,
+    InputTextMessageContent,
+)
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram.utils.markdown import hide_link
 
 from gojira import AniList, bot
 from gojira.utils.language import i18n_anilist_format, i18n_anilist_source, i18n_anilist_status
@@ -123,6 +129,8 @@ async def manga_inline(inline: InlineQuery, match: re.Match[str]):
             description=description
         )
 
+        text += f"\n{hide_link(photo)}"
+
         keyboard = InlineKeyboardBuilder()
 
         me = await bot.get_me()
@@ -133,15 +141,14 @@ async def manga_inline(inline: InlineQuery, match: re.Match[str]):
         )
 
         results.append(
-            InlineQueryResultPhoto(
-                type=InlineQueryResultType.PHOTO,
+            InlineQueryResultArticle(
+                type=InlineQueryResultType.ARTICLE,
                 id=str(random.getrandbits(64)),
-                photo_url=photo,
-                thumbnail_url=photo,
                 title=manga["title"]["romaji"],
-                description=description,
-                caption=text,
+                input_message_content=InputTextMessageContent(message_text=text),
                 reply_markup=keyboard.as_markup(),
+                description=description,
+                thumbnail_url=photo,
             )
         )
 

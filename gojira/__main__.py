@@ -81,7 +81,7 @@ async def main():
                 text=(
                     "<b>Gojira is up and running!</b>\n\n"
                     f"<b>Version:</b> <code>{gojira_version}</code>\n"
-                    f"<b>AIOGram version:</b> <code>{aiogram_version}</code>\n"
+                    f"<b>AIOgram version:</b> <code>{aiogram_version}</code>\n"
                     f"<b>AIOSQLite version:</b> <code>{aiosqlite_version}</code>"
                 ),
             )
