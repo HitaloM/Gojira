@@ -73,10 +73,6 @@ async def main():
 
     await set_ui_commands(bot, i18n)
 
-    # resolve used update types
-    useful_updates = dp.resolve_used_update_types()
-    await dp.start_polling(bot, allowed_updates=useful_updates)
-
     with suppress(TelegramForbiddenError):
         if config.logs_channel:
             log.info("Sending startup notification...")
@@ -89,6 +85,10 @@ async def main():
                     f"<b>AIOSQLite version:</b> <code>{aiosqlite_version}</code>"
                 ),
             )
+
+    # resolve used update types
+    useful_updates = dp.resolve_used_update_types()
+    await dp.start_polling(bot, allowed_updates=useful_updates)
 
     # close aiohttp connections
     await AniList.close()
