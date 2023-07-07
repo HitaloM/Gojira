@@ -22,8 +22,14 @@ async def view(message: Message):
         return
 
     me = await bot.get_me()
-    if message.via_bot.id == me.id and message.photo and message.caption:
-        for line in message.caption.splitlines():
+    if message.via_bot.id == me.id and message.photo or message.text:
+        for line in (
+            message.caption.splitlines()
+            if message.caption
+            else message.text.splitlines()
+            if message.text
+            else []
+        ):
             if "ID:" in line:
                 matches = re.match(r"ID: (\d+) \((\w+)\)", line)
                 if matches:
