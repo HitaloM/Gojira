@@ -1,5 +1,6 @@
 [project]
 name = "gojira"
+version = "1.0.0"
 description = "A Telegram bot that retrieves data from the Anilist API, specifically for manga and anime content."
 readme = "README.rst"
 license = { file = "LICENSE" }
@@ -20,7 +21,6 @@ dependencies = [
   "sentry-sdk>=1.24.0",
   "pydantic[dotenv]==1.10.11",
 ]
-dynamic = ["version"]
 
 [build-system]
 requires = ["hatchling"]
