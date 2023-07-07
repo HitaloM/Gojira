@@ -26,11 +26,14 @@ class ACLMiddleware(BaseMiddleware):
         if user and not user.is_bot:
             userdb = await Users.get_user(user=user)
             if not userdb:
-                try:
-                    locale = Locale.parse(user.language_code, sep="-")
-                    if str(locale) not in i18n.available_locales:
+                if user.language_code:
+                    try:
+                        locale = Locale.parse(user.language_code, sep="-")
+                        if str(locale) not in i18n.available_locales:
+                            locale = i18n.default_locale
+                    except UnknownLocaleError:
                         locale = i18n.default_locale
-                except UnknownLocaleError:
+                else:
                     locale = i18n.default_locale
 
                 if chat and chat.type == ChatType.PRIVATE:
