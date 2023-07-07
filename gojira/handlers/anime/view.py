@@ -789,6 +789,14 @@ async def anime_studio(callback: CallbackQuery, callback_data: AnimeStudioCallba
     status, data = await AniList.get_astudios("anime", anime_id)
     studio = data["data"]["Page"]["media"][0]["studios"]["nodes"]
 
+    if not studio:
+        await callback.answer(
+            _("This anime does not have studio."),
+            show_alert=True,
+            cache_time=60,
+        )
+        return
+
     me = await bot.get_me()
     studio_text = ""
     studios = sorted(studio, key=lambda x: x["name"])
