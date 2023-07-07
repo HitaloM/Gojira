@@ -93,7 +93,7 @@ async def bot_update(message: Message):
             await sent.edit_text("There is nothing to update.")
             return
     except ShellException as error:
-        await sent.edit_text(f"<code>{error}</code>")
+        await sent.edit_text(f"<code>{html.escape(str(error))}</code>")
         return
 
     commits = parse_commits(stdout)
@@ -127,7 +127,7 @@ async def upgrade_callback(callback: CallbackQuery):
         try:
             stdout += await shell_run(command)
         except ShellException as error:
-            await sent.edit_text(f"<code>{error}</code>")
+            await sent.edit_text(f"<code>{html.escape(str(error))}</code>")
             return
 
     await sent.reply("Uploading logs...")
@@ -148,7 +148,7 @@ async def bot_shell(message: Message, command: CommandObject):
     try:
         stdout = await shell_run(command=code)
     except ShellException as error:
-        await sent.edit_text(f"<code>{error}</code>")
+        await sent.edit_text(f"<code>{html.escape(str(error))}</code>")
         return
 
     output = f"<b>Input\n&gt;</b> <code>{code}</code>\n\n"
