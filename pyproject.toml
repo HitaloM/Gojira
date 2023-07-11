@@ -1,13 +1,8 @@
 [project]
+
 name = "gojira"
-version = "1.0.0"
-description = "A Telegram bot that retrieves data from the Anilist API, specifically for manga and anime content."
-readme = "README.rst"
-license = { file = "LICENSE" }
-requires-python = ">=3.11"
-authors = [{ name = "Hitalo M." }]
 dependencies = [
-  "aiogram[fast,i18n] @ git+https://github.com/aiogram/aiogram.git@066d16b522ec77c5c4a71120fd29b8086044f675",
+  "aiogram[fast,i18n] @ git+https://github.com/aiogram/aiogram.git",
   "aiohttp[speedups]>=3.8.4",
   "aiosqlite>=0.19.0",
   "lxml>=4.9.2",
@@ -19,8 +14,15 @@ dependencies = [
   "msgspec>=0.15.1",
   "aiofiles>=23.1.0",
   "sentry-sdk>=1.24.0",
-  "pydantic[dotenv]==1.10.11",
+  "pydantic>=2.0.2",
+  "pydantic-settings>=2.0.1",
 ]
+version = "1.0.0"
+description = "A Telegram bot that retrieves data from the Anilist API, specifically for manga and anime content."
+readme = "README.rst"
+license = { file = "LICENSE" }
+requires-python = ">=3.11"
+authors = [{ name = "Hitalo M." }]
 
 [build-system]
 requires = ["hatchling"]
