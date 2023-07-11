@@ -90,7 +90,10 @@ class Pagination:
         keyboard_markup = InlineKeyboardBuilder()
         for line in kb_lines:
             keyboard_markup.row(
-                *(InlineKeyboardButton(text=button[0], callback_data=button[1]) for button in line)
+                *(
+                    InlineKeyboardButton(text=str(button[0]), callback_data=button[1])
+                    for button in line
+                )
             )
 
         return keyboard_markup
