@@ -33,7 +33,10 @@ async def view(message: Message):
             if "ID:" in line:
                 matches = re.match(r"ID: (\d+) \((\w+)\)", line)
                 if matches:
-                    content_type, content_id = matches.group(2).lower(), int(matches.group(1))
+                    content_type, content_id = (
+                        matches.group(2).lower(),
+                        int(matches.group(1)),
+                    )
 
                     if content_type == "anime":
                         await anime_view(message, anime_id=content_id)

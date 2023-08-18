@@ -4,7 +4,7 @@
 import datetime
 
 from aiogram import Router
-from aiogram.filters import Command, CommandObject
+from aiogram.filters import Command
 from aiogram.types import CallbackQuery, Message
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
@@ -19,9 +19,7 @@ router = Router(name="anime_schedule")
 @router.message(Command("schedule"))
 @router.callback_query(ScheduleCallback.filter())
 async def anime_schedule(
-    union: Message | CallbackQuery,
-    command: CommandObject | None = None,
-    callback_data: ScheduleCallback | None = None,
+    union: Message | CallbackQuery, callback_data: ScheduleCallback | None = None
 ):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union

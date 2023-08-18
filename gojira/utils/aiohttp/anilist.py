@@ -116,7 +116,7 @@ class AniListClient(AiohttpBaseClient):
 
     @cache(ttl="1h")
     async def get(
-        self, media: str, id: int, mal: bool = False
+        self, media: str, media_id: int, mal: bool = False
     ) -> tuple[int, dict[str, Any]] | tuple[None, None]:
         if media.lower() == "character":
             return await self._make_request(
@@ -125,7 +125,7 @@ class AniListClient(AiohttpBaseClient):
                 json={
                     "query": CHARACTER_GET,
                     "variables": {
-                        "id": id,
+                        "id": media_id,
                     },
                 },
             )
@@ -137,7 +137,7 @@ class AniListClient(AiohttpBaseClient):
                 json={
                     "query": ANIME_GET,
                     "variables": {
-                        var: id,
+                        var: media_id,
                     },
                 },
             )
@@ -148,7 +148,7 @@ class AniListClient(AiohttpBaseClient):
                 json={
                     "query": MANGA_GET,
                     "variables": {
-                        "id": id,
+                        "id": media_id,
                     },
                 },
             )
@@ -159,7 +159,7 @@ class AniListClient(AiohttpBaseClient):
                 json={
                     "query": STAFF_GET,
                     "variables": {
-                        "id": id,
+                        "id": media_id,
                     },
                 },
             )
@@ -170,7 +170,7 @@ class AniListClient(AiohttpBaseClient):
                 json={
                     "query": STUDIO_GET,
                     "variables": {
-                        "id": id,
+                        "id": media_id,
                     },
                 },
             )
@@ -181,49 +181,49 @@ class AniListClient(AiohttpBaseClient):
                 json={
                     "query": USER_GET,
                     "variables": {
-                        "id": id,
+                        "id": media_id,
                     },
                 },
             )
         return None, None
 
     @cache(ttl="1h")
-    async def get_adesc(self, media: str, id: int) -> tuple[int, dict[str, Any]]:
+    async def get_adesc(self, media: str, media_id: int) -> tuple[int, dict[str, Any]]:
         return await self._make_request(
             "POST",
             url="/",
             json={
                 "query": DESCRIPTION_QUERY,
                 "variables": {
-                    "id": id,
+                    "id": media_id,
                     "media": media.upper(),
                 },
             },
         )
 
     @cache(ttl="1h")
-    async def get_achars(self, media: str, id: int) -> tuple[int, dict[str, Any]]:
+    async def get_achars(self, media: str, media_id: int) -> tuple[int, dict[str, Any]]:
         return await self._make_request(
             "POST",
             url="/",
             json={
                 "query": CHARACTER_QUERY,
                 "variables": {
-                    "id": id,
+                    "id": media_id,
                     "media": media.upper(),
                 },
             },
         )
 
     @cache(ttl="1h")
-    async def get_astaff(self, media: str, id: int) -> tuple[int, dict[str, Any]]:
+    async def get_astaff(self, media: str, media_id: int) -> tuple[int, dict[str, Any]]:
         return await self._make_request(
             "POST",
             url="/",
             json={
                 "query": STAFF_QUERY,
                 "variables": {
-                    "id": id,
+                    "id": media_id,
                     "media": media.upper(),
                 },
             },
@@ -243,28 +243,28 @@ class AniListClient(AiohttpBaseClient):
         )
 
     @cache(ttl="1h")
-    async def get_astudios(self, media: str, id: int) -> tuple[int, dict[str, Any]]:
+    async def get_astudios(self, media: str, media_id: int) -> tuple[int, dict[str, Any]]:
         return await self._make_request(
             "POST",
             url="/",
             json={
                 "query": STUDIOS_QUERY,
                 "variables": {
-                    "id": id,
+                    "id": media_id,
                     "media": media.upper(),
                 },
             },
         )
 
     @cache(ttl="1h")
-    async def get_atrailer(self, media: str, id: int) -> tuple[int, dict[str, Any]]:
+    async def get_atrailer(self, media: str, media_id: int) -> tuple[int, dict[str, Any]]:
         return await self._make_request(
             "POST",
             url="/",
             json={
                 "query": TRAILER_QUERY,
                 "variables": {
-                    "id": id,
+                    "id": media_id,
                     "media": media.upper(),
                 },
             },

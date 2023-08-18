@@ -27,7 +27,7 @@ async def anime_scan(message: Message):
     reply = message.reply_to_message
 
     me = await bot.get_me()
-    if user == me:
+    if user.id == me.id:
         return
 
     if not reply:

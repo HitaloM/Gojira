@@ -4,7 +4,7 @@
 import asyncio
 
 
-class ShellException(Exception):
+class ShellExceptionError(Exception):
     pass
 
 
@@ -38,4 +38,4 @@ async def shell_run(command: str) -> str:
     msg = (
         f"Command '{command}' exited with {process.returncode}:\n{stderr.decode('utf-8').strip()}"
     )
-    raise ShellException(msg)
+    raise ShellExceptionError(msg)

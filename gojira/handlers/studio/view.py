@@ -173,14 +173,20 @@ async def studio_media_view(callback: CallbackQuery, callback_data: StudioMediaC
         keyboard.button(
             text="◀️",
             callback_data=StudioMediaCallback(
-                studio_name=studio_name, studio_id=studio_id, user_id=user_id, page=page - 1
+                studio_name=studio_name,
+                studio_id=studio_id,
+                user_id=user_id,
+                page=page - 1,
             ),
         )
     if page + 1 != pages:
         keyboard.button(
             text="▶️",
             callback_data=StudioMediaCallback(
-                studio_name=studio_name, studio_id=studio_id, user_id=user_id, page=page + 1
+                studio_name=studio_name,
+                studio_id=studio_id,
+                user_id=user_id,
+                page=page + 1,
             ),
         )
 

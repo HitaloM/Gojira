@@ -47,10 +47,10 @@ async def manga_upcoming(callback: CallbackQuery, callback_data: MangaUpcomingCa
 
         layout = Pagination(
             suggestions,
-            item_data=lambda i, pg: MangaCallback(
+            item_data=lambda i, _: MangaCallback(
                 query=int(i["id"]), user_id=user_id, is_search=(not is_private)
             ).pack(),
-            item_title=lambda i, pg: i["title"]["romaji"],
+            item_title=lambda i, _: i["title"]["romaji"],
             page_data=lambda pg: MangaUpcomingCallback(page=pg, user_id=user_id).pack(),
         )
 

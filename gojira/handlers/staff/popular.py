@@ -30,8 +30,8 @@ async def staff_popular(callback: CallbackQuery, callback_data: StaffPopuCallbac
 
         layout = Pagination(
             results,
-            item_data=lambda i, pg: StaffCallback(query=i["id"]).pack(),
-            item_title=lambda i, pg: i["name"]["full"],
+            item_data=lambda i, _: StaffCallback(query=i["id"]).pack(),
+            item_title=lambda i, _: i["name"]["full"],
             page_data=lambda pg: StaffPopuCallback(page=pg).pack(),
         )
 

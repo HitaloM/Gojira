@@ -64,7 +64,7 @@ async def i18n_anilist_source(source: str) -> str:
     return source_dict.get(source, "")
 
 
-async def i18n_anilist_format(format: str) -> str:
+async def i18n_anilist_format(anilist_format: str) -> str:
     format_dict = {
         "TV": _("TV"),
         "TV_SHORT": _("TV Short"),
@@ -77,7 +77,7 @@ async def i18n_anilist_format(format: str) -> str:
         "NOVEL": _("Novel"),
         "ONE_SHOT": _("One Shot"),
     }
-    return format_dict.get(format, "")
+    return format_dict.get(anilist_format, "")
 
 
 async def i18n_anilist_season(season: str) -> str:

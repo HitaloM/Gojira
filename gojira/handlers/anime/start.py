@@ -28,7 +28,8 @@ async def anime_start(union: Message | CallbackQuery):
     keyboard.button(text=_("📈 Popular"), callback_data=AnimePopuCallback(page=1))
     keyboard.button(text=_("🗂️ Categories"), callback_data=AnimeCategCallback(page=1))
     keyboard.button(
-        text=_("🆕 Upcoming"), callback_data=AnimeUpcomingCallback(page=1, user_id=user.id)
+        text=_("🆕 Upcoming"),
+        callback_data=AnimeUpcomingCallback(page=1, user_id=user.id),
     )
     keyboard.button(text=_("🔍 Search"), switch_inline_query_current_chat="!a ")
     keyboard.adjust(2)

@@ -55,7 +55,8 @@ If you are interested in contributing to the translations with your language, pl
     keyboard.adjust(2)
     keyboard.row(
         InlineKeyboardButton(
-            text=_("🌎 Contribute in translations!"), url="https://crowdin.com/project/gojira/"
+            text=_("🌎 Contribute in translations!"),
+            url="https://crowdin.com/project/gojira/",
         )
     )
 

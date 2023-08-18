@@ -30,8 +30,8 @@ async def anime_popular(callback: CallbackQuery, callback_data: AnimePopuCallbac
 
         layout = Pagination(
             results,
-            item_data=lambda i, pg: AnimeCallback(query=i["id"]).pack(),
-            item_title=lambda i, pg: i["title"]["romaji"],
+            item_data=lambda i, _: AnimeCallback(query=i["id"]).pack(),
+            item_title=lambda i, _: i["title"]["romaji"],
             page_data=lambda pg: AnimePopuCallback(page=pg).pack(),
         )
 

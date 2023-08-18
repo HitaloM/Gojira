@@ -24,7 +24,7 @@ from gojira import cache, i18n
 from gojira.database import DB_PATH, Chats, Users
 from gojira.filters.user_status import IsSudo
 from gojira.utils.callback_data import StartCallback
-from gojira.utils.systools import ShellException, parse_commits, shell_run
+from gojira.utils.systools import ShellExceptionError, parse_commits, shell_run
 
 router = Router(name="doas")
 
@@ -64,10 +64,10 @@ async def upload_document(message: Message, command: CommandObject):
     await message.reply("Processing...")
 
     caption = f"<b>File:</b> <code>{path.name}</code>"
-    async with aiofiles.open(path, "rb") as file:
-        file = await file.read()
-        file = BufferedInputFile(file, filename=path.name)
-        await message.reply_document(file, caption=caption)
+    async with aiofiles.open(path, "rb") as f:
+        file_data = await f.read()
+        file_obj = BufferedInputFile(file_data, filename=path.name)
+        await message.reply_document(file_obj, caption=caption)
 
 
 @router.message(Command(commands=["reboot", "restart"]))
@@ -92,7 +92,7 @@ async def bot_update(message: Message):
         if not stdout:
             await sent.edit_text("There is nothing to update.")
             return
-    except ShellException as error:
+    except ShellExceptionError as error:
         await sent.edit_text(f"<code>{html.escape(str(error))}</code>")
         return
 
@@ -126,7 +126,7 @@ async def upgrade_callback(callback: CallbackQuery):
     for command in commands:
         try:
             stdout += await shell_run(command)
-        except ShellException as error:
+        except ShellExceptionError as error:
             await sent.edit_text(f"<code>{html.escape(str(error))}</code>")
             return
 
@@ -147,7 +147,7 @@ async def bot_shell(message: Message, command: CommandObject):
 
     try:
         stdout = await shell_run(command=code)
-    except ShellException as error:
+    except ShellExceptionError as error:
         await sent.edit_text(f"<code>{html.escape(str(error))}</code>")
         return
 
@@ -174,12 +174,13 @@ async def evaluate(message: Message, command: CommandObject):
     except BaseException:
         exc = sys.exc_info()
         exc = "".join(
-            traceback.format_exception(exc[0], exc[1], exc[2].tb_next.tb_next.tb_next)  # type: ignore[misc]  # noqa: F821, E501
+            traceback.format_exception(exc[0], exc[1], exc[2].tb_next.tb_next.tb_next)  # type: ignore[misc]  # noqa: E501
         )
         error_txt = "<b>Failed to execute the expression:\n&gt;</b> <code>{eval}</code>"
         error_txt += "\n\n<b>Error:\n&gt;</b> <code>{exc}</code>"
         await sent.edit_text(
-            error_txt.format(eval=query, exc=html.escape(exc)), disable_web_page_preview=True
+            error_txt.format(eval=query, exc=html.escape(exc)),
+            disable_web_page_preview=True,
         )
         return
 

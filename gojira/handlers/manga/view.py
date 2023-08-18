@@ -20,7 +20,11 @@ from gojira.utils.callback_data import (
     MangaMoreCallback,
     MangaStaffCallback,
 )
-from gojira.utils.language import i18n_anilist_format, i18n_anilist_source, i18n_anilist_status
+from gojira.utils.language import (
+    i18n_anilist_format,
+    i18n_anilist_source,
+    i18n_anilist_status,
+)
 
 router = Router(name="manga_view")
 

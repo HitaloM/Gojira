@@ -69,7 +69,7 @@ staff. And much more!"
 
 @router.message(Command("help"), F.chat.type == ChatType.PRIVATE)
 @router.callback_query(StartCallback.filter(F.menu == "help"))
-async def help(union: Message | CallbackQuery):
+async def help_menu(union: Message | CallbackQuery):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     if not message or not union.from_user:

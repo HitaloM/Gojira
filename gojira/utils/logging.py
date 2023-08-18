@@ -2,12 +2,13 @@
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
 import logging
+from typing import ClassVar
 
 from loguru import logger
 
 
 class InterceptHandler(logging.Handler):
-    LEVELS_MAP = {
+    LEVELS_MAP: ClassVar[dict[int, str]] = {
         logging.CRITICAL: "CRITICAL",
         logging.ERROR: "ERROR",
         logging.WARNING: "WARNING",

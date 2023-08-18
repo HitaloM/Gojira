@@ -19,7 +19,11 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.utils.markdown import hide_link
 
 from gojira import AniList, bot
-from gojira.utils.language import i18n_anilist_format, i18n_anilist_source, i18n_anilist_status
+from gojira.utils.language import (
+    i18n_anilist_format,
+    i18n_anilist_source,
+    i18n_anilist_status,
+)
 
 router = Router(name="manga_inline")
 

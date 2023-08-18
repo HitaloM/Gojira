@@ -30,8 +30,8 @@ async def studio_popular(callback: CallbackQuery, callback_data: StudioPopuCallb
 
         layout = Pagination(
             results,
-            item_data=lambda i, pg: StudioCallback(query=i["id"]).pack(),
-            item_title=lambda i, pg: i["name"],
+            item_data=lambda i, _: StudioCallback(query=i["id"]).pack(),
+            item_title=lambda i, _: i["name"],
             page_data=lambda pg: StudioPopuCallback(page=pg).pack(),
         )
 

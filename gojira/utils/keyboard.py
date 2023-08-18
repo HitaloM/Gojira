@@ -22,9 +22,9 @@ def default_item_callback(i: Any, pg: int) -> str:
     return f"[{pg}] {i}"
 
 
-def chunk_list(input: Sequence[T], size: int) -> collections.abc.Iterator[typing.Sequence[T]]:
-    for i in range(0, len(input), size):
-        yield input[i : i + size]
+def chunk_list(lst: Sequence[T], size: int) -> collections.abc.Iterator[typing.Sequence[T]]:
+    for i in range(0, len(lst), size):
+        yield lst[i : i + size]
 
 
 @dataclass
@@ -55,7 +55,10 @@ class Pagination:
                 nav.append(("4 ›" if last_page > 5 else 4, self.page_data(4)))
             if last_page > 4:
                 nav.append(
-                    (f"{last_page} »" if last_page > 5 else last_page, self.page_data(last_page))
+                    (
+                        f"{last_page} »" if last_page > 5 else last_page,
+                        self.page_data(last_page),
+                    )
                 )
         elif page >= last_page - 2:
             nav.extend(

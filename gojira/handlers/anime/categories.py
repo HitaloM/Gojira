@@ -53,7 +53,7 @@ async def anime_categories(callback: CallbackQuery, callback_data: AnimeCategCal
     layout = Pagination(
         categories_list,
         item_data=lambda i, pg: AnimeGCategCallback(page=pg, categorie=i).pack(),
-        item_title=lambda i, pg: categories[i],
+        item_title=lambda i, _: categories.get(i, ""),
         page_data=lambda pg: AnimeCategCallback(page=pg).pack(),
     )
 
@@ -90,8 +90,8 @@ async def anime_categorie(callback: CallbackQuery, callback_data: AnimeGCategCal
 
         layout = Pagination(
             results,
-            item_data=lambda i, pg: AnimeCallback(query=i["id"]).pack(),
-            item_title=lambda i, pg: i["title"]["romaji"],
+            item_data=lambda i, _: AnimeCallback(query=i["id"]).pack(),
+            item_title=lambda i, _: i["title"]["romaji"],
             page_data=lambda pg: AnimeGCategCallback(page=pg, categorie=categorie).pack(),
         )
 

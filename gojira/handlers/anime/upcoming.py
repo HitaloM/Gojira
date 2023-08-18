@@ -47,10 +47,10 @@ async def anime_upcoming(callback: CallbackQuery, callback_data: AnimeUpcomingCa
 
         layout = Pagination(
             suggestions,
-            item_data=lambda i, pg: AnimeCallback(
+            item_data=lambda i, _: AnimeCallback(
                 query=int(i["id"]), user_id=user_id, is_search=(not is_private)
             ).pack(),
-            item_title=lambda i, pg: i["title"]["romaji"],
+            item_title=lambda i, _: i["title"]["romaji"],
             page_data=lambda pg: AnimeUpcomingCallback(page=pg, user_id=user_id).pack(),
         )
 

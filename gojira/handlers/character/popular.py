@@ -9,7 +9,11 @@ from aiogram.types import CallbackQuery, InlineKeyboardButton
 from aiogram.utils.i18n import gettext as _
 
 from gojira import AniList
-from gojira.utils.callback_data import CharacterCallback, CharacterPopuCallback, StartCallback
+from gojira.utils.callback_data import (
+    CharacterCallback,
+    CharacterPopuCallback,
+    StartCallback,
+)
 from gojira.utils.keyboard import Pagination
 
 router = Router(name="character_popular")
@@ -30,8 +34,8 @@ async def character_popular(callback: CallbackQuery, callback_data: CharacterPop
 
         layout = Pagination(
             results,
-            item_data=lambda i, pg: CharacterCallback(query=i["id"]).pack(),
-            item_title=lambda i, pg: i["name"]["full"],
+            item_data=lambda i, _: CharacterCallback(query=i["id"]).pack(),
+            item_title=lambda i, _: i["name"]["full"],
             page_data=lambda pg: CharacterPopuCallback(page=pg).pack(),
         )
 

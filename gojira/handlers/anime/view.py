@@ -731,10 +731,10 @@ async def anime_airing(
         )
         text += _("<b>Episodes:</b> <code>{episode}</code>\n").format(episode=episodes)
 
-    externalLinks = anime["externalLinks"]
+    external_links = anime["externalLinks"]
     buttons = [
         InlineKeyboardButton(text=link["site"], url=link["url"])
-        for link in externalLinks
+        for link in external_links
         if link["type"] == "STREAMING"
     ]
 

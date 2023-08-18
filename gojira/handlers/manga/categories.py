@@ -53,7 +53,7 @@ async def manga_categories(callback: CallbackQuery, callback_data: MangaCategCal
     layout = Pagination(
         categories_list,
         item_data=lambda i, pg: MangaGCategCallback(page=pg, categorie=i).pack(),
-        item_title=lambda i, pg: categories[i],
+        item_title=lambda i, _: categories[i],
         page_data=lambda pg: MangaCategCallback(page=pg).pack(),
     )
 
@@ -89,8 +89,8 @@ async def manga_categorie(callback: CallbackQuery, callback_data: MangaGCategCal
 
         layout = Pagination(
             results,
-            item_data=lambda i, pg: MangaCallback(query=i["id"]).pack(),
-            item_title=lambda i, pg: i["title"]["romaji"],
+            item_data=lambda i, _: MangaCallback(query=i["id"]).pack(),
+            item_title=lambda i, _: i["title"]["romaji"],
             page_data=lambda pg: MangaGCategCallback(page=pg, categorie=categorie).pack(),
         )
 
