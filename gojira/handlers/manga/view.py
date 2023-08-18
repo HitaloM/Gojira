@@ -220,8 +220,7 @@ async def manga_view(
                     )
                 )
         if len(relations_buttons) > 0:
-            if relations_buttons[0].text != "⬅️ Prequel":
-                relations_buttons.reverse()
+            relations_buttons.sort(key=lambda button: button.text, reverse=True)
             keyboard.row(*relations_buttons)
 
     if bool(message.photo) and is_callback:
