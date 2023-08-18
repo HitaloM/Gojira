@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-18 18:00-0300\n"
+"POT-Creation-Date: 2023-08-18 18:39-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,7 +58,7 @@ msgstr ""
 #: gojira/handlers/manga/view.py:573 gojira/handlers/pm_menu.py:89
 #: gojira/handlers/pm_menu.py:127 gojira/handlers/staff/popular.py:42
 #: gojira/handlers/staff/start.py:28 gojira/handlers/studio/popular.py:42
-#: gojira/handlers/studio/start.py:29 gojira/handlers/studio/view.py:197
+#: gojira/handlers/studio/start.py:28 gojira/handlers/studio/view.py:197
 msgid "🔙 Back"
 msgstr ""
 
@@ -128,7 +128,7 @@ msgstr ""
 msgid "📚 Channel"
 msgstr ""
 
-#: gojira/handlers/anime/schedule.py:36 gojira/handlers/anime/upcoming.py:35
+#: gojira/handlers/anime/schedule.py:34 gojira/handlers/anime/upcoming.py:35
 #: gojira/handlers/anime/view.py:75 gojira/handlers/anime/view.py:666
 #: gojira/handlers/character/view.py:56 gojira/handlers/manga/upcoming.py:35
 #: gojira/handlers/manga/view.py:70 gojira/handlers/upcoming.py:32
@@ -505,41 +505,41 @@ msgstr ""
 msgid "📹 Preview"
 msgstr ""
 
-#: gojira/handlers/anime/schedule.py:44
+#: gojira/handlers/anime/schedule.py:42
 msgid "Monday"
 msgstr ""
 
-#: gojira/handlers/anime/schedule.py:45
+#: gojira/handlers/anime/schedule.py:43
 msgid "Tuesday"
 msgstr ""
 
-#: gojira/handlers/anime/schedule.py:46
+#: gojira/handlers/anime/schedule.py:44
 msgid "Wednesday"
 msgstr ""
 
-#: gojira/handlers/anime/schedule.py:47
+#: gojira/handlers/anime/schedule.py:45
 msgid "Thursday"
 msgstr ""
 
-#: gojira/handlers/anime/schedule.py:48
+#: gojira/handlers/anime/schedule.py:46
 msgid "Friday"
 msgstr ""
 
-#: gojira/handlers/anime/schedule.py:49
+#: gojira/handlers/anime/schedule.py:47
 msgid "Saturday"
 msgstr ""
 
-#: gojira/handlers/anime/schedule.py:50
+#: gojira/handlers/anime/schedule.py:48
 msgid "Sunday"
 msgstr ""
 
-#: gojira/handlers/anime/schedule.py:57
+#: gojira/handlers/anime/schedule.py:55
 msgid ""
 "Below is the schedule for <b>{day}</b>:\n"
 "\n"
 msgstr ""
 
-#: gojira/handlers/anime/schedule.py:64
+#: gojira/handlers/anime/schedule.py:62
 msgid ""
 "\n"
 "<b>Note:</b> <i>The schedule is taken from MyAnimeList, some animes info "
@@ -786,7 +786,7 @@ msgstr ""
 msgid "Below are the <b>50</b> most popular studios in descending order."
 msgstr ""
 
-#: gojira/handlers/studio/start.py:34
+#: gojira/handlers/studio/start.py:33
 msgid ""
 "You are in the <b>studio</b> section, use the buttons below to do what "
 "you want."
@@ -868,15 +868,15 @@ msgstr ""
 msgid "About the bot."
 msgstr ""
 
-#: gojira/utils/command_list.py:72
+#: gojira/utils/command_list.py:70
 msgid "Start the bot."
 msgstr ""
 
-#: gojira/utils/command_list.py:76
+#: gojira/utils/command_list.py:71
 msgid "Get help."
 msgstr ""
 
-#: gojira/utils/command_list.py:83
+#: gojira/utils/command_list.py:76
 msgid "Get upcoming media."
 msgstr ""
 
