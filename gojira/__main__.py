@@ -10,6 +10,8 @@ from aiogram import __version__ as aiogram_version
 from aiogram.exceptions import TelegramForbiddenError
 from aiosqlite import __version__ as aiosqlite_version
 from cashews.exceptions import CacheBackendInteractionError
+from sentry_sdk.integrations.aiohttp import AioHttpIntegration
+from sentry_sdk.integrations.redis import RedisIntegration
 
 from gojira import AniList, Jikan, TraceMoe, bot, cache, config, dp, i18n
 from gojira import __version__ as gojira_version
@@ -46,6 +48,7 @@ async def main():
         sentry_sdk.init(
             str(config.sentry_url),
             traces_sample_rate=1.0,
+            integrations=[RedisIntegration(), AioHttpIntegration()],
         )
 
     dp.message.middleware(ACLMiddleware())
