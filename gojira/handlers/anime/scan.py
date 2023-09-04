@@ -55,8 +55,7 @@ async def anime_scan(message: Message):
     if isinstance(media, Document | Video):
         if media.thumbnail:
             media = media.thumbnail
-        else:
-            return
+        return
 
     sent = await message.reply_photo(
         "https://i.imgur.com/m0N2pFc.jpg", caption="Scanning media..."
@@ -66,28 +65,36 @@ async def anime_scan(message: Message):
 
     file = await bot.get_file(file_id)
     if not file or not file.file_path:
-        await sent.edit_text(_("File not found."))
+        await sent.edit_caption(caption=_("File not found."))
         return
 
     file = await bot.download_file(file.file_path)
     if not file:
-        await sent.edit_text(_("Something went wrong while downloading the file."))
+        await sent.edit_caption(caption=_("Something went wrong while downloading the file."))
         return
 
+    file_cached = await cache.get(f"file_tmoe:{file_id}")
+
+    file = file_cached if file_cached else file
+
+    if not file_cached:
+        file_cached = await cache.set(f"file_tmoe:{file_id}", file, expire="1d")
+
+    print(file)
     status, data = await TraceMoe.search(file=file)
 
     if status == 200:
         pass
     elif status == 429:
-        await sent.edit_text(_("Excessive use of the API, please try again later."))
+        await sent.edit_caption(caption=_("Excessive use of the API, please try again later."))
         return
     else:
-        await sent.edit_text(_("The API is unavailable, please try again later."))
+        await sent.edit_caption(caption=_("The API is unavailable, please try again later."))
         return
 
     results = data["result"]
     if len(results) == 0:
-        await sent.edit_text(_("No results found."))
+        await sent.edit_caption(caption=_("No results found."))
         return
 
     result = results[0]
@@ -131,7 +138,7 @@ async def anime_scan(message: Message):
 
     if video is not None:
         with suppress(TelegramBadRequest):
-            cached_video = await cache.get(f"trace_moe:{video}")
+            cached_video = await cache.get(f"trace_moe:{file_id}")
             video = cached_video if cached_video else f"{video}&size=l"
 
             sent_video = await reply.reply_video(
@@ -150,5 +157,5 @@ async def anime_scan(message: Message):
                     reply_markup=keyboard.as_markup(),
                 )
 
-            if not cached_video:
-                await cache.set(f"trace_moe:{video}", sent_video.video, expire="1d")
+            if not cached_video and sent_video.video:
+                await cache.set(f"trace_moe:{file_id}", sent_video.video.file_id, expire="1d")
