@@ -11,9 +11,9 @@ import traceback
 from pathlib import Path
 from signal import SIGINT
 
-import aiofiles
 import humanize
 import msgspec
+from aiofile import async_open
 from aiogram import F, Router
 from aiogram.filters import Command, CommandObject
 from aiogram.types import BufferedInputFile, CallbackQuery, Message
@@ -64,7 +64,7 @@ async def upload_document(message: Message, command: CommandObject):
     await message.reply("Processing...")
 
     caption = f"<b>File:</b> <code>{path.name}</code>"
-    async with aiofiles.open(path, "rb") as f:
+    async with async_open(path, "rb") as f:
         file_data = await f.read()
         file_obj = BufferedInputFile(file_data, filename=path.name)
         await message.reply_document(file_obj, caption=caption)
