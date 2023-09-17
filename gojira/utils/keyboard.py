@@ -24,7 +24,7 @@ def default_item_callback(i: Any, pg: int) -> str:
 
 def chunk_list(lst: Sequence[T], size: int) -> collections.abc.Iterator[typing.Sequence[T]]:
     for i in range(0, len(lst), size):
-        yield lst[i : i + size]
+        yield lst[i: i + size]
 
 
 @dataclass

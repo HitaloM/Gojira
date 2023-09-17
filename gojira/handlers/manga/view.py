@@ -337,7 +337,7 @@ async def manga_description(callback: CallbackQuery, callback_data: MangaDescCal
     offset = (page - 1) * amount
     stop = offset + amount
     pages = math.ceil(len(description) / amount)
-    description = description[offset - (3 if page > 1 else 0) : stop]
+    description = description[offset - (3 if page > 1 else 0): stop]
 
     page_buttons = []
     if page > 1:
@@ -437,7 +437,7 @@ async def manga_characters(callback: CallbackQuery, callback_data: MangaCharCall
 
     characters_text = characters_text.split("\n")
     characters_text = [line for line in characters_text if line != ""]
-    characters_text = [characters_text[i : i + 8] for i in range(0, len(characters_text), 8)]
+    characters_text = [characters_text[i: i + 8] for i in range(0, len(characters_text), 8)]
 
     pages = len(characters_text)
 
@@ -536,7 +536,7 @@ async def manga_staff(callback: CallbackQuery, callback_data: MangaStaffCallback
 
     staff_text = staff_text.split("\n")
     staff_text = [line for line in staff_text if line != ""]
-    staff_text = [staff_text[i : i + 8] for i in range(0, len(staff_text), 8)]
+    staff_text = [staff_text[i: i + 8] for i in range(0, len(staff_text), 8)]
 
     pages = len(staff_text)
 

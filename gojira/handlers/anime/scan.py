@@ -78,9 +78,8 @@ async def anime_scan(message: Message):
     file = file_cached if file_cached else file
 
     if not file_cached:
-        file_cached = await cache.set(f"file_tmoe:{file_id}", file, expire="1d")
+        await cache.set(f"file_tmoe:{file_id}", file, expire="1d")
 
-    print(file)
     status, data = await TraceMoe.search(file=file)
 
     if status == 200:
