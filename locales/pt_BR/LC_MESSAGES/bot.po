@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: gojira\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-09-17 20:24-0300\n"
-"PO-Revision-Date: 2023-09-17 23:45\n"
+"PO-Revision-Date: 2023-09-18 23:04\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "MIME-Version: 1.0\n"
@@ -78,7 +78,7 @@ msgstr "👮‍♂️ Ajuda"
 
 #: gojira/handlers/pm_menu.py:57
 msgid "Hello, {user_name}. I am <b>Gojira</b>, a Telegram bot that can help you with informations about anime and manga, such as genres, characters, studios, staff. And much more!"
-msgstr ""
+msgstr "Olá, {user_name}. Eu sou o <b>Gojira</b>, um bot do Telegram que pode ajudá-lo com informações sobre anime e manga, tais como gêneros, personagens, estúdio, equipe. E muito mais!"
 
 #: gojira/handlers/pm_menu.py:78 gojira/handlers/upcoming.py:40
 msgid "👸 Anime"
