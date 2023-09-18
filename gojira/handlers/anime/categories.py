@@ -95,12 +95,12 @@ async def anime_categorie(callback: CallbackQuery, callback_data: AnimeGCategCal
             page_data=lambda pg: AnimeGCategCallback(page=pg, categorie=categorie).pack(),
         )
 
-        keyboard = layout.create(1, lines=8)
+        keyboard = layout.create(page, lines=8)
 
         keyboard.row(
             InlineKeyboardButton(
                 text=_("🔙 Back"),
-                callback_data=AnimeCategCallback(page=page).pack(),
+                callback_data=AnimeCategCallback(page=1).pack(),
             )
         )
 

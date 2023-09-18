@@ -94,12 +94,12 @@ async def manga_categorie(callback: CallbackQuery, callback_data: MangaGCategCal
             page_data=lambda pg: MangaGCategCallback(page=pg, categorie=categorie).pack(),
         )
 
-        keyboard = layout.create(1, lines=8)
+        keyboard = layout.create(page, lines=8)
 
         keyboard.row(
             InlineKeyboardButton(
                 text=_("🔙 Back"),
-                callback_data=MangaCategCallback(page=page).pack(),
+                callback_data=MangaCategCallback(page=1).pack(),
             )
         )
 

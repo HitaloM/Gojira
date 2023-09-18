@@ -61,9 +61,5 @@ preview = true
 [tool.ruff.isort]
 known-first-party = ["gojira"]
 
-[tool.black]
-line-length = 99
-target-version = ["py311"]
-
 [tool.rye]
 managed = true
