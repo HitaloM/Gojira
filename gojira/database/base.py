@@ -64,7 +64,7 @@ class SqliteConnection:
                     else await conn.execute(sql, params)
                 )
             except BaseException as e:
-                log.error(e)
+                log.error("Error executing SQL query", error=e)
             else:
                 if fetch:
                     return await cursor.fetchall() if mult else await cursor.fetchone()

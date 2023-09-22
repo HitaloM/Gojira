@@ -8,7 +8,7 @@ from collections.abc import Callable
 from typing import Any
 
 import backoff
-import msgspec
+import orjson
 from aiohttp import ClientError, ClientSession, TCPConnector
 from yarl import URL
 
@@ -20,10 +20,8 @@ class AiohttpBaseClient:
     def __init__(self, base_url: str | URL) -> None:
         self._base_url = base_url
         self._session: ClientSession | None = None
-        self.json_loads: _JsonLoads = msgspec.json.decode
-        self.json_dumps: _JsonDumps = lambda obj, *, enc_hook=None: msgspec.json.encode(
-            obj, enc_hook=enc_hook
-        ).decode()
+        self.json_loads: _JsonLoads = orjson.loads
+        self.json_dumps: _JsonDumps = lambda obj: orjson.dumps(obj).decode()
         self.log = logging.getLogger(self.__class__.__name__)
 
     async def _get_session(self) -> ClientSession:
