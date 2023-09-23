@@ -41,11 +41,10 @@ async def errors_handler(error: ErrorEvent):
         "RestartingTelegram",
     )
     if err_tlt in conn_errors:
-        log.error("Connection/API error detected!", exc_info=error.exception)
+        log.error("Connection/API error detected!", error=err_msg, exc_info=error.exception)
         return
 
-    log.warn("Update that caused the error:\n %s", message)
-    log.error("Error: %s", err_msg, exc_info=error.exception)
+    log.error("Error detected!", update=message, error=err_msg, exc_info=error.exception)
 
     text = "<b>Sorry, I encountered a error!</b>\n"
     text += (

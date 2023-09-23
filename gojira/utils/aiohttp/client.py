@@ -2,7 +2,6 @@
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
-import logging
 import ssl
 from collections.abc import Callable
 from typing import Any
@@ -11,6 +10,8 @@ import backoff
 import orjson
 from aiohttp import ClientError, ClientSession, TCPConnector
 from yarl import URL
+
+from gojira.utils.logging import log
 
 _JsonLoads = Callable[..., Any]
 _JsonDumps = Callable[..., str]
@@ -22,7 +23,6 @@ class AiohttpBaseClient:
         self._session: ClientSession | None = None
         self.json_loads: _JsonLoads = orjson.loads
         self.json_dumps: _JsonDumps = lambda obj: orjson.dumps(obj).decode()
-        self.log = logging.getLogger(self.__class__.__name__)
 
     async def _get_session(self) -> ClientSession:
         if self._session is None:
@@ -47,37 +47,37 @@ class AiohttpBaseClient:
     ) -> tuple[int, dict[str, Any]]:
         session = await self._get_session()
 
-        self.log.debug(
-            "Making request %r %r with json %r and params %r",
-            method,
-            url,
-            json,
-            params,
+        log.debug(
+            "AIOHTTP: Making request...",
+            request=method,
+            url=url,
+            json=json,
+            params=params,
         )
         async with session.request(method, url, params=params, json=json, data=data) as response:
             status = response.status
             result = await response.json(loads=self.json_loads)
 
-        self.log.debug(
-            "Got response %r %r with status %r and json %r",
-            method,
-            url,
-            status,
-            result,
+        log.debug(
+            "AIOHTTP: Got response.",
+            response=method,
+            url=url,
+            status=status,
+            result=result,
         )
         return status, result
 
     async def close(self) -> None:
         if not self._session:
-            self.log.debug("There's not session to close.")
+            log.debug("There's not session to close.")
             return
 
         if self._session.closed:
-            self.log.debug("Session already closed.")
+            log.debug("Session already closed.")
             return
 
         await self._session.close()
-        self.log.debug("Session successfully closed.")
+        log.debug("Session successfully closed.")
 
         # Wait 250 ms for the underlying SSL connections to close
         # https://docs.aiohttp.org/en/stable/client_advanced.html#graceful-shutdown

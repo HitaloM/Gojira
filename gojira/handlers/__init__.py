@@ -39,5 +39,5 @@ def setup_routers():
             *studio.setup_routers(),
             inline.router,
         )
-    except (AiogramError, DetailedAiogramError) as e:
-        log.error("Failed to setup routers: %s", e)
+    except (AiogramError, DetailedAiogramError):
+        log.error("Failed to setup AIOgram routers!", exc_info=True)

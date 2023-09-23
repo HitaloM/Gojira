@@ -13,7 +13,7 @@ structlog.configure(
         structlog.contextvars.merge_contextvars,
         structlog.processors.add_log_level,
         structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M.%S"),
-        structlog.dev.ConsoleRenderer(),
+        structlog.dev.ConsoleRenderer(exception_formatter=structlog.dev.better_traceback),
     ],
 )
 log = structlog.wrap_logger(logger=picologging.getLogger())

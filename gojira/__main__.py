@@ -32,7 +32,7 @@ async def main():
     await create_tables()
 
     if config.sentry_url:
-        log.info("Starting sentry.io integraion...")
+        log.info("Starting sentry.io integraion.")
 
         sentry_sdk.init(
             str(config.sentry_url),

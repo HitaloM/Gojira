@@ -18,7 +18,7 @@ commit_count = asyncio.run(shell_run("git rev-list --count HEAD")) or "None"
 commit_hash = asyncio.run(shell_run("git rev-parse --short HEAD")) or "None"
 __version__ = f"{commit_hash} ({commit_count})"
 
-log.info("Starting Gojira... | Version: %s", __version__)
+log.info("Starting Gojira...", version=__version__)
 
 app_dir: Path = Path(__file__).parent.parent
 locales_dir: Path = app_dir / "locales"
