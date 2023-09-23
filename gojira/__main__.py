@@ -15,6 +15,7 @@ from sentry_sdk.integrations.redis import RedisIntegration
 
 from gojira import AniList, Jikan, TraceMoe, bot, cache, config, dp, i18n
 from gojira import __version__ as gojira_version
+from gojira.database import create_tables
 from gojira.handlers import (
     anime,
     character,
@@ -41,6 +42,8 @@ async def main():
         await cache.ping()
     except (CacheBackendInteractionError, TimeoutError):
         sys.exit(log.critical("Can't connect to RedisDB! Exiting..."))
+
+    await create_tables()
 
     if config.sentry_url:
         log.info("Starting sentry.io integraion...")
@@ -78,7 +81,7 @@ async def main():
 
     with suppress(TelegramForbiddenError):
         if config.logs_channel:
-            log.info("Sending startup notification...")
+            log.info("Sending startup notification.")
             await bot.send_message(
                 config.logs_channel,
                 text=(
@@ -94,11 +97,13 @@ async def main():
     await dp.start_polling(bot, allowed_updates=useful_updates)
 
     # close aiohttp connections
+    log.info("Closing aiohttp connections.")
     await AniList.close()
     await Jikan.close()
     await TraceMoe.close()
 
     # clear cashews cache
+    log.info("Clearing cashews cache.")
     await cache.clear()
 
 

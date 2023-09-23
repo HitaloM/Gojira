@@ -8,20 +8,21 @@ license = { file = "LICENSE" }
 requires-python = ">=3.11"
 authors = [{ name = "Hitalo M." }]
 dependencies = [
-    "aiogram[fast,i18n]>=3.0.0",
-    "aiohttp[speedups]>=3.8.5",
-    "aiosqlite>=0.19.0",
-    "lxml>=4.9.3",
-    "humanize>=4.8.0",
-    "meval>=2.5",
-    "backoff>=2.2.1",
-    "cashews[redis,speedup]>=6.3.0",
-    "sentry-sdk>=1.30.0",
-    "pydantic>=2.3.0",
-    "pydantic-settings>=2.0.3",
-    "aiofile>=3.8.8",
-    "structlog>=23.1.0",
-    "orjson>=3.9.7",
+  "aiogram[fast,i18n]>=3.1.0",
+  "aiohttp[speedups]>=3.8.5",
+  "aiosqlite>=0.19.0",
+  "lxml>=4.9.3",
+  "humanize>=4.8.0",
+  "meval>=2.5",
+  "backoff>=2.2.1",
+  "cashews[redis,speedup]>=6.3.0",
+  "sentry-sdk>=1.30.0",
+  "pydantic>=2.3.0",
+  "pydantic-settings>=2.0.3",
+  "aiofile>=3.8.8",
+  "structlog>=23.1.0",
+  "orjson>=3.9.7",
+  "picologging>=0.9.2",
 ]
 
 [build-system]

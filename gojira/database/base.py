@@ -21,20 +21,6 @@ class SqliteDBConn:
     async def __aenter__(self) -> aiosqlite.Connection:
         self.conn = await aiosqlite.connect(self.db_name)
         self.conn.row_factory = aiosqlite.Row
-        await self.conn.executescript(
-            """
-            CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY,
-                language_code TEXT
-            );
-            CREATE TABLE IF NOT EXISTS chats (
-                id INTEGER PRIMARY KEY,
-                language_code TEXT
-            );
-            VACUUM;
-            PRAGMA journal_mode=WAL;
-        """
-        )
         return self.conn
 
     async def __aexit__(
@@ -94,3 +80,22 @@ class SqliteConnection:
         return (
             SqliteConnection._convert_to_model(raw, model_type) if model_type is not None else raw
         )
+
+
+async def create_tables() -> None:
+    async with SqliteDBConn(DB_PATH) as conn:
+        await conn.executescript(
+            """
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY,
+                language_code TEXT
+            );
+            CREATE TABLE IF NOT EXISTS chats (
+                id INTEGER PRIMARY KEY,
+                language_code TEXT
+            );
+        """
+        )
+
+        await conn.execute("VACUUM")
+        await conn.execute("PRAGMA journal_mode=WAL")
