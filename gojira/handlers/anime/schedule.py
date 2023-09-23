@@ -60,8 +60,8 @@ async def anime_schedule(
         text += f"<b>{n}.</b> {hlink(title=title, url=url)}\n"
 
     text += _(
-        "\n<b>Note:</b> <i>The schedule is taken from MyAnimeList, some animes info may not be \
-available on AniList, that's why the bot will not be able to show the anime info.</i>"
+        "\n<b>Note:</b> <i>The schedule was taken from MyAnimeList, some information about anime \
+may not be available on AniList, so the bot won't be able to show information about the anime.</i>"
     )
 
     keyboard = InlineKeyboardBuilder()

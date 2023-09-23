@@ -34,7 +34,9 @@ async def user_view(
     is_private: bool = message.chat.type == ChatType.PRIVATE
 
     if command and not command.args:
-        await message.reply(_("You need to specify an user. Use /user name or id"))
+        await message.reply(
+            _("You need to specify a user. Use <code>/user username</code> or <code>id</code>")
+        )
         return
 
     query = str(
@@ -87,7 +89,7 @@ async def user_view(
                     )
                 )
             await message.reply(
-                _("Search Results For: <b>{query}</b>").format(query=query),
+                _("Search results for: <b>{query}</b>").format(query=query),
                 reply_markup=keyboard.as_markup(),
             )
             return

@@ -54,7 +54,9 @@ async def anime_view(
         if is_private:
             await anime_start(message)
             return
-        await message.reply(_("You need to specify an anime. Use /anime name or id"))
+        await message.reply(
+            _("You need to specify an anime. Use <code>/anime name</code> or <code>id</code>")
+        )
         return
 
     query = str(
@@ -112,7 +114,7 @@ async def anime_view(
                     )
                 )
             await message.reply(
-                _("Search Results For: <b>{query}</b>").format(query=query),
+                _("Search results for: <b>{query}</b>").format(query=query),
                 reply_markup=keyboard.as_markup(),
             )
             return
@@ -334,8 +336,8 @@ async def anime_more(callback: CallbackQuery, callback_data: AnimeMoreCallback):
     )
 
     text = _(
-        "Here you will be able to see the description, characters, staff and some other \
-things, make good use of it. 🙃"
+        "Here you will be able to see the description, the characters, the team, and other \
+things; make good use of it!"
     )
 
     await message.edit_caption(
@@ -368,7 +370,7 @@ async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCal
 
     if not anime["description"]:
         await callback.answer(
-            _("This anime does not have a description."),
+            _("Oops! This anime has no description on AniList."),
             show_alert=True,
             cache_time=60,
         )
@@ -453,7 +455,7 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
 
     if not anime["characters"]:
         await callback.answer(
-            _("This anime does not have characters."),
+            _("Oops! This anime doesn't have a character list on AniList."),
             show_alert=True,
             cache_time=60,
         )
@@ -521,7 +523,7 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
         )
     )
 
-    text = _("Below are some characters from the item in question.")
+    text = _("Below is the list of characters in this anime.")
     text = f"{text}\n\n{characters_text}"
     await message.edit_caption(
         caption=text,
@@ -620,7 +622,7 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
         )
     )
 
-    text = _("Below are some persons from the item in question.")
+    text = _("Below is a list of the team working on this anime.")
     text = f"{text}\n\n{staff_text}"
     await message.edit_caption(
         caption=text,
@@ -644,7 +646,9 @@ async def anime_airing(
     is_private: bool = message.chat.type == ChatType.PRIVATE
 
     if command and not command.args:
-        await message.reply(_("You need to specify an anime. Use /airing name or id"))
+        await message.reply(
+            _("You need to specify an anime. Use <code>/airing name</code> or <code>id</code>")
+        )
         return
 
     query = str(
@@ -702,7 +706,7 @@ async def anime_airing(
                     )
                 )
             await message.reply(
-                _("Search Results For: <b>{query}</b>").format(query=query),
+                _("Search results for: <b>{query}</b>").format(query=query),
                 reply_markup=keyboard.as_markup(),
             )
             return
@@ -848,7 +852,7 @@ async def anime_studio(callback: CallbackQuery, callback_data: AnimeStudioCallba
         )
     )
 
-    text = _("Below are some studios from the item in question.")
+    text = _("Below is a list of the studios working on this anime.")
     text = f"{text}\n\n{studio_text}"
     await message.edit_caption(
         caption=text,

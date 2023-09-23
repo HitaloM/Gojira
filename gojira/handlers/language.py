@@ -30,16 +30,15 @@ async def select_language(union: Message | CallbackQuery):
     lang_display_name = str(Locale.parse(str(lang_code)).display_name).capitalize()
 
     text = _(
-        "You can select your preferred language for the bot in this chat by clicking \
-on one of the buttons below. These are the languages that the bot currently supports.\n\
-If you are interested in contributing to the translations with your language, please contact \
-@Hitalo.\n"
+        "You can select your preferred language for the bot in this chat by clicking one of the \
+buttons below.\n\n<i>These are the languages currently supported by the bot. If your language is \
+not available, you can contribute by contacting @Hitalo to add it for translation.</i>\n"
     )
 
     if message.chat.type == ChatType.PRIVATE:
-        text += _("\nYour current language: {lang}").format(lang=lang_display_name)
+        text += _("\n<b>Your current language:</b> {lang}").format(lang=lang_display_name)
     else:
-        text += _("\nGroup current language: {lang}").format(lang=lang_display_name)
+        text += _("\n<b>Group current language</b>: {lang}").format(lang=lang_display_name)
 
     available_locales = (*i18n.available_locales, i18n.default_locale)
     keyboard = InlineKeyboardBuilder()
@@ -85,5 +84,5 @@ async def language_callback(callback: CallbackQuery, callback_data: LanguageCall
 
     lang = Locale.parse(callback_data.lang)
     await callback.message.edit_text(
-        _("Changed language to {lang}").format(lang=lang.display_name)
+        _("Changed language to <b>{lang}</b>").format(lang=lang.display_name)
     )

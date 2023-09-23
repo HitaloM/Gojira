@@ -89,10 +89,7 @@ async def help_menu(union: Message | CallbackQuery):
             )
         )
 
-    text = _(
-        "This is the menu where all my modules are concentrated, click on one of the buttons \
-below to start exploring all my functions."
-    )
+    text = _("Click on one of the buttons below to start exploring all my features.")
 
     await (message.edit_text if is_callback else message.reply)(
         text,
@@ -109,10 +106,10 @@ async def about(union: Message | CallbackQuery):
         return
 
     text = _(
-        "Gojira is a bot developed using Python that utilizes AIOGram and \
-AniList GraphQL API to provide fast, stable and comprehensive information about animes \
-and mangas. The name Gojira (ゴジラ) is a reference to the Japanese name of the famous \
-monster Godzilla."
+        "<b>Gojira</b> is a bot developed using <b>Python</b> that utilizes <b>AIOgram</b> and \
+<b>AniList GraphQL API</b> to provide fast, stable and comprehensive information about animes \
+and mangas. The name Gojira (ゴジラ) is a reference to the Japanese name of the famous monster \
+Godzilla."
     )
 
     keyboard = InlineKeyboardBuilder()

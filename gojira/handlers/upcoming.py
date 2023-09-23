@@ -43,6 +43,6 @@ async def upcoming(union: Message | CallbackQuery, callback_data: UpcomingCallba
         text=_("📖 Manga"), callback_data=MangaUpcomingCallback(page=1, user_id=user_id)
     )
     await (message.edit_text if is_callback else message.reply)(
-        _("Select which type of media upcoming you want to see."),
+        _("Select the type of upcoming media you want to see."),
         reply_markup=keyboard.as_markup(),
     )

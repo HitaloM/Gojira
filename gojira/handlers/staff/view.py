@@ -35,7 +35,9 @@ async def staff_view(
         if is_private:
             await staff_start(message)
             return
-        await message.reply(_("You need to specify an staff. Use /staff name or id"))
+        await message.reply(
+            _("You need to specify an staff. Use <code>/staff name</code> or <code>id</code>")
+        )
         return
 
     query = str(
@@ -88,7 +90,7 @@ async def staff_view(
                     )
                 )
             await message.reply(
-                _("Search Results For: <b>{query}</b>").format(query=query),
+                _("Search results for: <b>{query}</b>").format(query=query),
                 reply_markup=keyboard.as_markup(),
             )
             return

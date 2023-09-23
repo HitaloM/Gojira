@@ -47,7 +47,9 @@ async def manga_view(
         if message.chat.type == ChatType.PRIVATE:
             await manga_start(message)
             return
-        await message.reply(_("You need to specify an manga. Use /manga name or id"))
+        await message.reply(
+            _("You need to specify an manga. Use <code>/manga name</code> or <code>id</code>")
+        )
         return
 
     is_private: bool = message.chat.type == ChatType.PRIVATE
@@ -107,7 +109,7 @@ async def manga_view(
                     )
                 )
             await message.reply(
-                _("Search Results For: <b>{query}</b>").format(query=query),
+                _("Search results for: <b>{query}</b>").format(query=query),
                 reply_markup=keyboard.as_markup(),
             )
             return
@@ -478,7 +480,7 @@ async def manga_characters(callback: CallbackQuery, callback_data: MangaCharCall
         )
     )
 
-    text = _("Below are some characters from the item in question.")
+    text = _("Below is the list of characters in this manga.")
     text = f"{text}\n\n{characters_text}"
     await message.edit_caption(
         caption=text,
@@ -577,7 +579,7 @@ async def manga_staff(callback: CallbackQuery, callback_data: MangaStaffCallback
         )
     )
 
-    text = _("Below are some persons from the item in question.")
+    text = _("Below is a list of the team responsible for this manga.")
     text = f"{text}\n\n{staff_text}"
     await message.edit_caption(
         caption=text,
