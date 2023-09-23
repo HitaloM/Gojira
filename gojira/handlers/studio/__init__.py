@@ -12,9 +12,3 @@ def setup_routers() -> list[Router]:
         view.router,
         popular.router,
     ]
-
-
-__all__ = (
-    "view",
-    "start",
-)

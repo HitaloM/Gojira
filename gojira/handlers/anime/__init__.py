@@ -17,14 +17,3 @@ def setup_routers() -> list[Router]:
         upcoming.router,
         categories.router,
     ]
-
-
-__all__ = (
-    "categories",
-    "inline",
-    "popular",
-    "scan",
-    "start",
-    "upcoming",
-    "view",
-)

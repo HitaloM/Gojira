@@ -13,11 +13,3 @@ def setup_routers() -> list[Router]:
         inline.router,
         popular.router,
     ]
-
-
-__all__ = (
-    "inline",
-    "popular",
-    "start",
-    "view",
-)

@@ -3,21 +3,23 @@
 
 import sys
 
-import picologging as logging
+import picologging
 import structlog
 
 structlog.configure(
     cache_logger_on_first_use=True,
+    wrapper_class=structlog.make_filtering_bound_logger(picologging.INFO),
     processors=[
         structlog.contextvars.merge_contextvars,
-        structlog.stdlib.add_log_level,
+        structlog.processors.add_log_level,
+        structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M.%S"),
         structlog.dev.ConsoleRenderer(),
     ],
 )
-log = structlog.get_logger()
+log = structlog.wrap_logger(logger=picologging.getLogger())
 
-logging.basicConfig(
+picologging.basicConfig(
     format="%(message)s",
     stream=sys.stdout,
-    level=logging.INFO,
+    level=picologging.INFO,
 )

@@ -16,21 +16,7 @@ from sentry_sdk.integrations.redis import RedisIntegration
 from gojira import AniList, Jikan, TraceMoe, bot, cache, config, dp, i18n
 from gojira import __version__ as gojira_version
 from gojira.database import create_tables
-from gojira.handlers import (
-    anime,
-    character,
-    doas,
-    error,
-    inline,
-    language,
-    manga,
-    pm_menu,
-    staff,
-    studio,
-    upcoming,
-    user,
-    view,
-)
+from gojira.handlers import setup_routers
 from gojira.middlewares.acl import ACLMiddleware
 from gojira.middlewares.i18n import MyI18nMiddleware
 from gojira.utils.command_list import set_ui_commands
@@ -61,21 +47,8 @@ async def main():
     dp.inline_query.middleware(ACLMiddleware())
     dp.inline_query.middleware(MyI18nMiddleware(i18n=i18n))
 
-    dp.include_routers(
-        error.router,
-        view.router,
-        pm_menu.router,
-        language.router,
-        doas.router,
-        user.router,
-        upcoming.router,
-        *anime.setup_routers(),
-        *character.setup_routers(),
-        *manga.setup_routers(),
-        *staff.setup_routers(),
-        *studio.setup_routers(),
-        inline.router,
-    )
+    log.info("Setting up handlers.")
+    setup_routers()
 
     await set_ui_commands(bot, i18n)
 
