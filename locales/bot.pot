@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gojira 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-09-23 19:04-0300\n"
+"POT-Creation-Date: 2023-09-24 14:51-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,8 +56,8 @@ msgstr ""
 #: gojira/handlers/manga/start.py:40 gojira/handlers/manga/upcoming.py:62
 #: gojira/handlers/manga/upcoming.py:69 gojira/handlers/manga/view.py:287
 #: gojira/handlers/manga/view.py:372 gojira/handlers/manga/view.py:475
-#: gojira/handlers/manga/view.py:574 gojira/handlers/pm_menu.py:88
-#: gojira/handlers/pm_menu.py:123 gojira/handlers/staff/popular.py:42
+#: gojira/handlers/manga/view.py:574 gojira/handlers/pm_menu.py:89
+#: gojira/handlers/pm_menu.py:124 gojira/handlers/staff/popular.py:42
 #: gojira/handlers/staff/start.py:28 gojira/handlers/studio/popular.py:42
 #: gojira/handlers/studio/start.py:28 gojira/handlers/studio/view.py:199
 msgid "🔙 Back"
@@ -67,51 +67,51 @@ msgstr ""
 msgid "Changed language to <b>{lang}</b>"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:52
+#: gojira/handlers/pm_menu.py:53
 msgid "ℹ️ About"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:53
+#: gojira/handlers/pm_menu.py:54
 msgid "🌐 Language"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:54
+#: gojira/handlers/pm_menu.py:55
 msgid "👮‍♂️ Help"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:57
+#: gojira/handlers/pm_menu.py:58
 msgid ""
 "Hello, {user_name}. I am <b>Gojira</b>, a Telegram bot that can help you "
 "with informations about anime and manga, such as genres, characters, "
 "studios, staff. And much more!"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:78 gojira/handlers/upcoming.py:40
+#: gojira/handlers/pm_menu.py:79 gojira/handlers/upcoming.py:42
 msgid "👸 Anime"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:79 gojira/handlers/upcoming.py:43
+#: gojira/handlers/pm_menu.py:80 gojira/handlers/upcoming.py:45
 msgid "📖 Manga"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:80
+#: gojira/handlers/pm_menu.py:81
 msgid "👤 Character"
 msgstr ""
 
 #: gojira/handlers/anime/view.py:303 gojira/handlers/manga/view.py:278
-#: gojira/handlers/pm_menu.py:81
+#: gojira/handlers/pm_menu.py:82
 msgid "👨‍💻 Staff"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:82
+#: gojira/handlers/pm_menu.py:83
 msgid "🎬 Studio"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:92
+#: gojira/handlers/pm_menu.py:93
 msgid "Click on one of the buttons below to start exploring all my features."
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:108
+#: gojira/handlers/pm_menu.py:109
 msgid ""
 "<b>Gojira</b> is a bot developed using <b>Python</b> that utilizes "
 "<b>AIOgram</b> and <b>AniList GraphQL API</b> to provide fast, stable and"
@@ -119,22 +119,22 @@ msgid ""
 " is a reference to the Japanese name of the famous monster Godzilla."
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:116
+#: gojira/handlers/pm_menu.py:117
 msgid "📦 GitHub"
 msgstr ""
 
-#: gojira/handlers/pm_menu.py:117
+#: gojira/handlers/pm_menu.py:118
 msgid "📚 Channel"
 msgstr ""
 
 #: gojira/handlers/anime/schedule.py:34 gojira/handlers/anime/upcoming.py:35
 #: gojira/handlers/anime/view.py:77 gojira/handlers/anime/view.py:669
 #: gojira/handlers/character/view.py:61 gojira/handlers/manga/upcoming.py:35
-#: gojira/handlers/manga/view.py:72 gojira/handlers/upcoming.py:32
+#: gojira/handlers/manga/view.py:72 gojira/handlers/upcoming.py:34
 msgid "This button is not for you."
 msgstr ""
 
-#: gojira/handlers/upcoming.py:46
+#: gojira/handlers/upcoming.py:48
 msgid "Select the type of upcoming media you want to see."
 msgstr ""
 
