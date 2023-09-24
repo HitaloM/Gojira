@@ -11,7 +11,8 @@ from gojira.config import config
 class IsAdmin(BaseFilter):
     """Check if user is admin."""
 
-    async def __call__(self, union: Message | CallbackQuery) -> bool:
+    @staticmethod
+    async def __call__(union: Message | CallbackQuery) -> bool:
         is_callback = isinstance(union, CallbackQuery)
         message = union.message if is_callback else union
         if message is None:
@@ -32,7 +33,8 @@ class IsAdmin(BaseFilter):
 class IsSudo(BaseFilter):
     """Check if user is sudo."""
 
-    async def __call__(self, union: Message | CallbackQuery) -> bool:
+    @staticmethod
+    async def __call__(union: Message | CallbackQuery) -> bool:
         is_callback = isinstance(union, CallbackQuery)
         message = union.message if is_callback else union
         if message is None:

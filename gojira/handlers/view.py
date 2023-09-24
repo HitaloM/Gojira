@@ -8,6 +8,7 @@ from aiogram.enums import ChatType
 from aiogram.types import Message
 
 from gojira import bot
+from gojira.filters.chats import ChatTypeFilter
 from gojira.handlers.anime.view import anime_view
 from gojira.handlers.character.view import character_view
 from gojira.handlers.manga.view import manga_view
@@ -16,7 +17,7 @@ from gojira.handlers.staff.view import staff_view
 router = Router(name="view")
 
 
-@router.message(F.chat.type == ChatType.PRIVATE, F.via_bot)
+@router.message(ChatTypeFilter(ChatType.PRIVATE), F.via_bot)
 async def view(message: Message):
     if not message.via_bot:
         return

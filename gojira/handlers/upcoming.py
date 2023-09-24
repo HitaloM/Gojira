@@ -1,12 +1,14 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
-from aiogram import F, Router
+from aiogram import Router
+from aiogram.enums import ChatType
 from aiogram.filters import Command
 from aiogram.types import CallbackQuery, Message
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
+from gojira.filters.chats import ChatTypeFilter
 from gojira.utils.callback_data import (
     AnimeUpcomingCallback,
     MangaUpcomingCallback,
@@ -16,7 +18,7 @@ from gojira.utils.callback_data import (
 router = Router(name="upcoming")
 
 
-@router.message(Command("upcoming"), F.chat.type.in_(["group", "supergroup"]))
+@router.message(Command("upcoming"), ChatTypeFilter((ChatType.SUPERGROUP, ChatType.GROUP)))
 @router.callback_query(UpcomingCallback.filter())
 async def upcoming(union: Message | CallbackQuery, callback_data: UpcomingCallback | None = None):
     is_callback = isinstance(union, CallbackQuery)

@@ -9,6 +9,7 @@ from aiogram.utils.formatting import TextMention
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
+from gojira.filters.chats import ChatTypeFilter
 from gojira.handlers.anime.view import anime_view
 from gojira.handlers.character.view import character_view
 from gojira.handlers.manga.view import manga_view
@@ -19,7 +20,7 @@ from gojira.utils.callback_data import StartCallback
 router = Router(name="pm_menu")
 
 
-@router.message(CommandStart(deep_link=True), F.chat.type == ChatType.PRIVATE)
+@router.message(CommandStart(deep_link=True), ChatTypeFilter(ChatType.PRIVATE))
 async def start_command_deep_link(message: Message, command: CommandObject):
     if command.args and len(command.args.split("_")) > 1:
         content_type, *content_id = command.args.split("_")
@@ -40,7 +41,7 @@ async def start_command_deep_link(message: Message, command: CommandObject):
             await start_command(message)
 
 
-@router.message(CommandStart(), F.chat.type == ChatType.PRIVATE)
+@router.message(CommandStart(), ChatTypeFilter(ChatType.PRIVATE))
 @router.callback_query(StartCallback.filter(F.menu == "start"))
 async def start_command(union: Message | CallbackQuery):
     is_callback = isinstance(union, CallbackQuery)
@@ -66,7 +67,7 @@ staff. And much more!"
     )
 
 
-@router.message(Command("help"), F.chat.type == ChatType.PRIVATE)
+@router.message(Command("help"), ChatTypeFilter(ChatType.PRIVATE))
 @router.callback_query(StartCallback.filter(F.menu == "help"))
 async def help_menu(union: Message | CallbackQuery):
     is_callback = isinstance(union, CallbackQuery)
