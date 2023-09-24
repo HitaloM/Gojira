@@ -11,7 +11,7 @@ from babel import Locale
 
 from gojira import i18n
 from gojira.database import Chats, Users
-from gojira.filters.user_status import IsAdmin
+from gojira.filters.users import IsAdmin
 from gojira.utils.callback_data import LanguageCallback, StartCallback
 from gojira.utils.language import get_chat_language
 

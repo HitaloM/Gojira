@@ -22,7 +22,7 @@ from meval import meval
 
 from gojira import cache, i18n
 from gojira.database import DB_PATH, Chats, Users
-from gojira.filters.user_status import IsSudo
+from gojira.filters.users import IsSudo
 from gojira.utils.callback_data import StartCallback
 from gojira.utils.systools import ShellExceptionError, parse_commits, shell_run
 
