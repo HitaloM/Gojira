@@ -293,8 +293,8 @@ async def manga_more(callback: CallbackQuery, callback_data: MangaMoreCallback):
     )
 
     text = _(
-        "Here you will be able to see the description, characters, staff and\
-some other things, make good use of it. 🙃"
+        "Here you will be able to see the description, the characters, the team, and other \
+things; make good use of it!"
     )
 
     await message.edit_caption(

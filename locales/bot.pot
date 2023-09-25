@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gojira 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-09-24 14:51-0300\n"
+"POT-Creation-Date: 2023-09-25 12:53-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -619,7 +619,7 @@ msgstr ""
 msgid "🎦 Trailer"
 msgstr ""
 
-#: gojira/handlers/anime/view.py:338
+#: gojira/handlers/anime/view.py:338 gojira/handlers/manga/view.py:295
 msgid ""
 "Here you will be able to see the description, the characters, the team, "
 "and other things; make good use of it!"
@@ -743,12 +743,6 @@ msgstr ""
 msgid ""
 "You need to specify an manga. Use <code>/manga name</code> or "
 "<code>id</code>"
-msgstr ""
-
-#: gojira/handlers/manga/view.py:295
-msgid ""
-"Here you will be able to see the description, characters, staff andsome "
-"other things, make good use of it. 🙃"
 msgstr ""
 
 #: gojira/handlers/manga/view.py:330

@@ -31,11 +31,17 @@ def load_modules(dp: Dispatcher, to_load: list[str] = ["*"], to_not_load: list[s
         log.debug("Loading all modules...")
         to_load = MODULES
     else:
-        log.debug("Loading %s modules...", " ,".join(to_load))
+        log.debug("Loading modules...", loading=" ,".join(to_load))
 
     for module_name in (x for x in MODULES if x in to_load and x not in to_not_load):
+        # The inline help module must be loaded last so that
+        # there is no conflict with the inline commands
+        if module_name == "inline":
+            continue
+
         module = import_module(f"gojira.handlers.{module_name}")
         dp.include_router(getattr(module, "router"))
         LOADED_MODULES[module.__name__.split(".", 3)[2]] = module
 
+    dp.include_router(import_module("gojira.handlers.inline").router)
     log.info("Loaded modules!", modules=", ".join(LOADED_MODULES.keys()))
