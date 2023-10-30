@@ -65,7 +65,7 @@ class Pagination:
                 [
                     ("« 1" if last_page - 4 > 1 else 1, self.page_data(1)),
                     (
-                        f"‹ {last_page-3}" if last_page - 4 > 1 else last_page - 3,
+                        f"‹ {last_page - 3}" if last_page - 4 > 1 else last_page - 3,
                         self.page_data(last_page - 3),
                     ),
                 ]
@@ -77,9 +77,9 @@ class Pagination:
         else:
             nav = [
                 ("« 1", self.page_data(1)),
-                (f"‹ {page-1}", self.page_data(page - 1)),
+                (f"‹ {page - 1}", self.page_data(page - 1)),
                 (f"· {page} ·", "noop"),
-                (f"{page+1} ›", self.page_data(page + 1)),
+                (f"{page + 1} ›", self.page_data(page + 1)),
                 (f"{last_page} »", self.page_data(last_page)),
             ]
 

@@ -49,7 +49,6 @@ Instructions
 
 Tools
 ~~~~~
-- Use `black <https://github.com/psf/black/>`_ to format your code.
-- Use `ruff <https://pypi.org/project/ruff/>`_ to lint your code.
+- Use `ruff <https://pypi.org/project/ruff/>`_ to lint and format your code.
 - We recommend using `pre-commit <https://pre-commit.com/>`_ to automate the above tools.
 - We use VSCode and recommend it with the Python, Pylance and Intellicode extensions.

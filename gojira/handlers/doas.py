@@ -174,7 +174,7 @@ async def evaluate(message: Message, command: CommandObject):
     except BaseException:
         exc = sys.exc_info()
         exc = "".join(
-            traceback.format_exception(exc[0], exc[1], exc[2].tb_next.tb_next.tb_next)  # type: ignore[misc]  # noqa: E501
+            traceback.format_exception(exc[0], exc[1], exc[2].tb_next.tb_next.tb_next)  # type: ignore[misc]
         )
         error_txt = "<b>Failed to execute the expression:\n&gt;</b> <code>{eval}</code>"
         error_txt += "\n\n<b>Error:\n&gt;</b> <code>{exc}</code>"
