@@ -382,7 +382,7 @@ async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCal
     offset = (page - 1) * amount
     stop = offset + amount
     pages = math.ceil(len(description) / amount)
-    description = description[offset - (3 if page > 1 else 0): stop]
+    description = description[offset - (3 if page > 1 else 0) : stop]
 
     page_buttons = []
     if page > 1:
@@ -482,7 +482,7 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
 
     characters_text = characters_text.split("\n")
     characters_text = [line for line in characters_text if line != ""]
-    characters_text = [characters_text[i: i + 8] for i in range(0, len(characters_text), 8)]
+    characters_text = [characters_text[i : i + 8] for i in range(0, len(characters_text), 8)]
 
     pages = len(characters_text)
 
@@ -581,7 +581,7 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
 
     staff_text = staff_text.split("\n")
     staff_text = [line for line in staff_text if line != ""]
-    staff_text = [staff_text[i: i + 8] for i in range(0, len(staff_text), 8)]
+    staff_text = [staff_text[i : i + 8] for i in range(0, len(staff_text), 8)]
 
     pages = len(staff_text)
 
@@ -810,7 +810,7 @@ async def anime_studio(callback: CallbackQuery, callback_data: AnimeStudioCallba
 
     studio_text = studio_text.split("\n")
     studio_text = [line for line in studio_text if line != ""]
-    studio_text = [studio_text[i: i + 8] for i in range(0, len(studio_text), 8)]
+    studio_text = [studio_text[i : i + 8] for i in range(0, len(studio_text), 8)]
 
     pages = len(studio_text)
 

@@ -166,7 +166,7 @@ async def studio_media_view(callback: CallbackQuery, callback_data: StudioMediaC
 
     media_list = media_list.split("\n")
     media_list = [line for line in media_list if line != ""]
-    media_list = [media_list[i: i + 8] for i in range(0, len(media_list), 8)]
+    media_list = [media_list[i : i + 8] for i in range(0, len(media_list), 8)]
 
     keyboard = InlineKeyboardBuilder()
 
