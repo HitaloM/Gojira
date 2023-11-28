@@ -88,19 +88,21 @@ class SqliteConnection:
 
 
 async def create_tables() -> None:
-    async with SqliteDBConn(DB_PATH) as conn:
-        await conn.executescript(
-            """
-            CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY,
-                language_code TEXT
-            );
-            CREATE TABLE IF NOT EXISTS chats (
-                id INTEGER PRIMARY KEY,
-                language_code TEXT
-            );
-        """
-        )
-
-        await conn.execute("VACUUM")
-        await conn.execute("PRAGMA journal_mode=WAL")
+    await SqliteConnection._make_request(
+        sql="""
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY,
+            language_code TEXT
+        );
+        """,
+    )
+    await SqliteConnection._make_request(
+        sql="""
+        CREATE TABLE IF NOT EXISTS chats (
+            id INTEGER PRIMARY KEY,
+            language_code TEXT
+        );
+        """,
+    )
+    await SqliteConnection._make_request(sql="PRAGMA journal_mode=WAL")
+    await SqliteConnection._make_request(sql="VACUUM")

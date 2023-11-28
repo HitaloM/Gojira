@@ -7,8 +7,8 @@ license = { file = "LICENSE" }
 requires-python = ">=3.11"
 authors = [{ name = "Hitalo M." }]
 dependencies = [
-  "aiogram[fast,i18n]>=3.1.1",
-  "aiohttp[speedups]>=3.8.6",
+  "aiogram[fast,i18n]>=3.2.0",
+  "aiohttp[speedups]>=3.9.1",
   "aiosqlite>=0.19.0",
   "lxml>=4.9.3",
   "humanize>=4.8.0",
