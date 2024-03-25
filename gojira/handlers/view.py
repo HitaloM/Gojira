@@ -23,7 +23,7 @@ async def view(message: Message):
         return
 
     me = await bot.get_me()
-    if message.via_bot.id == me.id and message.photo or message.text:
+    if (message.via_bot.id == me.id and message.photo) or message.text:
         for line in (
             message.caption.splitlines()
             if message.caption
