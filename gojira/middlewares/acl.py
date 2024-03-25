@@ -20,8 +20,8 @@ class ACLMiddleware(BaseMiddleware):
         event: TelegramObject,
         data: dict[str, Any],
     ) -> Any:
-        user: User | None = data.get("event_from_user", None)
-        chat: Chat | None = data.get("event_chat", None)
+        user: User | None = data.get("event_from_user")
+        chat: Chat | None = data.get("event_chat")
 
         if user and not user.is_bot:
             userdb = await Users.get_user(user=user)
