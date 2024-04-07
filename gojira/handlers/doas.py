@@ -119,7 +119,7 @@ async def upgrade_callback(callback: CallbackQuery):
     commands = [
         "git reset --hard origin/main",
         "pybabel compile -d locales -D bot",
-        "pip install -U .",
+        "rye sync --update-all --all-features",
     ]
 
     stdout = ""
