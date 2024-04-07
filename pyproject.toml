@@ -4,26 +4,26 @@ version = "1.0.0"
 description = "A Telegram bot that retrieves data from the Anilist API, specifically for manga and anime content."
 readme = "README.rst"
 license = { file = "LICENSE" }
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 authors = [{ name = "Hitalo M." }]
 dependencies = [
-  "aiogram[fast,i18n]>=3.2.0",
-  "aiohttp[speedups]>=3.9.1",
-  "aiosqlite>=0.19.0",
-  "lxml>=4.9.3",
-  "humanize>=4.8.0",
+  "aiogram[fast,i18n]>=3.4.1",
+  "aiohttp[speedups]>=3.9.3",
+  "aiosqlite>=0.20.0",
+  "lxml>=5.2.1",
+  "humanize>=4.9.0",
   "meval>=2.5",
   "backoff>=2.2.1",
-  "cashews[redis,speedup]>=6.3.0",
-  "sentry-sdk>=1.32.0",
-  "pydantic>=2.3.0",
-  "pydantic-settings>=2.0.3",
+  "cashews[redis,speedup]>=7.0.2",
+  "sentry-sdk>=1.44.1",
+  "pydantic>=2.4.1",
+  "pydantic-settings>=2.2.1",
   "aiofile>=3.8.8",
-  "structlog>=23.2.0",
-  "orjson>=3.9.10",
+  "structlog>=24.1.0",
+  "orjson>=3.10.0",
   "picologging>=0.9.3",
   "better-exceptions>=0.3.3",
-  "babel>=2.12.1",
+  "babel>=2.13.0",
   "uvloop>=0.19.0",
 ]
 
@@ -39,8 +39,10 @@ Repository = "https://github.com/HitaloM/Gojira/"
 
 [tool.ruff]
 line-length = 99
-src = ["gojira"]
-target-version = "py311"
+target-version = "py312"
+preview = true
+
+[tool.ruff.lint]
 select = [
   "I",    # isort
   "E",    # pycodestyle
@@ -54,11 +56,15 @@ select = [
   "PERF", # perflint
   "N",    # pep8-naming
   "RUF",  # ruff
+  "G",    # flake8-logging-format
+  "TID",  # flake8-tidy-imports
 ]
 ignore = ["RUF001", "RUF002", "RUF003"]
-preview = true
 
-[tool.ruff.isort]
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint.isort]
 known-first-party = ["gojira"]
 
 [tool.rye]
