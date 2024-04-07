@@ -7,6 +7,7 @@ from pathlib import Path
 
 import uvloop
 from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.utils.i18n import I18n
 from cashews import cache
@@ -38,6 +39,11 @@ AniList = AniListClient()
 TraceMoe = TraceMoeClient()
 Jikan = JikanClient()
 
-bot = Bot(token=config.bot_token.get_secret_value(), parse_mode=ParseMode.HTML)
+bot = Bot(
+    token=config.bot_token.get_secret_value(),
+    default=DefaultBotProperties(
+        parse_mode=ParseMode.HTML,
+    ),
+)
 dp = Dispatcher()
 i18n = I18n(path=locales_dir, default_locale="en", domain="bot")
