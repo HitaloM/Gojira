@@ -65,7 +65,7 @@ async def user_view(
     keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
         status, data = await AniList.search("user", query)
-        if not data or not data["data"]:
+        if not data:
             await message.reply(_("No results found."))
             return
 
@@ -97,7 +97,7 @@ async def user_view(
         user_id = int(query)
 
     status, data = await AniList.get("user", user_id)
-    if not data or not data["data"]:
+    if not data:
         await message.reply(_("No results found."))
         return
 
@@ -159,7 +159,7 @@ async def user_stats(callback_query: CallbackQuery, callback_data: UserStatsCall
     stat_type = callback_data.stat_type
 
     statu, data = await AniList.get_user_stat(user_id, stat_type)
-    if not data or not data["data"]:
+    if not data:
         await callback_query.answer(
             _("No results found."),
             show_alert=True,

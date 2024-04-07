@@ -24,7 +24,7 @@ async def staff_inline(inline: InlineQuery, match: re.Match[str]):
     results: list[InlineQueryResult] = []
 
     status, data = await AniList.search("staff", query)
-    if not data or not data["data"]:
+    if not data:
         return
 
     search_results = data["data"]["Page"]["staff"]
@@ -34,10 +34,10 @@ async def staff_inline(inline: InlineQuery, match: re.Match[str]):
 
     for result in search_results:
         status, data = await AniList.get("staff", result["id"])
-        if not data or not data["data"]:
+        if not data:
             return
 
-        if not data or not data["data"]["data"]["Page"]["staff"]:
+        if not data["data"]["Page"]["staff"]:
             continue
 
         staff = data["data"]["Page"]["staff"][0]

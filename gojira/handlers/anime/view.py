@@ -90,7 +90,7 @@ async def anime_view(
     keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
         status, data = await AniList.search("anime", query)
-        if not data or not data["data"] or not data["data"]:
+        if not data:
             await message.reply(_("No results found."))
             return
 
@@ -122,11 +122,11 @@ async def anime_view(
         anime_id = int(query)
 
     status, data = await AniList.get("anime", anime_id, mal=mal)
-    if not data or not data["data"] or data["data"]:
+    if not data:
         await message.reply(_("No results found."))
         return
 
-    if not data or not data["data"]["data"]["Page"]["media"]:
+    if not data["data"]["Page"]["media"]:
         await message.reply(_("No results found."))
         return
 
@@ -682,7 +682,7 @@ async def anime_airing(
     keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
         status, data = await AniList.search("anime", query)
-        if not data or not data["data"] or not data["data"]:
+        if not data:
             await message.reply(_("No results found."))
             return
 

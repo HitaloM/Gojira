@@ -36,7 +36,7 @@ async def manga_inline(inline: InlineQuery, match: re.Match[str]):
 
     search_results = []
     status, data = await AniList.search("manga", query)
-    if not data or not data["data"]:
+    if not data:
         return
 
     search_results = data["data"]["Page"]["media"]
@@ -46,10 +46,10 @@ async def manga_inline(inline: InlineQuery, match: re.Match[str]):
 
     for result in search_results:
         status, data = await AniList.get("manga", result["id"])
-        if not data or not data["data"]:
+        if not data:
             return
 
-        if not data or not data["data"]["data"]["Page"]["media"]:
+        if not data["data"]["Page"]["media"]:
             continue
 
         manga = data["data"]["Page"]["media"][0]

@@ -85,7 +85,7 @@ async def manga_view(
     keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
         status, data = await AniList.search("manga", query)
-        if not data or not data["data"]:
+        if not data:
             await message.reply(_("No results found."))
             return
 
@@ -117,11 +117,11 @@ async def manga_view(
         manga_id = int(query)
 
     status, data = await AniList.get("manga", manga_id)
-    if not data or not data["data"]:
+    if not data:
         await message.reply(_("No results found."))
         return
 
-    if not data or not data["data"]["data"]["Page"]["media"]:
+    if not data["data"]["Page"]["media"]:
         await message.reply(_("No results found."))
         return
 

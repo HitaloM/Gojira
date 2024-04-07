@@ -25,7 +25,7 @@ async def character_inline(inline: InlineQuery, match: re.Match[str]):
 
     search_results = []
     status, data = await AniList.search("character", query)
-    if not data or not data["data"]:
+    if not data:
         return
 
     search_results = data["data"]["Page"]["characters"]
@@ -35,10 +35,10 @@ async def character_inline(inline: InlineQuery, match: re.Match[str]):
 
     for result in search_results:
         status, data = await AniList.get("character", result["id"])
-        if not data or not data["data"]:
+        if not data:
             return
 
-        if not data or not data["data"]["data"]["Page"]["characters"]:
+        if not data["data"]["Page"]["characters"]:
             continue
 
         character = data["data"]["Page"]["characters"][0]

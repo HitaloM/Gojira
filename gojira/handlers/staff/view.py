@@ -66,7 +66,7 @@ async def staff_view(
     keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
         status, data = await AniList.search("staff", query)
-        if not data or not data["data"]:
+        if not data:
             await message.reply(_("No results found."))
             return
 
@@ -98,7 +98,7 @@ async def staff_view(
         staff_id = int(query)
 
     status, data = await AniList.get("staff", staff_id)
-    if not data or not data["data"]:
+    if not data:
         await message.reply(_("No results found."))
         return
 

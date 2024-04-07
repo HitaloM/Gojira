@@ -74,7 +74,7 @@ async def character_view(
     keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
         status, data = await AniList.search("character", query)
-        if not data or not data["data"]:
+        if not data:
             await message.reply(_("No results found."))
             return
 
@@ -106,11 +106,11 @@ async def character_view(
         character_id = int(query)
 
     status, data = await AniList.get("character", character_id)
-    if not data or not data["data"]:
+    if not data:
         await message.reply(_("No results found."))
         return
 
-    if not data or not data["data"]["data"]["Page"]["characters"]:
+    if not data["data"]["Page"]["characters"]:
         await message.reply(_("No results found."))
         return
 
