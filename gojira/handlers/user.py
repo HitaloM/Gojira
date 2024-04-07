@@ -65,7 +65,7 @@ async def user_view(
     keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
         status, data = await AniList.search("user", query)
-        if not data:
+        if not data or not data["data"]:
             await message.reply(_("No results found."))
             return
 
@@ -97,7 +97,7 @@ async def user_view(
         user_id = int(query)
 
     status, data = await AniList.get("user", user_id)
-    if not data:
+    if not data or not data["data"]:
         await message.reply(_("No results found."))
         return
 
@@ -126,11 +126,11 @@ async def user_view(
         )
     )
 
-    cached_photo = await cache.get(f"anilist_user_{auser['id']}")
+    cached_photo = await cache.get(f"anilist_user_{auser["id"]}")
     if cached_photo:
         photo = cached_photo
     else:
-        photo = f"https://img.anili.st/user/{auser['id']}?a={time.time()}"
+        photo = f"https://img.anili.st/user/{auser["id"]}?a={time.time()}"
 
     keyboard.button(
         text=_("Anime Stats"),
@@ -150,7 +150,7 @@ async def user_view(
     )
 
     if sent.photo and not cached_photo:
-        await cache.set(f"anilist_user_{auser['id']}", sent.photo[-1].file_id, expire="1h")
+        await cache.set(f"anilist_user_{auser["id"]}", sent.photo[-1].file_id, expire="1h")
 
 
 @router.callback_query(UserStatsCallback.filter())
@@ -159,7 +159,7 @@ async def user_stats(callback_query: CallbackQuery, callback_data: UserStatsCall
     stat_type = callback_data.stat_type
 
     statu, data = await AniList.get_user_stat(user_id, stat_type)
-    if not data:
+    if not data or not data["data"]:
         await callback_query.answer(
             _("No results found."),
             show_alert=True,

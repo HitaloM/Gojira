@@ -67,12 +67,12 @@ may not be available on AniList, so the bot won't be able to show information ab
     keyboard = InlineKeyboardBuilder()
     if day > 0:
         keyboard.button(
-            text=f"⬅️ {day_map.get(day - 1, ['None', 'None'])[1]}",
+            text=f"⬅️ {day_map.get(day - 1, ["None", "None"])[1]}",
             callback_data=ScheduleCallback(user_id=user.id, day=day - 1),
         )
     if day < 6:
         keyboard.button(
-            text=f"➡️ {day_map.get(day + 1, ['None', 'None'])[1]}",
+            text=f"➡️ {day_map.get(day + 1, ["None", "None"])[1]}",
             callback_data=ScheduleCallback(user_id=user.id, day=day + 1),
         )
 

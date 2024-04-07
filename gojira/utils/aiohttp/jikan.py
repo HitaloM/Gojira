@@ -15,4 +15,4 @@ class JikanClient(AiohttpBaseClient):
 
     @cache(ttl="1d")
     async def schedules(self, day: str | None = None) -> tuple[int, dict[str, Any]]:
-        return await self._make_request("GET", url=f"/v4/schedules/{day or ''}")
+        return await self._make_request("GET", url=f"/v4/schedules/{day or ""}")

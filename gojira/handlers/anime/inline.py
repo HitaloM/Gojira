@@ -37,7 +37,7 @@ async def anime_inline(inline: InlineQuery, match: re.Match[str]):
 
     search_results = []
     status, data = await AniList.search("anime", query)
-    if not data:
+    if not data or not data["data"]:
         return
 
     search_results = data["data"]["Page"]["media"]
@@ -47,7 +47,7 @@ async def anime_inline(inline: InlineQuery, match: re.Match[str]):
 
     for result in search_results:
         status, data = await AniList.get("anime", result["id"])
-        if not data:
+        if not data or not data["data"]:
             return
 
         anime = data["data"]["Page"]["media"][0]
@@ -103,9 +103,9 @@ async def anime_inline(inline: InlineQuery, match: re.Match[str]):
         end_date = "/".join(str(component) for component in end_date_components)
         start_date = "/".join(str(component) for component in start_date_components)
 
-        text = f"<b>{anime['title']['romaji']}</b>"
+        text = f"<b>{anime["title"]["romaji"]}</b>"
         if anime["title"]["native"]:
-            text += f" (<code>{anime['title']['native']}</code>)"
+            text += f" (<code>{anime["title"]["native"]}</code>)"
         text += _("\n\n<b>ID</b>: <code>{id}</code>").format(id=anime["id"]) + " (<b>ANIME</b>)"
         if anime["format"]:
             text += _("\n<b>Format</b>: <code>{format}</code>").format(
@@ -127,7 +127,7 @@ async def anime_inline(inline: InlineQuery, match: re.Match[str]):
         if anime["status"] not in ("NOT_YET_RELEASED", "RELEASING"):
             text += _("\n<b>End Date</b>: <code>{date}</code>").format(date=end_date)
         if anime["season"]:
-            season = f"{await i18n_anilist_season(anime['season'])} {anime['seasonYear']}"
+            season = f"{await i18n_anilist_season(anime["season"])} {anime["seasonYear"]}"
             text += _("\n<b>Season</b>: <code>{season}</code>").format(season=season)
         if anime["averageScore"]:
             text += _("\n<b>Average Score</b>: <code>{score}</code>").format(
@@ -162,18 +162,18 @@ async def anime_inline(inline: InlineQuery, match: re.Match[str]):
         bot_username = me.username
         keyboard.button(
             text=_("👓 View More"),
-            url=f"https://t.me/{bot_username}/?start=anime_{anime['id']}",
+            url=f"https://t.me/{bot_username}/?start=anime_{anime["id"]}",
         )
 
         anime_format = (
-            f"| {anime['format']}" if await i18n_anilist_format(anime["format"]) else None
+            f"| {anime["format"]}" if await i18n_anilist_format(anime["format"]) else None
         )
 
         results.append(
             InlineQueryResultArticle(
                 type=InlineQueryResultType.ARTICLE,
                 id=str(random.getrandbits(64)),
-                title=f"{anime['title']['romaji']} {anime_format}",
+                title=f"{anime["title"]["romaji"]} {anime_format}",
                 input_message_content=InputTextMessageContent(message_text=text),
                 reply_markup=keyboard.as_markup(),
                 description=description,

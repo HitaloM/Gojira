@@ -36,7 +36,7 @@ async def manga_inline(inline: InlineQuery, match: re.Match[str]):
 
     search_results = []
     status, data = await AniList.search("manga", query)
-    if not data:
+    if not data or not data["data"]:
         return
 
     search_results = data["data"]["Page"]["media"]
@@ -46,10 +46,10 @@ async def manga_inline(inline: InlineQuery, match: re.Match[str]):
 
     for result in search_results:
         status, data = await AniList.get("manga", result["id"])
-        if not data:
+        if not data or not data["data"]:
             return
 
-        if not data["data"]["Page"]["media"]:
+        if not data or not data["data"]["data"]["Page"]["media"]:
             continue
 
         manga = data["data"]["Page"]["media"][0]
@@ -94,9 +94,9 @@ async def manga_inline(inline: InlineQuery, match: re.Match[str]):
         end_date = "/".join(str(component) for component in end_date_components)
         start_date = "/".join(str(component) for component in start_date_components)
 
-        text = f"<b>{manga['title']['romaji']}</b>"
+        text = f"<b>{manga["title"]["romaji"]}</b>"
         if manga["title"]["native"]:
-            text += f" (<code>{manga['title']['native']}</code>)"
+            text += f" (<code>{manga["title"]["native"]}</code>)"
         text += _("\n\n<b>ID</b>: <code>{id}</code>").format(id=manga["id"]) + " (<b>MANGA</b>)"
         if await i18n_anilist_format(manga["format"]):
             text += _("\n<b>Format</b>: <code>{format}</code>").format(
@@ -141,7 +141,7 @@ async def manga_inline(inline: InlineQuery, match: re.Match[str]):
         bot_username = me.username
         keyboard.button(
             text=_("👓 View More"),
-            url=f"https://t.me/{bot_username}/?start=manga_{manga['id']}",
+            url=f"https://t.me/{bot_username}/?start=manga_{manga["id"]}",
         )
 
         results.append(

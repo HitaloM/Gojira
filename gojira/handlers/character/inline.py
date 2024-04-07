@@ -25,7 +25,7 @@ async def character_inline(inline: InlineQuery, match: re.Match[str]):
 
     search_results = []
     status, data = await AniList.search("character", query)
-    if not data:
+    if not data or not data["data"]:
         return
 
     search_results = data["data"]["Page"]["characters"]
@@ -35,10 +35,10 @@ async def character_inline(inline: InlineQuery, match: re.Match[str]):
 
     for result in search_results:
         status, data = await AniList.get("character", result["id"])
-        if not data:
+        if not data or not data["data"]:
             return
 
-        if not data["data"]["Page"]["characters"]:
+        if not data or not data["data"]["data"]["Page"]["characters"]:
             continue
 
         character = data["data"]["Page"]["characters"][0]
@@ -56,7 +56,7 @@ async def character_inline(inline: InlineQuery, match: re.Match[str]):
             description = description.replace("~", "||")
             description = description[0:500] + "..."
 
-        text = f"*{character['name']['full']}*"
+        text = f"*{character["name"]["full"]}*"
         text += _("\n*ID*: `{id}`").format(id=character["id"]) + " (*CHARACTER*)"
         if character["favourites"]:
             text += _("\n*Favourites*: `{favourites}`").format(favourites=character["favourites"])
@@ -69,7 +69,7 @@ async def character_inline(inline: InlineQuery, match: re.Match[str]):
         bot_username = me.username
         keyboard.button(
             text=_("👓 View More"),
-            url=f"https://t.me/{bot_username}/?start=character_{character['id']}",
+            url=f"https://t.me/{bot_username}/?start=character_{character["id"]}",
         )
 
         results.append(

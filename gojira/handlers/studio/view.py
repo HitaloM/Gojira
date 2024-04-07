@@ -66,7 +66,7 @@ async def studio_view(
     keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
         status, data = await AniList.search("studio", query)
-        if not data:
+        if not data or not data["data"]:
             await message.reply(_("No results found."))
             return
 
@@ -98,7 +98,7 @@ async def studio_view(
         studio_id = int(query)
 
     status, data = await AniList.get("studio", studio_id)
-    if not data:
+    if not data or not data["data"]:
         await message.reply(_("No results found."))
         return
 
@@ -111,7 +111,7 @@ async def studio_view(
         )
         return
 
-    text = f"<b>{studio['name']}</b>"
+    text = f"<b>{studio["name"]}</b>"
     text += _("\n<b>ID</b>: <code>{id}</code>").format(id=studio["id"])
     text += _("\n<b>Favourites</b>: <code>{favourites}</code>").format(
         favourites=studio["favourites"]

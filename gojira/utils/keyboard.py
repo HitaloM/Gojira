@@ -54,22 +54,18 @@ class Pagination:
             if last_page >= 4:
                 nav.append(("4 ›" if last_page > 5 else 4, self.page_data(4)))
             if last_page > 4:
-                nav.append(
-                    (
-                        f"{last_page} »" if last_page > 5 else last_page,
-                        self.page_data(last_page),
-                    )
-                )
+                nav.append((
+                    f"{last_page} »" if last_page > 5 else last_page,
+                    self.page_data(last_page),
+                ))
         elif page >= last_page - 2:
-            nav.extend(
-                [
-                    ("« 1" if last_page - 4 > 1 else 1, self.page_data(1)),
-                    (
-                        f"‹ {last_page - 3}" if last_page - 4 > 1 else last_page - 3,
-                        self.page_data(last_page - 3),
-                    ),
-                ]
-            )
+            nav.extend([
+                ("« 1" if last_page - 4 > 1 else 1, self.page_data(1)),
+                (
+                    f"‹ {last_page - 3}" if last_page - 4 > 1 else last_page - 3,
+                    self.page_data(last_page - 3),
+                ),
+            ])
             for n in range(last_page - 2, last_page + 1):
                 if n in pages_range:
                     text = f"· {n} ·" if n == page else n

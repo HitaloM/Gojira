@@ -85,7 +85,7 @@ async def manga_view(
     keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
         status, data = await AniList.search("manga", query)
-        if not data:
+        if not data or not data["data"]:
             await message.reply(_("No results found."))
             return
 
@@ -117,11 +117,11 @@ async def manga_view(
         manga_id = int(query)
 
     status, data = await AniList.get("manga", manga_id)
-    if not data:
+    if not data or not data["data"]:
         await message.reply(_("No results found."))
         return
 
-    if not data["data"]["Page"]["media"]:
+    if not data or not data["data"]["data"]["Page"]["media"]:
         await message.reply(_("No results found."))
         return
 
@@ -160,9 +160,9 @@ async def manga_view(
     end_date = "/".join(str(component) for component in end_date_components)
     start_date = "/".join(str(component) for component in start_date_components)
 
-    text = f"<b>{manga['title']['romaji']}</b>"
+    text = f"<b>{manga["title"]["romaji"]}</b>"
     if manga["title"]["native"]:
-        text += f" (<code>{manga['title']['native']}</code>)"
+        text += f" (<code>{manga["title"]["native"]}</code>)"
     text += _("\n\n<b>ID</b>: <code>{id}</code>").format(id=manga["id"])
     if manga["format"]:
         text += _("\n<b>Format</b>: <code>{format}</code>").format(
@@ -433,9 +433,9 @@ async def manga_characters(callback: CallbackQuery, callback_data: MangaCharCall
 
     me = await bot.get_me()
     for character in characters:
-        characters_text += f"\n• <code>{character['id']}</code> - <a href='https://t.me/\
-{me.username}/?start=character_{character['id']}'>{character['name']['full']}</a> \
-(<i>{character['role']}</i>)"
+        characters_text += f"\n• <code>{character["id"]}</code> - <a href='https://t.me/\
+{me.username}/?start=character_{character["id"]}'>{character["name"]["full"]}</a> \
+(<i>{character["role"]}</i>)"
 
     characters_text = characters_text.split("\n")
     characters_text = [line for line in characters_text if line != ""]
@@ -533,8 +533,8 @@ async def manga_staff(callback: CallbackQuery, callback_data: MangaStaffCallback
 
     me = await bot.get_me()
     for person in staffs:
-        staff_text += f"\n• <code>{person['id']}</code> - <a href='https://t.me/{me.username}/\
-?start=staff_{person['id']}'>{person['name']['full']}</a> (<i>{person['role']}</i>)"
+        staff_text += f"\n• <code>{person["id"]}</code> - <a href='https://t.me/{me.username}/\
+?start=staff_{person["id"]}'>{person["name"]["full"]}</a> (<i>{person["role"]}</i>)"
 
     staff_text = staff_text.split("\n")
     staff_text = [line for line in staff_text if line != ""]

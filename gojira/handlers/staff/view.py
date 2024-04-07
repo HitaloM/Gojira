@@ -66,7 +66,7 @@ async def staff_view(
     keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
         status, data = await AniList.search("staff", query)
-        if not data:
+        if not data or not data["data"]:
             await message.reply(_("No results found."))
             return
 
@@ -98,7 +98,7 @@ async def staff_view(
         staff_id = int(query)
 
     status, data = await AniList.get("staff", staff_id)
-    if not data:
+    if not data or not data["data"]:
         await message.reply(_("No results found."))
         return
 
@@ -111,14 +111,14 @@ async def staff_view(
         )
         return
 
-    text = f"**{staff['name']['full']}**"
+    text = f"**{staff["name"]["full"]}**"
     text += _("\n**ID**: `{id}`").format(id=staff["id"])
     if staff["language"]:
         text += _("\n**Language**: `{language}`").format(language=staff["language"])
     if staff["favourites"]:
         text += _("\n**Favourites**: `{favourites}`").format(favourites=staff["favourites"])
     if staff["description"]:
-        text += f"\n\n{staff['description']}"
+        text += f"\n\n{staff["description"]}"
 
     photo: str = ""
     if image := staff["image"]:

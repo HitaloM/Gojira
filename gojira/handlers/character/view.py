@@ -74,7 +74,7 @@ async def character_view(
     keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
         status, data = await AniList.search("character", query)
-        if not data:
+        if not data or not data["data"]:
             await message.reply(_("No results found."))
             return
 
@@ -106,11 +106,11 @@ async def character_view(
         character_id = int(query)
 
     status, data = await AniList.get("character", character_id)
-    if not data:
+    if not data or not data["data"]:
         await message.reply(_("No results found."))
         return
 
-    if not data["data"]["Page"]["characters"]:
+    if not data or not data["data"]["data"]["Page"]["characters"]:
         await message.reply(_("No results found."))
         return
 
@@ -124,12 +124,12 @@ async def character_view(
         )
         return
 
-    text = f"*{character['name']['full']}*"
-    text += f"\n*ID*: `{character['id']}`"
+    text = f"*{character["name"]["full"]}*"
+    text += f"\n*ID*: `{character["id"]}`"
     if character["favourites"]:
         text += _("\n*Favourites*: `{favourites}`").format(favourites=character["favourites"])
     if character["description"]:
-        text += f"\n\n{character['description']}"
+        text += f"\n\n{character["description"]}"
 
     photo: str = ""
     if image := character["image"]:

@@ -90,7 +90,7 @@ async def anime_view(
     keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
         status, data = await AniList.search("anime", query)
-        if not data:
+        if not data or not data["data"] or not data["data"]:
             await message.reply(_("No results found."))
             return
 
@@ -122,11 +122,11 @@ async def anime_view(
         anime_id = int(query)
 
     status, data = await AniList.get("anime", anime_id, mal=mal)
-    if not data:
+    if not data or not data["data"] or data["data"]:
         await message.reply(_("No results found."))
         return
 
-    if not data["data"]["Page"]["media"]:
+    if not data or not data["data"]["data"]["Page"]["media"]:
         await message.reply(_("No results found."))
         return
 
@@ -140,7 +140,7 @@ async def anime_view(
         )
         return
 
-    photo = f"https://img.anili.st/media/{anime['id']}"
+    photo = f"https://img.anili.st/media/{anime["id"]}"
 
     studios = []
     producers = []
@@ -173,9 +173,9 @@ async def anime_view(
     end_date = "/".join(str(component) for component in end_date_components)
     start_date = "/".join(str(component) for component in start_date_components)
 
-    text = f"<b>{anime['title']['romaji']}</b>"
+    text = f"<b>{anime["title"]["romaji"]}</b>"
     if anime["title"]["native"]:
-        text += f" (<code>{anime['title']['native']}</code>)"
+        text += f" (<code>{anime["title"]["native"]}</code>)"
     text += _("\n\n<b>ID</b>: <code>{id}</code>").format(id=anime["id"])
     if anime["format"]:
         text += _("\n<b>Format</b>: <code>{format}</code>").format(
@@ -195,7 +195,7 @@ async def anime_view(
     if anime["status"] not in ("NOT_YET_RELEASED", "RELEASING"):
         text += _("\n<b>End Date</b>: <code>{date}</code>").format(date=end_date)
     if anime["season"]:
-        season = f"{await i18n_anilist_season(anime['season'])} {anime['seasonYear']}"
+        season = f"{await i18n_anilist_season(anime["season"])} {anime["seasonYear"]}"
         text += _("\n<b>Season</b>: <code>{season}</code>").format(season=season)
     if anime["averageScore"]:
         text += _("\n<b>Average Score</b>: <code>{score}</code>").format(
@@ -476,9 +476,9 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
 
     me = await bot.get_me()
     for character in characters:
-        characters_text += f"\n• <code>{character['id']}</code> - <a href='https://t.me/\
-{me.username}/?start=character_{character['id']}'>{character['name']['full']}</a> \
-(<i>{character['role']}</i>)"
+        characters_text += f"\n• <code>{character["id"]}</code> - <a href='https://t.me/\
+{me.username}/?start=character_{character["id"]}'>{character["name"]["full"]}</a> \
+(<i>{character["role"]}</i>)"
 
     characters_text = characters_text.split("\n")
     characters_text = [line for line in characters_text if line != ""]
@@ -576,8 +576,8 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
 
     me = await bot.get_me()
     for person in staffs:
-        staff_text += f"\n• <code>{person['id']}</code> - <a href='https://t.me/{me.username}/\
-?start=staff_{person['id']}'>{person['name']['full']}</a> (<i>{person['role']}</i>)"
+        staff_text += f"\n• <code>{person["id"]}</code> - <a href='https://t.me/{me.username}/\
+?start=staff_{person["id"]}'>{person["name"]["full"]}</a> (<i>{person["role"]}</i>)"
 
     staff_text = staff_text.split("\n")
     staff_text = [line for line in staff_text if line != ""]
@@ -682,7 +682,7 @@ async def anime_airing(
     keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
         status, data = await AniList.search("anime", query)
-        if not data:
+        if not data or not data["data"] or not data["data"]:
             await message.reply(_("No results found."))
             return
 
@@ -804,9 +804,9 @@ async def anime_studio(callback: CallbackQuery, callback_data: AnimeStudioCallba
     studio_text = ""
     studios = sorted(studio, key=lambda x: x["name"])
     for studio in studios:
-        studio_text += f"\n• <code>{studio['id']}</code> - <a href='https://t.me/\
-{me.username}/?start=studio_{studio['id']}'>{studio['name']}</a> \
-{'(producer)' if not studio['isAnimationStudio'] else ''}"
+        studio_text += f"\n• <code>{studio["id"]}</code> - <a href='https://t.me/\
+{me.username}/?start=studio_{studio["id"]}'>{studio["name"]}</a> \
+{"(producer)" if not studio["isAnimationStudio"] else ""}"
 
     studio_text = studio_text.split("\n")
     studio_text = [line for line in studio_text if line != ""]

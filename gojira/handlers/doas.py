@@ -99,7 +99,7 @@ async def bot_update(message: Message):
     commits = parse_commits(stdout)
     changelog = "<b>Changelog</b>:\n"
     for c_hash, commit in commits.items():
-        changelog += f"  - [<code>{c_hash[:7]}</code>] {html.escape(commit['title'])}\n"
+        changelog += f"  - [<code>{c_hash[:7]}</code>] {html.escape(commit["title"])}\n"
     changelog += f"\n<b>New commits count</b>: <code>{len(commits)}</code>."
 
     keyboard = InlineKeyboardBuilder()
@@ -177,7 +177,7 @@ async def evaluate(message: Message, command: CommandObject):
             traceback.format_exception(exc[0], exc[1], exc[2].tb_next.tb_next.tb_next)  # type: ignore[misc]
         )
         error_txt = "<b>Failed to execute the expression:\n&gt;</b> <code>{eval}</code>"
-        error_txt += "\n\n<b>Error:\n&gt;</b> <code>{exc}</code>"
+        error_txt += f"\n\n<b>Error:\n&gt;</b> <code>{exc}</code>"
         await sent.edit_text(
             error_txt.format(eval=query, exc=html.escape(exc)),
             disable_web_page_preview=True,

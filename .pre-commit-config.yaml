@@ -15,8 +15,9 @@ repos:
       - id: check-toml
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.6
+    rev: v0.3.5
     hooks:
+      - id: ruff-format
       - id: ruff
         files: gojira
-        args: [--fix, --ignore=F841, --exit-non-zero-on-fix]
+        args: [--fix, --unsafe-fixes, --ignore=F841, --exit-non-zero-on-fix]

@@ -24,7 +24,7 @@ async def staff_inline(inline: InlineQuery, match: re.Match[str]):
     results: list[InlineQueryResult] = []
 
     status, data = await AniList.search("staff", query)
-    if not data:
+    if not data or not data["data"]:
         return
 
     search_results = data["data"]["Page"]["staff"]
@@ -34,10 +34,10 @@ async def staff_inline(inline: InlineQuery, match: re.Match[str]):
 
     for result in search_results:
         status, data = await AniList.get("staff", result["id"])
-        if not data:
+        if not data or not data["data"]:
             return
 
-        if not data["data"]["Page"]["staff"]:
+        if not data or not data["data"]["data"]["Page"]["staff"]:
             continue
 
         staff = data["data"]["Page"]["staff"][0]
@@ -57,7 +57,7 @@ async def staff_inline(inline: InlineQuery, match: re.Match[str]):
             description = re.sub(re.compile(r"<.*?>"), "", description)
             description = description[0:260] + "..."
 
-        text = f"**{staff['name']['full']}**"
+        text = f"**{staff["name"]["full"]}**"
         text += _("\n**ID**: `{id}`").format(id=staff["id"]) + " (**STAFF**)"
         if staff["language"]:
             text += _("\n**Language**: `{language}`").format(language=staff["language"])
@@ -72,7 +72,7 @@ async def staff_inline(inline: InlineQuery, match: re.Match[str]):
         bot_username = me.username
         keyboard.button(
             text=_("👓 View More"),
-            url=f"https://t.me/{bot_username}/?start=staff_{staff['id']}",
+            url=f"https://t.me/{bot_username}/?start=staff_{staff["id"]}",
         )
 
         results.append(

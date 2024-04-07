@@ -36,6 +36,6 @@ async def shell_run(command: str) -> str:
         return stdout.decode("utf-8").strip()
 
     msg = (
-        f"Command '{command}' exited with {process.returncode}:\n{stderr.decode('utf-8').strip()}"
+        f"Command '{command}' exited with {process.returncode}:\n{stderr.decode("utf-8").strip()}"
     )
     raise ShellExceptionError(msg)
