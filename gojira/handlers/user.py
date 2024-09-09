@@ -127,10 +127,7 @@ async def user_view(
     )
 
     cached_photo = await cache.get(f"anilist_user_{auser["id"]}")
-    if cached_photo:
-        photo = cached_photo
-    else:
-        photo = f"https://img.anili.st/user/{auser["id"]}?a={time.time()}"
+    photo = cached_photo or f"https://img.anili.st/user/{auser['id']}?a={time.time()}"
 
     keyboard.button(
         text=_("Anime Stats"),
