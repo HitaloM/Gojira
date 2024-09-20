@@ -5,7 +5,7 @@ from contextlib import suppress
 
 from aiogram import Router
 from aiogram.exceptions import TelegramAPIError
-from aiogram.types import CallbackQuery, InlineKeyboardButton
+from aiogram.types import CallbackQuery, InaccessibleMessage, InlineKeyboardButton
 from aiogram.utils.i18n import gettext as _
 
 from gojira import AniList
@@ -25,9 +25,12 @@ async def character_popular(callback: CallbackQuery, callback_data: CharacterPop
     if not message:
         return
 
+    if isinstance(message, InaccessibleMessage):
+        return
+
     page = callback_data.page
 
-    status, data = await AniList.popular("character")
+    _status, data = await AniList.popular("character")
     if data["data"]:
         items = data["data"]["Page"]["characters"]
         results = [item.copy() for item in items]
@@ -41,16 +44,13 @@ async def character_popular(callback: CallbackQuery, callback_data: CharacterPop
 
         keyboard = layout.create(page, lines=8)
 
-        keyboard.row(
+        keyboard.inline_keyboard.append([
             InlineKeyboardButton(
                 text=_("🔙 Back"),
                 callback_data=StartCallback(menu="character").pack(),
             )
-        )
+        ])
 
         text = _("Below are the <b>50</b> most popular characters in descending order.")
         with suppress(TelegramAPIError):
-            await message.edit_text(
-                text=text,
-                reply_markup=keyboard.as_markup(),
-            )
+            await message.edit_text(text=text, reply_markup=keyboard)

@@ -2,11 +2,18 @@
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
 import math
+import operator
 
 from aiogram import Router
 from aiogram.enums import ChatType, InputMediaType
 from aiogram.filters import Command, CommandObject
-from aiogram.types import CallbackQuery, InlineKeyboardButton, InputMediaPhoto, Message
+from aiogram.types import (
+    CallbackQuery,
+    InaccessibleMessage,
+    InlineKeyboardButton,
+    InputMediaPhoto,
+    Message,
+)
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from lxml import html
@@ -41,6 +48,9 @@ async def manga_view(
     message = union.message if is_callback else union
     user = union.from_user
     if not message or not user:
+        return
+
+    if isinstance(message, InaccessibleMessage):
         return
 
     if command and not command.args:
@@ -84,7 +94,7 @@ async def manga_view(
 
     keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
-        status, data = await AniList.search("manga", query)
+        _status, data = await AniList.search("manga", query)
         if not data:
             await message.reply(_("No results found."))
             return
@@ -116,7 +126,7 @@ async def manga_view(
     else:
         manga_id = int(query)
 
-    status, data = await AniList.get("manga", manga_id)
+    _status, data = await AniList.get("manga", manga_id)
     if not data:
         await message.reply(_("No results found."))
         return
@@ -166,7 +176,7 @@ async def manga_view(
     text += _("\n\n<b>ID</b>: <code>{id}</code>").format(id=manga["id"])
     if manga["format"]:
         text += _("\n<b>Format</b>: <code>{format}</code>").format(
-            format=await i18n_anilist_format(manga["format"])
+            format=i18n_anilist_format(manga["format"])
         )
     if manga["volumes"]:
         text += _("\n<b>Volumes</b>: <code>{volumes}</code>").format(volumes=manga["volumes"])
@@ -174,11 +184,11 @@ async def manga_view(
         text += _("\n<b>Chapters</b>: <code>{chapters}</code>").format(chapters=manga["chapters"])
     if manga["status"]:
         text += _("\n<b>Status</b>: <code>{status}</code>").format(
-            status=await i18n_anilist_status(manga["status"])
+            status=i18n_anilist_status(manga["status"])
         )
     if manga["status"] != "NOT_YET_RELEASED":
         text += _("\n<b>Start Date</b>: <code>{date}</code>").format(date=start_date)
-    if manga["status"] not in ["NOT_YET_RELEASED", "RELEASING"]:
+    if manga["status"] not in {"NOT_YET_RELEASED", "RELEASING"}:
         text += _("\n<b>End Date</b>: <code>{date}</code>").format(date=end_date)
     if manga["averageScore"]:
         text += _("\n<b>Average Score</b>: <code>{score}</code>").format(
@@ -186,7 +196,7 @@ async def manga_view(
         )
     if manga["source"]:
         text += _("\n<b>Source</b>: <code>{source}</code>").format(
-            source=await i18n_anilist_source(manga["source"])
+            source=i18n_anilist_source(manga["source"])
         )
     if manga["genres"]:
         text += _("\n<b>Genres</b>: <code>{genres}</code>").format(
@@ -208,7 +218,7 @@ async def manga_view(
     if "relations" in manga and len(manga["relations"]["edges"]) > 0:
         relations_buttons = []
         for relation in manga["relations"]["edges"]:
-            if relation["relationType"] in ["PREQUEL", "SEQUEL"]:
+            if relation["relationType"] in {"PREQUEL", "SEQUEL"}:
                 button_text = (
                     _("➡️ Sequel") if relation["relationType"] == "SEQUEL" else _("⬅️ Prequel")
                 )
@@ -250,6 +260,9 @@ async def manga_more(callback: CallbackQuery, callback_data: MangaMoreCallback):
     message = callback.message
     user = callback.from_user
     if not message:
+        return
+
+    if isinstance(message, InaccessibleMessage):
         return
 
     manga_id = callback_data.manga_id
@@ -310,6 +323,9 @@ async def manga_description(callback: CallbackQuery, callback_data: MangaDescCal
     if not message:
         return
 
+    if isinstance(message, InaccessibleMessage):
+        return
+
     manga_id = callback_data.manga_id
     user_id = callback_data.user_id
     page = callback_data.page
@@ -322,7 +338,7 @@ async def manga_description(callback: CallbackQuery, callback_data: MangaDescCal
         )
         return
 
-    status, data = await AniList.get_adesc("manga", manga_id)
+    _status, data = await AniList.get_adesc("manga", manga_id)
     manga = data["data"]["Page"]["media"][0]
 
     if not manga["description"]:
@@ -395,6 +411,9 @@ async def manga_characters(callback: CallbackQuery, callback_data: MangaCharCall
     if not message:
         return
 
+    if isinstance(message, InaccessibleMessage):
+        return
+
     manga_id = callback_data.manga_id
     user_id = callback_data.user_id
     page = callback_data.page
@@ -407,7 +426,7 @@ async def manga_characters(callback: CallbackQuery, callback_data: MangaCharCall
         )
         return
 
-    status, data = await AniList.get_achars("manga", manga_id)
+    _status, data = await AniList.get_achars("manga", manga_id)
     manga = data["data"]["Page"]["media"][0]
 
     if not manga["characters"]:
@@ -428,7 +447,7 @@ async def manga_characters(callback: CallbackQuery, callback_data: MangaCharCall
             }
             for character in manga["characters"]["edges"]
         ],
-        key=lambda x: x["id"],
+        key=operator.itemgetter("id"),
     )
 
     me = await bot.get_me()
@@ -438,7 +457,7 @@ async def manga_characters(callback: CallbackQuery, callback_data: MangaCharCall
 (<i>{character["role"]}</i>)"
 
     characters_text = characters_text.split("\n")
-    characters_text = [line for line in characters_text if line != ""]
+    characters_text = [line for line in characters_text if line]
     characters_text = [characters_text[i : i + 8] for i in range(0, len(characters_text), 8)]
 
     pages = len(characters_text)
@@ -495,6 +514,9 @@ async def manga_staff(callback: CallbackQuery, callback_data: MangaStaffCallback
     if not message:
         return
 
+    if isinstance(message, InaccessibleMessage):
+        return
+
     manga_id = callback_data.manga_id
     user_id = callback_data.user_id
     page = callback_data.page
@@ -507,7 +529,7 @@ async def manga_staff(callback: CallbackQuery, callback_data: MangaStaffCallback
         )
         return
 
-    status, data = await AniList.get_astaff("manga", manga_id)
+    _status, data = await AniList.get_astaff("manga", manga_id)
     anime = data["data"]["Page"]["media"][0]
 
     if not anime["staff"]:
@@ -528,7 +550,7 @@ async def manga_staff(callback: CallbackQuery, callback_data: MangaStaffCallback
             }
             for staff in anime["staff"]["edges"]
         ],
-        key=lambda x: x["id"],
+        key=operator.itemgetter("id"),
     )
 
     me = await bot.get_me()
@@ -537,7 +559,7 @@ async def manga_staff(callback: CallbackQuery, callback_data: MangaStaffCallback
 ?start=staff_{person["id"]}'>{person["name"]["full"]}</a> (<i>{person["role"]}</i>)"
 
     staff_text = staff_text.split("\n")
-    staff_text = [line for line in staff_text if line != ""]
+    staff_text = [line for line in staff_text if line]
     staff_text = [staff_text[i : i + 8] for i in range(0, len(staff_text), 8)]
 
     pages = len(staff_text)

@@ -18,7 +18,7 @@ async def set_ui_commands(bot: Bot, i18n: I18n):
 
     with suppress(TelegramRetryAfter):
         await bot.delete_my_commands()
-        for lang in i18n.available_locales:
+        for lang in (*i18n.available_locales, i18n.default_locale):
             all_chats_commands: list[BotCommand] = [
                 BotCommand(
                     command="anime",

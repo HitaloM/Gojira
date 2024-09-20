@@ -3,7 +3,7 @@
 
 
 from aiogram import F, Router
-from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
+from aiogram.types import CallbackQuery, InaccessibleMessage, InlineKeyboardButton, Message
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
@@ -23,6 +23,9 @@ async def manga_start(union: Message | CallbackQuery):
     message = union.message if is_callback else union
     user = union.from_user
     if not message or not user:
+        return
+
+    if isinstance(message, InaccessibleMessage):
         return
 
     keyboard = InlineKeyboardBuilder()

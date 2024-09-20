@@ -4,7 +4,7 @@
 from aiogram import F, Router
 from aiogram.enums import ChatType
 from aiogram.filters import Command, CommandObject, CommandStart
-from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
+from aiogram.types import CallbackQuery, InaccessibleMessage, InlineKeyboardButton, Message
 from aiogram.utils.formatting import TextMention
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
@@ -49,6 +49,9 @@ async def start_command(union: Message | CallbackQuery):
     if not message or not union.from_user:
         return
 
+    if isinstance(message, InaccessibleMessage):
+        return
+
     keyboard = InlineKeyboardBuilder()
     keyboard.button(text=_("ℹ️ About"), callback_data=StartCallback(menu="about"))
     keyboard.button(text=_("🌐 Language"), callback_data=StartCallback(menu="language"))
@@ -73,6 +76,9 @@ async def help_menu(union: Message | CallbackQuery):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     if not message or not union.from_user:
+        return
+
+    if isinstance(message, InaccessibleMessage):
         return
 
     keyboard = InlineKeyboardBuilder()
@@ -104,6 +110,9 @@ async def about(union: Message | CallbackQuery):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     if not message:
+        return
+
+    if isinstance(message, InaccessibleMessage):
         return
 
     text = _(

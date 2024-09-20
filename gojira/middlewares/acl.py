@@ -43,10 +43,10 @@ class ACLMiddleware(BaseMiddleware):
 
         if chat:
             chatdb = await Chats.get_chat(chat=chat)
-            if not chatdb and chat.type in (
+            if not chatdb and chat.type in {
                 ChatType.GROUP,
                 ChatType.SUPERGROUP,
-            ):
+            }:
                 chatdb = await Chats.set_language(chat=chat, language_code=i18n.default_locale)
 
             data["chat"] = chatdb

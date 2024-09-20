@@ -82,7 +82,7 @@ async def anime_categorie(callback: CallbackQuery, callback_data: AnimeGCategCal
     categorie = callback_data.categorie
     page = callback_data.page
 
-    status, data = await AniList.categories("anime", page, categorie)
+    _status, data = await AniList.categories("anime", page, categorie)
 
     if data["data"]:
         items = data["data"]["Page"]["media"]

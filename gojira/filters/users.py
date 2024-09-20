@@ -24,10 +24,10 @@ class IsAdmin(BaseFilter):
             return False
 
         member = await message.chat.get_member(union.from_user.id)
-        return member.status in (
+        return member.status in {
             ChatMemberStatus.CREATOR,
             ChatMemberStatus.ADMINISTRATOR,
-        )
+        }
 
 
 class IsSudo(BaseFilter):

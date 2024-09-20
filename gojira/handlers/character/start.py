@@ -2,7 +2,7 @@
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
 from aiogram import F, Router
-from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
+from aiogram.types import CallbackQuery, InaccessibleMessage, InlineKeyboardButton, Message
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
@@ -16,6 +16,9 @@ async def character_start(union: Message | CallbackQuery):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     if not message:
+        return
+
+    if isinstance(message, InaccessibleMessage):
         return
 
     keyboard = InlineKeyboardBuilder()

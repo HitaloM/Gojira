@@ -16,7 +16,7 @@ import orjson
 from aiofile import async_open
 from aiogram import F, Router
 from aiogram.filters import Command, CommandObject
-from aiogram.types import BufferedInputFile, CallbackQuery, Message
+from aiogram.types import BufferedInputFile, CallbackQuery, InaccessibleMessage, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from meval import meval
 
@@ -111,6 +111,9 @@ async def bot_update(message: Message):
 async def upgrade_callback(callback: CallbackQuery):
     message = callback.message
     if not message:
+        return
+
+    if isinstance(message, InaccessibleMessage):
         return
 
     await message.edit_reply_markup()

@@ -6,7 +6,11 @@ from contextlib import suppress
 from aiogram import Router
 from aiogram.enums import ChatType
 from aiogram.exceptions import TelegramAPIError
-from aiogram.types import CallbackQuery, InlineKeyboardButton
+from aiogram.types import (
+    CallbackQuery,
+    InaccessibleMessage,
+    InlineKeyboardButton,
+)
 from aiogram.utils.i18n import gettext as _
 
 from gojira import AniList
@@ -24,7 +28,8 @@ router = Router(name="manga_upcoming")
 @router.callback_query(MangaUpcomingCallback.filter())
 async def manga_upcoming(callback: CallbackQuery, callback_data: MangaUpcomingCallback):
     message = callback.message
-    if not message or not message.from_user:
+
+    if (not message or isinstance(message, InaccessibleMessage)) or not message.from_user:
         return
 
     page = callback_data.page
@@ -40,7 +45,7 @@ async def manga_upcoming(callback: CallbackQuery, callback_data: MangaUpcomingCa
 
     is_private = message.chat.type == ChatType.PRIVATE
 
-    status, data = await AniList.upcoming("manga")
+    _status, data = await AniList.upcoming("manga")
     if data["data"]:
         items = data["data"]["Page"]["media"]
         suggestions = [item.copy() for item in items]
@@ -57,22 +62,22 @@ async def manga_upcoming(callback: CallbackQuery, callback_data: MangaUpcomingCa
         keyboard = layout.create(page, lines=8)
 
         if is_private:
-            keyboard.row(
+            keyboard.inline_keyboard.append([
                 InlineKeyboardButton(
                     text=_("🔙 Back"),
                     callback_data=StartCallback(menu="manga").pack(),
                 )
-            )
+            ])
         else:
-            keyboard.row(
+            keyboard.inline_keyboard.append([
                 InlineKeyboardButton(
                     text=_("🔙 Back"),
                     callback_data=UpcomingCallback(user_id=user_id).pack(),
                 )
-            )
+            ])
 
         with suppress(TelegramAPIError):
             await message.edit_text(
                 _("Below are the <b>50</b> mangas that have not yet been released."),
-                reply_markup=keyboard.as_markup(),
+                reply_markup=keyboard,
             )

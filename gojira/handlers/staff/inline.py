@@ -8,7 +8,7 @@ from contextlib import suppress
 from aiogram import F, Router
 from aiogram.enums import InlineQueryResultType, ParseMode
 from aiogram.exceptions import TelegramBadRequest
-from aiogram.types import InlineQuery, InlineQueryResult, InlineQueryResultPhoto
+from aiogram.types import InlineQuery, InlineQueryResultPhoto
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
@@ -21,9 +21,9 @@ router = Router(name="staff_inline")
 async def staff_inline(inline: InlineQuery, match: re.Match[str]):
     query = match.group("query")
 
-    results: list[InlineQueryResult] = []
+    results = []
 
-    status, data = await AniList.search("staff", query)
+    _status, data = await AniList.search("staff", query)
     if not data:
         return
 
@@ -33,7 +33,7 @@ async def staff_inline(inline: InlineQuery, match: re.Match[str]):
         return
 
     for result in search_results:
-        status, data = await AniList.get("staff", result["id"])
+        _status, data = await AniList.get("staff", result["id"])
         if not data:
             return
 

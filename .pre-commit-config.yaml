@@ -1,11 +1,6 @@
-ci:
-  autofix_commit_msg: "CI: Automatic fixes from pre-commit hooks"
-  autofix_prs: true
-  autoupdate_commit_msg: "CI: Updates pre-commit hooks"
-
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v4.6.0
     hooks:
       - id: check-merge-conflict
       - id: detect-private-key
@@ -13,11 +8,11 @@ repos:
       - id: trailing-whitespace
       - id: mixed-line-ending
       - id: check-toml
+      - id: check-yaml
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.3.5
+    rev: v0.6.6
     hooks:
       - id: ruff-format
       - id: ruff
-        files: gojira
-        args: [--fix, --unsafe-fixes, --ignore=F841, --exit-non-zero-on-fix]
+        args: [--fix, --exit-non-zero-on-fix, --ignore=F841]

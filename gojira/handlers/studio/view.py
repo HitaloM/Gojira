@@ -4,7 +4,7 @@
 from aiogram import Router
 from aiogram.enums import ChatType
 from aiogram.filters import Command, CommandObject
-from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
+from aiogram.types import CallbackQuery, InaccessibleMessage, InlineKeyboardButton, Message
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
@@ -27,6 +27,9 @@ async def studio_view(
     message = union.message if is_callback else union
     user = union.from_user
     if not message or not user:
+        return
+
+    if isinstance(message, InaccessibleMessage):
         return
 
     is_private: bool = message.chat.type == ChatType.PRIVATE
@@ -65,7 +68,7 @@ async def studio_view(
 
     keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
-        status, data = await AniList.search("studio", query)
+        _status, data = await AniList.search("studio", query)
         if not data:
             await message.reply(_("No results found."))
             return
@@ -97,7 +100,7 @@ async def studio_view(
     else:
         studio_id = int(query)
 
-    status, data = await AniList.get("studio", studio_id)
+    _status, data = await AniList.get("studio", studio_id)
     if not data:
         await message.reply(_("No results found."))
         return
@@ -141,6 +144,9 @@ async def studio_media_view(callback: CallbackQuery, callback_data: StudioMediaC
     if not message or not user:
         return
 
+    if isinstance(message, InaccessibleMessage):
+        return
+
     studio_id = callback_data.studio_id
     user_id = callback_data.user_id
     page = callback_data.page
@@ -154,7 +160,7 @@ async def studio_media_view(callback: CallbackQuery, callback_data: StudioMediaC
         )
         return
 
-    status, data = await AniList.get_studio_media(studio_id)
+    _status, data = await AniList.get_studio_media(studio_id)
 
     me = await bot.get_me()
     medias = data["data"]["Studio"]["media"]["nodes"]
@@ -165,7 +171,7 @@ async def studio_media_view(callback: CallbackQuery, callback_data: StudioMediaC
         media_list += f"\n• <code>{mid}</code> - <a href='https://t.me/{me.username}/?start=anime_{mid}'>{title}</a>"
 
     media_list = media_list.split("\n")
-    media_list = [line for line in media_list if line != ""]
+    media_list = [line for line in media_list if line]
     media_list = [media_list[i : i + 8] for i in range(0, len(media_list), 8)]
 
     keyboard = InlineKeyboardBuilder()

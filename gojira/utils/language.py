@@ -2,7 +2,7 @@
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
 from aiogram.enums import ChatType
-from aiogram.types import CallbackQuery, Message
+from aiogram.types import CallbackQuery, InaccessibleMessage, Message
 from aiogram.utils.i18n import gettext as _
 
 from gojira.database import Chats, Users
@@ -16,6 +16,9 @@ async def get_chat_language(
     if not message or not union.from_user:
         return None, None
 
+    if isinstance(message, InaccessibleMessage):
+        return None, None
+
     if not message or not message.from_user:
         return message.chat.type, None
 
@@ -25,14 +28,14 @@ async def get_chat_language(
         user = union.from_user
         language_code = await Users.get_language(user=user)
 
-    if message.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
+    if message.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
         chat = message.chat
         language_code = await Chats.get_language(chat=chat)
 
     return message.chat.type, language_code
 
 
-async def i18n_anilist_status(status: str) -> str:
+def i18n_anilist_status(status: str) -> str:
     status_dict = {
         "FINISHED": _("Finished"),
         "RELEASING": _("Releasing"),
@@ -43,7 +46,7 @@ async def i18n_anilist_status(status: str) -> str:
     return status_dict.get(status, "")
 
 
-async def i18n_anilist_source(source: str) -> str:
+def i18n_anilist_source(source: str) -> str:
     source_dict = {
         "ORIGINAL": _("Original"),
         "MANGA": _("Manga"),
@@ -64,7 +67,7 @@ async def i18n_anilist_source(source: str) -> str:
     return source_dict.get(source, "")
 
 
-async def i18n_anilist_format(anilist_format: str) -> str:
+def i18n_anilist_format(anilist_format: str) -> str:
     format_dict = {
         "TV": _("TV"),
         "TV_SHORT": _("TV Short"),
@@ -80,7 +83,7 @@ async def i18n_anilist_format(anilist_format: str) -> str:
     return format_dict.get(anilist_format, "")
 
 
-async def i18n_anilist_season(season: str) -> str:
+def i18n_anilist_season(season: str) -> str:
     season_dict = {
         "WINTER": _("Winter"),
         "SPRING": _("Spring"),

@@ -4,7 +4,7 @@
 from aiogram import Router
 from aiogram.enums import ChatType
 from aiogram.filters import Command
-from aiogram.types import CallbackQuery, Message
+from aiogram.types import CallbackQuery, InaccessibleMessage, Message
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
@@ -25,6 +25,9 @@ async def upcoming(union: Message | CallbackQuery, callback_data: UpcomingCallba
     message = union.message if is_callback else union
     user = union.from_user
     if not message or not user:
+        return
+
+    if isinstance(message, InaccessibleMessage):
         return
 
     user_id = callback_data.user_id if callback_data else user.id

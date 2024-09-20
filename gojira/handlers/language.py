@@ -4,7 +4,7 @@
 from aiogram import F, Router
 from aiogram.enums import ChatType
 from aiogram.filters import Command
-from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
+from aiogram.types import CallbackQuery, InaccessibleMessage, InlineKeyboardButton, Message
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from babel import Locale
@@ -24,6 +24,9 @@ async def select_language(union: Message | CallbackQuery):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     if not message or not union.from_user:
+        return
+
+    if isinstance(message, InaccessibleMessage):
         return
 
     chat_type, lang_code = await get_chat_language(union)
@@ -77,9 +80,12 @@ async def language_callback(callback: CallbackQuery, callback_data: LanguageCall
     if not callback.message or not callback.from_user:
         return
 
+    if isinstance(callback.message, InaccessibleMessage):
+        return
+
     if callback_data.chat == ChatType.PRIVATE:
         await Users.set_language(user=callback.from_user, language_code=callback_data.lang)
-    elif callback_data.chat in (ChatType.GROUP, ChatType.SUPERGROUP):
+    elif callback_data.chat in {ChatType.GROUP, ChatType.SUPERGROUP}:
         await Chats.set_language(chat=callback.message.chat, language_code=callback_data.lang)
 
     lang = Locale.parse(callback_data.lang)

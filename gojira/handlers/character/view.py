@@ -4,7 +4,7 @@
 from aiogram import Router
 from aiogram.enums import ChatType, ParseMode
 from aiogram.filters import Command, CommandObject
-from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
+from aiogram.types import CallbackQuery, InaccessibleMessage, InlineKeyboardButton, Message
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
@@ -27,6 +27,9 @@ async def character_view(
     message = union.message if is_callback else union
     user = union.from_user
     if not message or not user:
+        return
+
+    if isinstance(message, InaccessibleMessage):
         return
 
     is_private: bool = message.chat.type == ChatType.PRIVATE
@@ -73,7 +76,7 @@ async def character_view(
 
     keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
-        status, data = await AniList.search("character", query)
+        _status, data = await AniList.search("character", query)
         if not data:
             await message.reply(_("No results found."))
             return
@@ -105,7 +108,7 @@ async def character_view(
     else:
         character_id = int(query)
 
-    status, data = await AniList.get("character", character_id)
+    _status, data = await AniList.get("character", character_id)
     if not data:
         await message.reply(_("No results found."))
         return

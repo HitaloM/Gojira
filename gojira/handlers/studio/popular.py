@@ -5,7 +5,7 @@ from contextlib import suppress
 
 from aiogram import Router
 from aiogram.exceptions import TelegramAPIError
-from aiogram.types import CallbackQuery, InlineKeyboardButton
+from aiogram.types import CallbackQuery, InaccessibleMessage, InlineKeyboardButton
 from aiogram.utils.i18n import gettext as _
 
 from gojira import AniList
@@ -21,9 +21,12 @@ async def studio_popular(callback: CallbackQuery, callback_data: StudioPopuCallb
     if not message:
         return
 
+    if isinstance(message, InaccessibleMessage):
+        return
+
     page = callback_data.page
 
-    status, data = await AniList.popular("studio")
+    _status, data = await AniList.popular("studio")
     if data["data"]:
         items = data["data"]["Page"]["studios"]
         results = [item.copy() for item in items]
@@ -37,16 +40,13 @@ async def studio_popular(callback: CallbackQuery, callback_data: StudioPopuCallb
 
         keyboard = layout.create(page, lines=8)
 
-        keyboard.row(
+        keyboard.inline_keyboard.append([
             InlineKeyboardButton(
                 text=_("🔙 Back"),
                 callback_data=StartCallback(menu="studio").pack(),
             )
-        )
+        ])
 
         text = _("Below are the <b>50</b> most popular studios in descending order.")
         with suppress(TelegramAPIError):
-            await message.edit_text(
-                text=text,
-                reply_markup=keyboard.as_markup(),
-            )
+            await message.edit_text(text=text, reply_markup=keyboard)

@@ -8,7 +8,7 @@ import humanize
 from aiogram import Router
 from aiogram.enums import ChatType
 from aiogram.filters import Command, CommandObject
-from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
+from aiogram.types import CallbackQuery, InaccessibleMessage, InlineKeyboardButton, Message
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
@@ -29,6 +29,9 @@ async def user_view(
     message = union.message if is_callback else union
     user = union.from_user
     if not message or not user:
+        return
+
+    if isinstance(message, InaccessibleMessage):
         return
 
     is_private: bool = message.chat.type == ChatType.PRIVATE
@@ -64,7 +67,7 @@ async def user_view(
 
     keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
-        status, data = await AniList.search("user", query)
+        _status, data = await AniList.search("user", query)
         if not data:
             await message.reply(_("No results found."))
             return
@@ -96,7 +99,7 @@ async def user_view(
     else:
         user_id = int(query)
 
-    status, data = await AniList.get("user", user_id)
+    _status, data = await AniList.get("user", user_id)
     if not data:
         await message.reply(_("No results found."))
         return
@@ -127,10 +130,7 @@ async def user_view(
     )
 
     cached_photo = await cache.get(f"anilist_user_{auser["id"]}")
-    if cached_photo:
-        photo = cached_photo
-    else:
-        photo = f"https://img.anili.st/user/{auser["id"]}?a={time.time()}"
+    photo = cached_photo or f"https://img.anili.st/user/{auser["id"]}?a={time.time()}"
 
     keyboard.button(
         text=_("Anime Stats"),
@@ -158,7 +158,7 @@ async def user_stats(callback_query: CallbackQuery, callback_data: UserStatsCall
     user_id = callback_data.user_id
     stat_type = callback_data.stat_type
 
-    statu, data = await AniList.get_user_stat(user_id, stat_type)
+    _statu, data = await AniList.get_user_stat(user_id, stat_type)
     if not data:
         await callback_query.answer(
             _("No results found."),

@@ -40,7 +40,7 @@ async def anime_upcoming(callback: CallbackQuery, callback_data: AnimeUpcomingCa
 
     is_private = message.chat.type == ChatType.PRIVATE
 
-    status, data = await AniList.upcoming("anime")
+    _status, data = await AniList.upcoming("anime")
     if data["data"]:
         items = data["data"]["Page"]["media"]
         suggestions = [item.copy() for item in items]

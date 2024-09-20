@@ -36,7 +36,7 @@ async def anime_inline(inline: InlineQuery, match: re.Match[str]):
     results: list[InlineQueryResult] = []
 
     search_results = []
-    status, data = await AniList.search("anime", query)
+    _status, data = await AniList.search("anime", query)
     if not data:
         return
 
@@ -46,7 +46,7 @@ async def anime_inline(inline: InlineQuery, match: re.Match[str]):
         return
 
     for result in search_results:
-        status, data = await AniList.get("anime", result["id"])
+        _status, data = await AniList.get("anime", result["id"])
         if not data:
             return
 
@@ -124,7 +124,7 @@ async def anime_inline(inline: InlineQuery, match: re.Match[str]):
         )
         if anime["status"] != "NOT_YET_RELEASED":
             text += _("\n<b>Start Date</b>: <code>{date}</code>").format(date=start_date)
-        if anime["status"] not in ("NOT_YET_RELEASED", "RELEASING"):
+        if anime["status"] not in {"NOT_YET_RELEASED", "RELEASING"}:
             text += _("\n<b>End Date</b>: <code>{date}</code>").format(date=end_date)
         if anime["season"]:
             season = f"{await i18n_anilist_season(anime["season"])} {anime["seasonYear"]}"

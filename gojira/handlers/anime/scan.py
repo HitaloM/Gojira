@@ -37,15 +37,7 @@ async def anime_scan(message: Message):
     media = (
         reply.photo[-1]
         if reply.photo
-        else reply.sticker
-        if reply.sticker
-        else reply.animation
-        if reply.animation
-        else reply.document
-        if reply.document
-        else reply.video
-        if reply.video
-        else None
+        else reply.sticker or (reply.animation or (reply.document or (reply.video or None)))
     )
 
     if not media:
@@ -75,7 +67,7 @@ async def anime_scan(message: Message):
 
     file_cached = await cache.get(f"file_tmoe:{file_id}")
 
-    file = file_cached if file_cached else file
+    file = file_cached or file
 
     if not file_cached:
         await cache.set(f"file_tmoe:{file_id}", file, expire="1d")
@@ -138,7 +130,7 @@ async def anime_scan(message: Message):
     if video is not None:
         with suppress(TelegramBadRequest):
             cached_video = await cache.get(f"trace_moe:{file_id}")
-            video = cached_video if cached_video else f"{video}&size=l"
+            video = cached_video or f"{video}&size=l"
 
             sent_video = await reply.reply_video(
                 video=video,

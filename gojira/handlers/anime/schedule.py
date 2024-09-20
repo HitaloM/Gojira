@@ -48,7 +48,7 @@ async def anime_schedule(
         6: ["Sunday", _("Sunday")],
     }
     day_name = day_map.get(day, "None")
-    status, data = await Jikan.schedules(day=day_name[0].lower())
+    _status, data = await Jikan.schedules(day=day_name[0].lower())
     animes = data["data"]
 
     me = await bot.get_me()

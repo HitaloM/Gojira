@@ -13,7 +13,7 @@ from gojira.utils.logging import log
 LOADED_MODULES: dict[str, ModuleType] = {}
 MODULES: list[str] = []
 
-for root, dirs, files in os.walk(Path(__file__).parent):
+for root, _dirs, files in os.walk(Path(__file__).parent):
     for file in files:
         if file.endswith(".py") and not file.startswith("_"):
             module_path = Path(root) / file
@@ -25,7 +25,13 @@ for root, dirs, files in os.walk(Path(__file__).parent):
             MODULES.append(module_name)
 
 
-def load_modules(dp: Dispatcher, to_load: list[str] = ["*"], to_not_load: list[str] = []) -> None:
+def load_modules(
+    dp: Dispatcher, to_load: list[str] | None = None, to_not_load: list[str] | None = None
+) -> None:
+    if to_not_load is None:
+        to_not_load = []
+    if to_load is None:
+        to_load = ["*"]
     log.debug("Importing modules...")
     if "*" in to_load:
         log.debug("Loading all modules...")
@@ -40,7 +46,7 @@ def load_modules(dp: Dispatcher, to_load: list[str] = ["*"], to_not_load: list[s
             continue
 
         module = import_module(f"gojira.handlers.{module_name}")
-        dp.include_router(getattr(module, "router"))
+        dp.include_router(module.router)
         LOADED_MODULES[module.__name__.split(".", 3)[2]] = module
 
     dp.include_router(import_module("gojira.handlers.inline").router)

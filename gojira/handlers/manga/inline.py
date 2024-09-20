@@ -10,7 +10,6 @@ from aiogram.enums import InlineQueryResultType
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import (
     InlineQuery,
-    InlineQueryResult,
     InlineQueryResultArticle,
     InputTextMessageContent,
 )
@@ -32,10 +31,10 @@ router = Router(name="manga_inline")
 async def manga_inline(inline: InlineQuery, match: re.Match[str]):
     query = match.group("query")
 
-    results: list[InlineQueryResult] = []
+    results = []
 
     search_results = []
-    status, data = await AniList.search("manga", query)
+    _status, data = await AniList.search("manga", query)
     if not data:
         return
 
@@ -45,7 +44,7 @@ async def manga_inline(inline: InlineQuery, match: re.Match[str]):
         return
 
     for result in search_results:
-        status, data = await AniList.get("manga", result["id"])
+        _status, data = await AniList.get("manga", result["id"])
         if not data:
             return
 
@@ -98,9 +97,9 @@ async def manga_inline(inline: InlineQuery, match: re.Match[str]):
         if manga["title"]["native"]:
             text += f" (<code>{manga["title"]["native"]}</code>)"
         text += _("\n\n<b>ID</b>: <code>{id}</code>").format(id=manga["id"]) + " (<b>MANGA</b>)"
-        if await i18n_anilist_format(manga["format"]):
+        if i18n_anilist_format(manga["format"]):
             text += _("\n<b>Format</b>: <code>{format}</code>").format(
-                format=await i18n_anilist_format(manga["format"])
+                format=i18n_anilist_format(manga["format"])
             )
         if manga["volumes"]:
             text += _("\n<b>Volumes</b>: <code>{volumes}</code>").format(volumes=manga["volumes"])
@@ -110,11 +109,11 @@ async def manga_inline(inline: InlineQuery, match: re.Match[str]):
             )
         if manga["status"]:
             text += _("\n<b>Status</b>: <code>{status}</code>").format(
-                status=await i18n_anilist_status(manga["status"])
+                status=i18n_anilist_status(manga["status"])
             )
         if manga["status"] != "NOT_YET_RELEASED":
             text += _("\n<b>Start Date</b>: <code>{date}</code>").format(date=start_date)
-        if manga["status"] not in ["NOT_YET_RELEASED", "RELEASING"]:
+        if manga["status"] not in {"NOT_YET_RELEASED", "RELEASING"}:
             text += _("\n<b>End Date</b>: <code>{date}</code>").format(date=end_date)
         if manga["averageScore"]:
             text += _("\n<b>Average Score</b>: <code>{score}</code>").format(
@@ -122,7 +121,7 @@ async def manga_inline(inline: InlineQuery, match: re.Match[str]):
             )
         if manga["source"]:
             text += _("\n<b>Source</b>: <code>{source}</code>").format(
-                source=await i18n_anilist_source(manga["source"])
+                source=i18n_anilist_source(manga["source"])
             )
         if manga["genres"]:
             text += _("\n<b>Genres</b>: <code>{genres}</code>").format(

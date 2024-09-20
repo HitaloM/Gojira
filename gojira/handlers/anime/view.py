@@ -2,12 +2,19 @@
 # Copyright (c) 2023 Hitalo M. <https://github.com/HitaloM>
 
 import math
+import operator
 
 import humanize
 from aiogram import Router
 from aiogram.enums import ChatType, InputMediaType
 from aiogram.filters import Command, CommandObject
-from aiogram.types import CallbackQuery, InlineKeyboardButton, InputMediaPhoto, Message
+from aiogram.types import (
+    CallbackQuery,
+    InaccessibleMessage,
+    InlineKeyboardButton,
+    InputMediaPhoto,
+    Message,
+)
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from lxml import html
@@ -46,6 +53,9 @@ async def anime_view(
     message = union.message if is_callback else union
     user = union.from_user
     if not message or not user:
+        return
+
+    if isinstance(message, InaccessibleMessage):
         return
 
     is_private: bool = message.chat.type == ChatType.PRIVATE
@@ -89,7 +99,7 @@ async def anime_view(
 
     keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
-        status, data = await AniList.search("anime", query)
+        _status, data = await AniList.search("anime", query)
         if not data:
             await message.reply(_("No results found."))
             return
@@ -121,7 +131,7 @@ async def anime_view(
     else:
         anime_id = int(query)
 
-    status, data = await AniList.get("anime", anime_id, mal=mal)
+    _status, data = await AniList.get("anime", anime_id, mal=mal)
     if not data:
         await message.reply(_("No results found."))
         return
@@ -179,7 +189,7 @@ async def anime_view(
     text += _("\n\n<b>ID</b>: <code>{id}</code>").format(id=anime["id"])
     if anime["format"]:
         text += _("\n<b>Format</b>: <code>{format}</code>").format(
-            format=await i18n_anilist_format(anime["format"])
+            format=i18n_anilist_format(anime["format"])
         )
     if anime["format"] != "MOVIE" and anime["episodes"]:
         text += _("\n<b>Episodes</b>: <code>{episodes}</code>").format(episodes=anime["episodes"])
@@ -188,14 +198,14 @@ async def anime_view(
             duration=anime["duration"]
         )
     text += _("\n<b>Status</b>: <code>{status}</code>").format(
-        status=await i18n_anilist_status(anime["status"])
+        status=i18n_anilist_status(anime["status"])
     )
     if anime["status"] != "NOT_YET_RELEASED":
         text += _("\n<b>Start Date</b>: <code>{date}</code>").format(date=start_date)
-    if anime["status"] not in ("NOT_YET_RELEASED", "RELEASING"):
+    if anime["status"] not in {"NOT_YET_RELEASED", "RELEASING"}:
         text += _("\n<b>End Date</b>: <code>{date}</code>").format(date=end_date)
     if anime["season"]:
-        season = f"{await i18n_anilist_season(anime["season"])} {anime["seasonYear"]}"
+        season = f"{i18n_anilist_season(anime["season"])} {anime["seasonYear"]}"
         text += _("\n<b>Season</b>: <code>{season}</code>").format(season=season)
     if anime["averageScore"]:
         text += _("\n<b>Average Score</b>: <code>{score}</code>").format(
@@ -209,7 +219,7 @@ async def anime_view(
         )
     if anime["source"]:
         text += _("\n<b>Source</b>: <code>{source}</code>").format(
-            source=await i18n_anilist_source(anime["source"])
+            source=i18n_anilist_source(anime["source"])
         )
     if anime["genres"]:
         text += _("\n<b>Genres</b>: <code>{genres}</code>").format(
@@ -231,7 +241,7 @@ async def anime_view(
     if "relations" in anime and len(anime["relations"]["edges"]) > 0:
         relations_buttons = []
         for relation in anime["relations"]["edges"]:
-            if relation["relationType"] in ["PREQUEL", "SEQUEL"]:
+            if relation["relationType"] in {"PREQUEL", "SEQUEL"}:
                 button_text = (
                     _("➡️ Sequel") if relation["relationType"] == "SEQUEL" else _("⬅️ Prequel")
                 )
@@ -275,6 +285,9 @@ async def anime_more(callback: CallbackQuery, callback_data: AnimeMoreCallback):
     if not message:
         return
 
+    if isinstance(message, InaccessibleMessage):
+        return
+
     anime_id = callback_data.anime_id
     user_id = callback_data.user_id
 
@@ -286,7 +299,7 @@ async def anime_more(callback: CallbackQuery, callback_data: AnimeMoreCallback):
         )
         return
 
-    status, data = await AniList.get_atrailer("anime", anime_id)
+    _status, data = await AniList.get_atrailer("anime", anime_id)
     anime = data["data"]["Page"]["media"][0]
 
     keyboard = InlineKeyboardBuilder()
@@ -353,6 +366,9 @@ async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCal
     if not message:
         return
 
+    if isinstance(message, InaccessibleMessage):
+        return
+
     anime_id = callback_data.anime_id
     user_id = callback_data.user_id
     page = callback_data.page
@@ -365,7 +381,7 @@ async def anime_description(callback: CallbackQuery, callback_data: AnimeDescCal
         )
         return
 
-    status, data = await AniList.get_adesc("anime", anime_id)
+    _status, data = await AniList.get_adesc("anime", anime_id)
     anime = data["data"]["Page"]["media"][0]
 
     if not anime["description"]:
@@ -438,6 +454,9 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
     if not message:
         return
 
+    if isinstance(message, InaccessibleMessage):
+        return
+
     anime_id = callback_data.anime_id
     user_id = callback_data.user_id
     page = callback_data.page
@@ -450,7 +469,7 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
         )
         return
 
-    status, data = await AniList.get_achars("anime", anime_id)
+    _status, data = await AniList.get_achars("anime", anime_id)
     anime = data["data"]["Page"]["media"][0]
 
     if not anime["characters"]:
@@ -471,7 +490,7 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
             }
             for character in anime["characters"]["edges"]
         ],
-        key=lambda x: x["id"],
+        key=operator.itemgetter("id"),
     )
 
     me = await bot.get_me()
@@ -481,7 +500,7 @@ async def anime_characters(callback: CallbackQuery, callback_data: AnimeCharCall
 (<i>{character["role"]}</i>)"
 
     characters_text = characters_text.split("\n")
-    characters_text = [line for line in characters_text if line != ""]
+    characters_text = [line for line in characters_text if line]
     characters_text = [characters_text[i : i + 8] for i in range(0, len(characters_text), 8)]
 
     pages = len(characters_text)
@@ -538,6 +557,9 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
     if not message:
         return
 
+    if isinstance(message, InaccessibleMessage):
+        return
+
     anime_id = callback_data.anime_id
     user_id = callback_data.user_id
     page = callback_data.page
@@ -550,7 +572,7 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
         )
         return
 
-    status, data = await AniList.get_astaff("anime", anime_id)
+    _status, data = await AniList.get_astaff("anime", anime_id)
     anime = data["data"]["Page"]["media"][0]
 
     if not anime["staff"]:
@@ -571,7 +593,7 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
             }
             for staff in anime["staff"]["edges"]
         ],
-        key=lambda x: x["id"],
+        key=operator.itemgetter("id"),
     )
 
     me = await bot.get_me()
@@ -580,7 +602,7 @@ async def anime_staff(callback: CallbackQuery, callback_data: AnimeStaffCallback
 ?start=staff_{person["id"]}'>{person["name"]["full"]}</a> (<i>{person["role"]}</i>)"
 
     staff_text = staff_text.split("\n")
-    staff_text = [line for line in staff_text if line != ""]
+    staff_text = [line for line in staff_text if line]
     staff_text = [staff_text[i : i + 8] for i in range(0, len(staff_text), 8)]
 
     pages = len(staff_text)
@@ -643,6 +665,9 @@ async def anime_airing(
     if not message or not user:
         return
 
+    if isinstance(message, InaccessibleMessage):
+        return
+
     is_private: bool = message.chat.type == ChatType.PRIVATE
 
     if command and not command.args:
@@ -681,7 +706,7 @@ async def anime_airing(
 
     keyboard = InlineKeyboardBuilder()
     if not query.isdecimal():
-        status, data = await AniList.search("anime", query)
+        _status, data = await AniList.search("anime", query)
         if not data:
             await message.reply(_("No results found."))
             return
@@ -713,13 +738,13 @@ async def anime_airing(
     else:
         anime_id = int(query)
 
-    status, data = await AniList.get_airing(anime_id=anime_id)
+    _status, data = await AniList.get_airing(anime_id=anime_id)
     anime = data["data"]["Page"]["media"][0]
 
     text = _("See below when the next episode of the anime in question will air.\n\n")
     if anime["nextAiringEpisode"]:
         text += _("<b>Status:</b> <code>{status}</code>\n").format(
-            status=await i18n_anilist_status(anime["status"])
+            status=i18n_anilist_status(anime["status"])
         )
         text += _("<b>Episode:</b> <code>{episode}</code>\n").format(
             episode=anime["nextAiringEpisode"]["episode"]
@@ -728,9 +753,9 @@ async def anime_airing(
             airing_time=humanize.precisedelta(anime["nextAiringEpisode"]["timeUntilAiring"])
         )
     else:
-        episodes = anime["episodes"] if anime["episodes"] else "N/A"
+        episodes = anime["episodes"] or "N/A"
         text += _("<b>Status:</b> <code>{status}</code>\n").format(
-            status=await i18n_anilist_status(anime["status"])
+            status=i18n_anilist_status(anime["status"])
         )
         text += _("<b>Episodes:</b> <code>{episode}</code>\n").format(episode=episodes)
 
@@ -777,6 +802,9 @@ async def anime_studio(callback: CallbackQuery, callback_data: AnimeStudioCallba
     if not message:
         return
 
+    if isinstance(message, InaccessibleMessage):
+        return
+
     anime_id = callback_data.anime_id
     user_id = callback_data.user_id
     page = callback_data.page
@@ -789,7 +817,7 @@ async def anime_studio(callback: CallbackQuery, callback_data: AnimeStudioCallba
         )
         return
 
-    status, data = await AniList.get_astudios("anime", anime_id)
+    _status, data = await AniList.get_astudios("anime", anime_id)
     studio = data["data"]["Page"]["media"][0]["studios"]["nodes"]
 
     if not studio:
@@ -802,14 +830,14 @@ async def anime_studio(callback: CallbackQuery, callback_data: AnimeStudioCallba
 
     me = await bot.get_me()
     studio_text = ""
-    studios = sorted(studio, key=lambda x: x["name"])
+    studios = sorted(studio, key=operator.itemgetter("name"))
     for studio in studios:
         studio_text += f"\n• <code>{studio["id"]}</code> - <a href='https://t.me/\
 {me.username}/?start=studio_{studio["id"]}'>{studio["name"]}</a> \
 {"(producer)" if not studio["isAnimationStudio"] else ""}"
 
     studio_text = studio_text.split("\n")
-    studio_text = [line for line in studio_text if line != ""]
+    studio_text = [line for line in studio_text if line]
     studio_text = [studio_text[i : i + 8] for i in range(0, len(studio_text), 8)]
 
     pages = len(studio_text)

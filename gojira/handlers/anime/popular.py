@@ -23,7 +23,7 @@ async def anime_popular(callback: CallbackQuery, callback_data: AnimePopuCallbac
 
     page = callback_data.page
 
-    status, data = await AniList.popular("anime")
+    _status, data = await AniList.popular("anime")
     if data["data"]:
         items = data["data"]["Page"]["media"]
         results = [item.copy() for item in items]

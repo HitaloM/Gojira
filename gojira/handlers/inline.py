@@ -11,7 +11,6 @@ from aiogram.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     InlineQuery,
-    InlineQueryResult,
     InlineQueryResultArticle,
     InputTextMessageContent,
 )
@@ -21,7 +20,7 @@ router = Router(name="inline")
 
 @router.inline_query()
 async def inline_help(inline: InlineQuery):
-    results: list[InlineQueryResult] = [
+    results = [
         InlineQueryResultArticle(
             type=InlineQueryResultType.ARTICLE,
             id=str(random.getrandbits(64)),
@@ -109,4 +108,4 @@ used in PM to get complete staff information just like `/staff` command.",
     ]
 
     with suppress(TelegramBadRequest):
-        await inline.answer(results=results, cache_time=60)
+        await inline.answer(results=results, cache_time=60)  # type: ignore
