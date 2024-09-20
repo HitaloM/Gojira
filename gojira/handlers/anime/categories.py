@@ -5,7 +5,7 @@ from contextlib import suppress
 
 from aiogram import Router
 from aiogram.exceptions import TelegramAPIError
-from aiogram.types import CallbackQuery, InlineKeyboardButton
+from aiogram.types import CallbackQuery, InaccessibleMessage, InlineKeyboardButton
 from aiogram.utils.i18n import gettext as _
 
 from gojira import AniList
@@ -24,6 +24,9 @@ router = Router(name="anime_categories")
 async def anime_categories(callback: CallbackQuery, callback_data: AnimeCategCallback):
     message = callback.message
     if not message:
+        return
+
+    if isinstance(message, InaccessibleMessage):
         return
 
     page = callback_data.page
@@ -59,17 +62,17 @@ async def anime_categories(callback: CallbackQuery, callback_data: AnimeCategCal
 
     keyboard = layout.create(page, lines=5, columns=2)
 
-    keyboard.row(
+    keyboard.inline_keyboard.append([
         InlineKeyboardButton(
             text=_("🔙 Back"),
             callback_data=StartCallback(menu="anime").pack(),
         )
-    )
+    ])
 
     with suppress(TelegramAPIError):
         await message.edit_text(
             _("Below are the categories of <b>anime</b>, choose one to see the results:"),
-            reply_markup=keyboard.as_markup(),
+            reply_markup=keyboard,
         )
 
 
@@ -77,6 +80,9 @@ async def anime_categories(callback: CallbackQuery, callback_data: AnimeCategCal
 async def anime_categorie(callback: CallbackQuery, callback_data: AnimeGCategCallback):
     message = callback.message
     if not message:
+        return
+
+    if isinstance(message, InaccessibleMessage):
         return
 
     categorie = callback_data.categorie
@@ -97,18 +103,15 @@ async def anime_categorie(callback: CallbackQuery, callback_data: AnimeGCategCal
 
         keyboard = layout.create(page, lines=8)
 
-        keyboard.row(
+        keyboard.inline_keyboard.append([
             InlineKeyboardButton(
                 text=_("🔙 Back"),
                 callback_data=AnimeCategCallback(page=1).pack(),
             )
-        )
+        ])
 
         text = _("Below are up to <b>50</b> results from the <b>{genre}</b> category.").format(
             genre=categorie
         )
         with suppress(TelegramAPIError):
-            await message.edit_text(
-                text,
-                reply_markup=keyboard.as_markup(),
-            )
+            await message.edit_text(text, reply_markup=keyboard)

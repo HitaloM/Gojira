@@ -10,7 +10,6 @@ from aiogram.enums import InlineQueryResultType
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import (
     InlineQuery,
-    InlineQueryResult,
     InlineQueryResultArticle,
     InputTextMessageContent,
 )
@@ -33,7 +32,7 @@ router = Router(name="anime_inline")
 async def anime_inline(inline: InlineQuery, match: re.Match[str]):
     query = match.group("query")
 
-    results: list[InlineQueryResult] = []
+    results = []
 
     search_results = []
     _status, data = await AniList.search("anime", query)
@@ -109,7 +108,7 @@ async def anime_inline(inline: InlineQuery, match: re.Match[str]):
         text += _("\n\n<b>ID</b>: <code>{id}</code>").format(id=anime["id"]) + " (<b>ANIME</b>)"
         if anime["format"]:
             text += _("\n<b>Format</b>: <code>{format}</code>").format(
-                format=await i18n_anilist_format(anime["format"])
+                format=i18n_anilist_format(anime["format"])
             )
         if anime["format"] != "MOVIE" and anime["episodes"]:
             text += _("\n<b>Episodes</b>: <code>{episodes}</code>").format(
@@ -120,14 +119,14 @@ async def anime_inline(inline: InlineQuery, match: re.Match[str]):
                 duration=anime["duration"]
             )
         text += _("\n<b>Status</b>: <code>{status}</code>").format(
-            status=await i18n_anilist_status(anime["status"])
+            status=i18n_anilist_status(anime["status"])
         )
         if anime["status"] != "NOT_YET_RELEASED":
             text += _("\n<b>Start Date</b>: <code>{date}</code>").format(date=start_date)
         if anime["status"] not in {"NOT_YET_RELEASED", "RELEASING"}:
             text += _("\n<b>End Date</b>: <code>{date}</code>").format(date=end_date)
         if anime["season"]:
-            season = f"{await i18n_anilist_season(anime["season"])} {anime["seasonYear"]}"
+            season = f"{i18n_anilist_season(anime["season"])} {anime["seasonYear"]}"
             text += _("\n<b>Season</b>: <code>{season}</code>").format(season=season)
         if anime["averageScore"]:
             text += _("\n<b>Average Score</b>: <code>{score}</code>").format(
@@ -143,7 +142,7 @@ async def anime_inline(inline: InlineQuery, match: re.Match[str]):
             )
         if anime["source"]:
             text += _("\n<b>Source</b>: <code>{source}</code>").format(
-                source=await i18n_anilist_source(anime["source"])
+                source=i18n_anilist_source(anime["source"])
             )
         if anime["genres"]:
             text += _("\n<b>Genres</b>: <code>{genres}</code>").format(
@@ -165,9 +164,7 @@ async def anime_inline(inline: InlineQuery, match: re.Match[str]):
             url=f"https://t.me/{bot_username}/?start=anime_{anime["id"]}",
         )
 
-        anime_format = (
-            f"| {anime["format"]}" if await i18n_anilist_format(anime["format"]) else None
-        )
+        anime_format = f"| {anime["format"]}" if i18n_anilist_format(anime["format"]) else None
 
         results.append(
             InlineQueryResultArticle(
