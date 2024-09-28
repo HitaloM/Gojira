@@ -34,6 +34,7 @@ Requirements
 ~~~~~~~~~~~~
 - Python 3.11.X.
 - An Unix-like operating system (Windows isn't supported).
+- Redis
 
 Instructions
 ~~~~~~~~~~~~
@@ -44,8 +45,15 @@ Instructions
 
 2. Install dependencies from the pyproject.toml with ``python3 -m pip install . -U``.
 3. Go to https://my.telegram.org/apps and create a new app.
-4. Create a new ``config.env`` in ``data/``, there is a ``config.example.env`` file for you to use as a template.
-5. After completing the ``config.env`` file, run ``python3 -m gojira`` to start the bot.
+4. Compile the desired locales (languages) as instructed `here <https://docs.aiogram.dev/en/latest/utils/i18n.html#deal-with-babel/>`_.
+5. Start the Redis service:
+
+
+- ``systemctl start redis``
+
+
+6. Create a new ``config.env`` in ``data/``, there is a ``config.example.env`` file for you to use as a template.
+7. After completing the ``config.env`` file, run ``python3 -m gojira`` to start the bot.
 
 Tools
 ~~~~~
